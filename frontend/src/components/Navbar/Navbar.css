@@ -1,0 +1,13 @@
+.navbar{
+    display: flex;
+    background-color: black;
+    height: 50px;
+    align-items: center;
+}
+
+.navlink{
+    color: white; 
+    text-decoration: none;
+    margin-left: 4.5%;
+    margin-right: 4.5%;
+}
