@@ -8,6 +8,7 @@ import Navbar from './components/Navbar/Navbar.jsx';
 import Home from "./pages/Home/Home.jsx"; 
 import Login from "./pages/User/Login.jsx"; 
 import Signup from "./pages/User/Signup.jsx"; 
+import ResetPassword from "./pages/User/ResetPassword.jsx"; 
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
                 <Route path="/" element={<Home/>}></Route>
                 <Route path="/login" element={<Login/>}></Route>
                 <Route path="/signup" element={<Signup/>}></Route>
+                <Route path="/reset-password" element={<ResetPassword/>}></Route>
             </Routes>
         </BrowserRouter>
     );

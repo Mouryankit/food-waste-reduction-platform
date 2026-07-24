@@ -1,6 +1,7 @@
 import "./Login.css";
 import React from "react";
 import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -17,6 +18,7 @@ const LoginSchema = Yup.object().shape({
 
 const Login = () => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false); 
 
   const handleSubmit = async (values, setSubmitting) => {
     try{  
@@ -38,9 +40,13 @@ const Login = () => {
   
   const handlePasswordReset = (event) =>{
     event.preventDefault();  
-    alert("feature not available yet"); 
+    navigate("/reset-password"); 
   }
-
+  const handleShowPassword = (event) => {
+    // console.log(event.target.values);
+    event.preventDefault(); 
+    setShowPassword(!showPassword);
+  }
  return ( 
 
    <Formik
@@ -67,20 +73,20 @@ const Login = () => {
          <div>
            <label htmlFor="password">Password</label>
            <Field
-             type="password"
+             type={showPassword ? "text": "password"}
              name="password"
              placeholder="Enter your password"
              className="form-control"
            />
+           <button onClick={handleShowPassword}>{showPassword ? "Hide": "show"}</button>
            <ErrorMessage name="password" component="div" className="error" />
+           
          </div>
-
-         <button onClick={handlePasswordReset}>Forget password</button>
 
         <button type="submit" disabled={isSubmitting}>
            {isSubmitting ? "Submitting..." : "Submit"}
          </button>
-
+        <button onClick={handlePasswordReset}>Forget password</button>
        </Form>
      )}
    </Formik>

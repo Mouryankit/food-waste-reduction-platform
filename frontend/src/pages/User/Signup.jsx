@@ -1,6 +1,7 @@
 import "./Login.css";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -21,20 +22,25 @@ import axios from 'axios';
 
 const Signup = () => {
   const navigate = useNavigate(); 
+  const [showPassword, setShowPassword] = useState(false); 
 
   const handleSubmit = async (values, setSubmitting) => {
     try{  
-        const result = await axios.post("http://localhost:8080/auth/signup", values)
-          alert(result.data.message); 
-          navigate("/"); 
-        }
-        catch(err){
-          console.log(err);
-          alert("Enter valid login Id and password");
-        }
-        setSubmitting(false);
+      const result = await axios.post("http://localhost:8080/auth/signup", values)
+        alert(result.data.message); 
+        navigate("/"); 
+      }
+      catch(err){
+        console.log(err);
+        alert("Enter valid login Id and password");
     }
-
+    setSubmitting(false);
+  }
+    
+  const handleShowPassword = (event) => {
+    event.preventDefault();
+    setShowPassword(!showPassword);
+  }
 
  return (
 
@@ -73,11 +79,12 @@ const Signup = () => {
          <div>
            <label htmlFor="password">Password</label>
            <Field
-             type="password"
+             type={showPassword ? "text": "password"}
              name="password"
              placeholder="Enter your password"
              className="form-control"
            />
+           <button onClick={handleShowPassword}>{showPassword ? "Hide": "show"}</button>
            <ErrorMessage name="password" component="div" className="error" />
          </div>
         
