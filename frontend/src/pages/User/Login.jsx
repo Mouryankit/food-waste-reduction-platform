@@ -1,4 +1,4 @@
-import "./Login.css";
+import "./style.css";
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
@@ -58,7 +58,7 @@ const Login = () => {
      }}
    >
      {({ isSubmitting }) => (
-       <Form className="login-form">
+       <Form className="form">
          <div>
            <label htmlFor="email">Email</label>
            <Field

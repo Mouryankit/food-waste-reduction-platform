@@ -32,15 +32,15 @@ function Navbar(){
 
     return(
         <div className="navbar">
-            
+            <NavLink className="navlink" to="/">Home</NavLink>
             {token ? 
                 <>
-                <NavLink className="navlink" to="/login">Login</NavLink>
+                {/* <NavLink className="navlink" to="/">Home</NavLink> */}
                 <button className="navlink" onClick={handleLogout}>Logout</button>
                 </>
             : 
                 <>
-                <NavLink className="navlink" to="/">Home</NavLink>
+                {/* <NavLink className="navlink" to="/">Home</NavLink> */}
                 <NavLink className="navlink" to="/login">Login</NavLink>
                 <NavLink className="navlink" to="/signup">Signup</NavLink>
                 </>
