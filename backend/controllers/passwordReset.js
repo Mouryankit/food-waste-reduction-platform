@@ -44,6 +44,11 @@ const generateOtp = async (req, res) => {
 
 const verifyOtp = async (req, res) => {
     const {email, otp} = req.body;
+    if(!otp){
+        return res.status(401).json({
+            "message": "otp is required"
+        })
+    }
     // console.log(req.body); 
     try {
         const otpRecord = await OTP.findOne({ email, otp }).exec();

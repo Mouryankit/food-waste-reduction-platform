@@ -31,7 +31,7 @@ app.get("/", (req, res)=> {
     })
 });
 
-
+// authentication routes 
 const {signup, login} = require("./controllers/User.js"); 
 app.post("/auth/signup", signup); 
 app.post("/auth/login", login); 

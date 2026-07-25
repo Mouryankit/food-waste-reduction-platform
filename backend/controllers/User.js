@@ -6,6 +6,11 @@ const plainToHashPassword = require("../utils/hash.js");
 const signup = async (req, res) => {
 
     const {username, email, password, role} = req.body;  
+    if(!username || !email || !password || !role){
+        return res.status(401).json({
+            "message": "data is missing"
+        })
+    }
     const hashedPassword = await plainToHashPassword(password); 
 
     try { 
