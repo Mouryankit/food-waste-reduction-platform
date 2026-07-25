@@ -46,7 +46,7 @@ const GenerateOtpForm = ({setEmail, setOtpSent}) => {
                     <Field
                         type="email"
                         name="email"
-                        placeholder="Enter your email"
+                        placeholder="Please Enter a valid existing email"
                         className="form-control"
                     />
                     <ErrorMessage name="email" component="div" className="error" />
