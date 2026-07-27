@@ -1,10 +1,10 @@
 
-
+import "./Home.css";
 
 function Home(){
     return (
-        <div>
-            <div>Welcome to the Home</div>
+        <div className="home">
+            <h1 className="home-heading">Food Waste Reduction platform</h1>
         </div>
     )
 }

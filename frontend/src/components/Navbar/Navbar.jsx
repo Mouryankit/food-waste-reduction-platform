@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
@@ -6,9 +6,10 @@ import "./Navbar.css";
 
 
 
-
 function Navbar(){
     const navigate = useNavigate(); 
+    const [role, setRole] = useState(""); 
+    // const [token, setToken] = useState(localStorage.getItem('token')); 
     const token = localStorage.getItem('token'); 
     useEffect(() => {
         if(!token || token == "null" || token == "undefined") return;
@@ -18,6 +19,8 @@ function Navbar(){
             localStorage.removeItem('token');
             navigate("/login"); // Redirect to login page
         } else {
+            // console.log(decoded); 
+            setRole(decoded.role);
             console.log("Token is valid");
         }
     }, [token]); 
@@ -26,6 +29,8 @@ function Navbar(){
         event.preventDefault(); 
         localStorage.removeItem('token');
         // console.log("logout succesefull");
+        // setToken(null);
+        setRole(null);
         alert("logout succeseful"); 
         navigate("/login"); 
     }
@@ -36,7 +41,27 @@ function Navbar(){
             {token ? 
                 <>
                 {/* <NavLink className="navlink" to="/">Home</NavLink> */}
-                <button className="navlink" onClick={handleLogout}>Logout</button>
+                {role === "restaurant" && (
+                    <>
+                    <NavLink className="navlink" to="/restaurant/add-donation">Add Donation</NavLink>
+                    <NavLink className="navlink" to="/restaurant/my-donation">My Donation</NavLink>
+                    </>
+                )}
+                
+                {role === "ngo" && (
+                    <>
+                    <NavLink className="navlink" to="/ngo/available-donations">Available Donations</NavLink>
+                    <NavLink className="navlink" to="/ngo/previous-donations">Previous Donations</NavLink>
+                    </>
+                )}
+                {role === "admin" && (
+                    <>
+                    <NavLink className="navlink" to="/ngo/all-donations">Donations</NavLink>
+                    <NavLink className="navlink" to="/ngo/analytics">Analytics</NavLink>
+                    <NavLink className="navlink" to="/ngo/user-management">User Management</NavLink>
+                    </>
+                )}
+                <NavLink className="navlink" onClick={handleLogout}>Logout</NavLink>
                 </>
             : 
                 <>
@@ -45,6 +70,7 @@ function Navbar(){
                 <NavLink className="navlink" to="/signup">Signup</NavLink>
                 </>
             }
+            
         </div>
     )
 }

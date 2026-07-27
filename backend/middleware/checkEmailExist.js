@@ -10,7 +10,7 @@ const checkEmailExist = async (req, res, next) => {
        next();  
     }
     else {
-        return res.json({
+        return res.status(401).json({
             "message": "user with this email does not exist"
         });
     }

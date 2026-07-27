@@ -14,10 +14,11 @@ const generateOtpSchema = Yup.object().shape({
 
 const GenerateOtpForm = ({setEmail, setOtpSent}) => {
     const handleSubmit = async (values, setSubmitting) => {
-        console.log(values); 
+        // console.log(values); 
         let url = "http://localhost:8080/auth/generate-otp"
         try{
             const result = await axios.post(url, values);
+            console.log(result); 
             if(result){
                 alert(result.data.message); 
                 setEmail(values.email); 
@@ -25,7 +26,8 @@ const GenerateOtpForm = ({setEmail, setOtpSent}) => {
             } 
         }
         catch(err){
-            alert(err); 
+            console.dir(err); 
+            alert(err.response.data.message); 
         }
          
         setSubmitting(false); 

@@ -31,13 +31,7 @@ button{
 }
 
 @media (max-width: 550px){
-    .login-form{
+    .form{
         width: 60%;
     }
 }
-
-/* @media (max-width: 300px) {
-    .login-form{
-        width: 60%;
-    }
-} */

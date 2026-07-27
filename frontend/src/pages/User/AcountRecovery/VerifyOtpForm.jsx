@@ -24,7 +24,7 @@ const VerifyOtpForm = ({email, setVerifyEmail, setToken}) =>  {
         try{
             let url = "http://localhost:8080/auth/verify-otp"; 
             const result = await axios.post(url, data); 
-            console.log(result); 
+            // console.log(result); 
             alert(result.data.message);
             setVerifyEmail(true); 
             setToken(result.data.token); 

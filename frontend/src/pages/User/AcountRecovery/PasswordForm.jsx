@@ -29,7 +29,7 @@ const PasswordForm = ({token}) => {
         setShowConfirmPassword(!showConfirmPassword); 
     }
     const handleSubmit = async (values, setSubmitting) => {
-        console.log(values); 
+        // console.log(values); 
         if(values.password != values.confirmPassword){ 
             alert("Password do not match");
             setSubmitting(false);  
@@ -42,7 +42,7 @@ const PasswordForm = ({token}) => {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             }}
-            console.log(userData, headersInfo); 
+            // console.log(userData, headersInfo); 
             const result = await axios.post("http://localhost:8080/auth/reset-password", userData, headersInfo);
             
             if(result){

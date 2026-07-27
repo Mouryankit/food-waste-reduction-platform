@@ -31,16 +31,17 @@ const signup = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const {email, password} = req.body; 
-    if(!email || !password) return res.json({"message":"email or password is required"}); 
+    const {email, password, role} = req.body; 
+    if(!email || !password || !role) return res.json({"message":"email, password and role is required"}); 
 
     try{
         const user = await User.findOne({ email: email });
-        // console.log(user.password);
+        // console.log(user);
+        // console.log(req.body); 
         if(!user) return res.json({"message":"enter valid email"}); 
         const isMatch = await bcrypt.compare(password, user.password); 
         // console.log(isMatch); 
-        if(isMatch){
+        if(isMatch && user.role == role){
             const secretKey = process.env.JWT_SECRET;
             const payload = req.body; 
             const token = jwt.sign(payload, secretKey, {
