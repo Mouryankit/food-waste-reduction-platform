@@ -43,7 +43,10 @@ const login = async (req, res) => {
         // console.log(isMatch); 
         if(isMatch && user.role == role){
             const secretKey = process.env.JWT_SECRET;
-            const payload = req.body; 
+            const payload = {
+                id: user._id, 
+                role: user.role, 
+            };
             const token = jwt.sign(payload, secretKey, {
                 expiresIn: '1d'
             });

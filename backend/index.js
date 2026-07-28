@@ -45,12 +45,23 @@ app.post("/auth/generate-otp", checkEmailExist, generateOtp);
 app.post("/auth/verify-otp", checkEmailExist, verifyOtp); 
 app.post("/auth/reset-password", verifyPasswordResetToken, resetPassword);
 
+// restaurant dashboard routes 
+const verifyToken = require("./middleware/verifyToken.js");
+app.use(verifyToken); 
+const AddDonation = require("./controllers/restaurant.js");
+app.post("/restaurant", AddDonation); 
+app.get("/restaurant",(req, res)=>{
+    return res.json({
+        "message":"working"
+    })
+})
 
 app.post("/test", (req, res) => {
     console.log(req.body); 
     console.log("working"); 
     return res.json({"message":"data recieved"}); 
 }); 
+
 
 
 app.use((err, req, res, next) => {

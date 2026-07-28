@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from 'axios';
 
 const donationFormSchema = Yup.object().shape({
     foodname: Yup.string()
@@ -33,7 +34,7 @@ const donationFormSchema = Yup.object().shape({
         .max(300, "Description is too long"),
 
     phone: Yup.string()
-        .matches(/^[0-9]{10}$/, "Enter a valid 10-digit phone number")
+        .matches(/^[1-9]{1}[0-9]{9}$/, "Enter a valid 10-digit phone number")
         .required("Phone number is required"),
 
     pickupAddress: Yup.string()
@@ -41,22 +42,22 @@ const donationFormSchema = Yup.object().shape({
         .required("Pickup address is required")
 });
 
-import axios from 'axios';
-
 
 export default function () {
     const navigate = useNavigate();
 
     const handleSubmit = async (values, setSubmitting) => {
         try {
-            // const result = await axios.post("http://localhost:8080/", values)
-            // alert(result.data.message);
+            console.log(values); 
+            const result = await axios.post("http://localhost:8080/restaurant", values)
+            if(result.data.message) alert(result.data.message);
+            else alert("user saved succesefully"); 
             navigate("/");
         }
         catch (err) {
-            console.log(err);
-            alert("Enter valid login Id and password");
-            // alert(err.description.data.message);
+            console.dir(err);
+            // alert(err.message);
+            alert("Data not saved"); 
         }
         setSubmitting(false);
     }
@@ -67,7 +68,7 @@ export default function () {
             initialValues={{ foodname: "", quantity: "", unit: "kg", description: "", phone: "", pickupAddress: "" }}
             validationSchema={donationFormSchema}
             onSubmit={(values, { setSubmitting }) => {
-                //  console.log(values);
+                // console.log(values);
                 handleSubmit(values, setSubmitting);
             }}
         >

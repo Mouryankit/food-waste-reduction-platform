@@ -21,7 +21,7 @@ function Navbar(){
         } else {
             // console.log(decoded); 
             setRole(decoded.role);
-            console.log("Token is valid");
+            // console.log("Token is valid");
         }
     }, [token]); 
 
