@@ -48,13 +48,9 @@ app.post("/auth/reset-password", verifyPasswordResetToken, resetPassword);
 // restaurant dashboard routes 
 const verifyToken = require("./middleware/verifyToken.js");
 app.use(verifyToken); 
-const AddDonation = require("./controllers/restaurant.js");
-app.post("/restaurant", AddDonation); 
-app.get("/restaurant",(req, res)=>{
-    return res.json({
-        "message":"working"
-    })
-})
+const {AddDonation, myDonation} = require("./controllers/restaurant.js");
+app.post("/restaurant", AddDonation);   //when user click add donation
+app.get("/restaurant", myDonation) // when user click in mydonation
 
 app.post("/test", (req, res) => {
     console.log(req.body); 

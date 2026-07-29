@@ -1,3 +1,39 @@
-.my-donation{
+.my-donation-page{
     text-align: center;
+    padding: 1%;
+}
+
+.my-donation-heading{
+    margin-top: 10px;
+}
+
+.donations{
+    display: flex;
+    flex-direction: row;
+    gap: 5%; 
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.donation-box{
+    border: 1px solid black;
+    margin-top: 5%;
+    width: 25%;
+    border-radius: 3%;
+    text-align: center;
+    padding: 5px;
+}
+
+.donation-box > div {
+    padding: 5px; 
+}
+
+@media (max-width: 500px){
+    .donations{
+        flex-direction: column;
+        align-items: center;
+    }
+    .donation-box{
+        width: 80%; 
+    }
 }

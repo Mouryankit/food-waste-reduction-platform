@@ -27,18 +27,19 @@ const Login = () => {
 
             if (result && result.data && result.data.token) {
                 localStorage.setItem("token", result.data.token);
-                if(values.role == "restaurant"){
-                    navigate("/restaurant");
-                }   
-                else if(values.role == "ngo"){
-                    navigate("/ngo"); 
-                }
-                else{
-                    navigate("/admin"); 
-                }
+                navigate("/"); 
+                // if(values.role === "admin"){
+                //     navigate("/admin");
+                // }   
+                // else if(values.role === "restaurant"){
+                //     navigate("/restaurant"); 
+                // }
+                // else{
+                //     navigate("/ngo"); 
+                // }
             }
 
-            alert(result.data.message);
+            alert(result?.data?.message);
         }
         catch (err) {
             console.log("Enter valid Data");

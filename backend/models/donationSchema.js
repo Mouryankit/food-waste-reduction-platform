@@ -9,7 +9,7 @@ const donationSchema = new mongoose.Schema({
     phone: {type:String, match: [/^\d{10}$/, "Phone number must be between 10 digits, without spaces or dashes"], required: true},
     pickupAddress: {type:String, required: true},
     deliveryStatus: {type:String, default:"pending", enum: ["pending", "accepted", "delivered", "cancelled"], required: true},
-    valid: {type: Boolean, default: true},
+    valid: {type: Boolean, default: true, required: true},
     userObjectId: {type: Schema.Types.ObjectId, ref: 'User', required: true },
     createdAt: { type: Date, default: Date.now }
 });

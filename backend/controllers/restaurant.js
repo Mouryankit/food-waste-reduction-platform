@@ -38,4 +38,22 @@ const AddDonation = async (req, res) => {
     })
 };
 
-module.exports = AddDonation; 
+// const Donation = require("./models/donationSchema.js"); 
+const myDonation = async (req, res)=>{   //when user click my donation
+    try{
+        const {id} = req.user; 
+        const result = await Donation.find({userObjectId: id});  
+        return res.json({
+            "message":"Data send Succesefully",
+            "result": result
+        })
+    }
+    catch(err){
+        return res.json({
+            "message" : "some error occurs",
+            "error": err
+        })
+    }
+}
+
+module.exports = {AddDonation, myDonation}; 
