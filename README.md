@@ -17,3 +17,5 @@
 | POST | `/auth/generate-otp` | generating the otp if user want to change the password |
 | POST | `/auth/verify-otp` | verify the otp send to the user's gmail |
 | POST | `/auth/reset-password` | this route identify the token send during verify-otp route and reset the password |
+| get | `/restaurant` | get all donation donated by restaurant only |
+| POST | `/restaurant` | create new donation by restaurant only |
