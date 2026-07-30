@@ -31,14 +31,15 @@ const donationFormSchema = Yup.object().shape({
         .required("Unit is required"),
 
     description: Yup.string()
-        .max(300, "Description is too long"),
+        .max(300, "Description is too long")
+        .required("Description is required"), 
 
     phone: Yup.string()
         .matches(/^[1-9]{1}[0-9]{9}$/, "Enter a valid 10-digit phone number")
         .required("Phone number is required"),
 
     pickupAddress: Yup.string()
-        .min(10, "Address should be at least 10 characters")
+        .min(5, "Address should be at least 5 characters")
         .required("Pickup address is required")
 });
 
@@ -47,12 +48,17 @@ export default function () {
     const navigate = useNavigate();
 
     const handleSubmit = async (values, setSubmitting) => {
+        // console.log(values); 
         try {
-            console.log(values); 
-            const result = await axios.post("http://localhost:8080/restaurant", values)
+            // console.log(values); 
+            const token = localStorage.getItem("token"); 
+            const result = await axios.post("http://localhost:8080/restaurant", values, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             if(result.data.message) alert(result.data.message);
-            else alert("user saved succesefully"); 
-            navigate("/");
+            navigate("/restaurant/my-donation");
         }
         catch (err) {
             console.dir(err);
