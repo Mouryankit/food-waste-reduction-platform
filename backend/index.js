@@ -50,7 +50,46 @@ const verifyToken = require("./middleware/verifyToken.js");
 app.use(verifyToken); 
 const {AddDonation, myDonation} = require("./controllers/restaurant.js");
 app.post("/restaurant", AddDonation);   //when user click add donation
-app.get("/restaurant", myDonation) // when user click in mydonation
+app.get("/restaurant", myDonation)      // when user click in mydonation
+
+
+// ngo dashboard
+const Donation = require("./models/donationSchema.js"); 
+app.get("/ngo", async (req, res) => {
+    try{
+        const data = await Donation.find({valid: true});
+        // console.log(data); 
+        return res.send({
+            "message": "data sent succesefully",
+            "result": data
+        });
+    }
+    catch(err){
+        return res.send({
+            "message": "some error occured",
+            "error": err
+        });
+    }
+     
+}) // get all the donation for ngo
+
+app.get("/ngo/:id", async (req, res) => {
+    const {id} = req.params; 
+    try{
+        const result = await Donation.find({ngoObjectId: id});
+        return res.json({
+            "message": "data sent succesefully",
+            "result": result
+        })
+    }
+    catch(err){
+        return res.json({
+            "message": "some error occur",
+            "error": err
+        })
+    }
+})  //get all donation accepted by ngo 
+
 
 app.post("/test", (req, res) => {
     console.log(req.body); 
