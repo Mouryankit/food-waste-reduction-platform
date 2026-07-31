@@ -78,13 +78,15 @@ const Signup = () => {
 
          <div>
            <label htmlFor="password">Password</label>
-           <Field
-             type={showPassword ? "text": "password"}
-             name="password"
-             placeholder="Enter your password"
-             className="form-control"
-           />
-           <button onClick={handleShowPassword}>{showPassword ? "Hide": "show"}</button>
+           <div className="password">
+                <Field
+                type={showPassword ? "text": "password"}
+                name="password"
+                placeholder="Enter your password"
+                className="form-control"
+            />
+            <button onClick={handleShowPassword}>{showPassword ? "Hide": "show"}</button>
+           </div>
            <ErrorMessage name="password" component="div" className="error" />
          </div>
         

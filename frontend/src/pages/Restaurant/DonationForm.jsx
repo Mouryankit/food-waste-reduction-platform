@@ -1,4 +1,4 @@
-// import "./DonationForm.css"; 
+
 
 // export default function(){
 //     return (
@@ -10,7 +10,8 @@
 
 
 
-
+import "../User/style.css";
+import "./DonationForm.css"; 
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -81,7 +82,7 @@ export default function () {
             {({ isSubmitting }) => (
 
                 <Form className="form">
-                    <h3>Donate Food</h3>
+                    <h1>Donate Food</h1>
                     <div>
                         <label htmlFor="foodname">Food Name</label>
                         <Field

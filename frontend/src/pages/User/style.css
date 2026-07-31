@@ -1,37 +1,63 @@
-.form{
+
+body {
+    background-color: #f4f4f4;
+}
+
+.form {
+    width: 350px;
+    margin: 80px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 8px;
+}
+
+.form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.error {
+    color: red;
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+.form button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #007bff;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.form button:hover {
+    background: #0056b3;
+}
+
+.password{
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px;
-    text-align: center;   
+    align-items: baseline;
+}
+.password button{
     width: 30%;
-    margin: auto;
-    margin-top: 50px;
-    padding: auto;
-    border: 2px solid black;
-    border-radius: 20px;
-}
-
-
-.form-control{
-    width: 100%;
-    height: 20px;
-}
-
-#role{
-    height: 25px;
-    width: 100%;
-}
-button{
-    width: auto;
-}
-
-.error{
-    color: red; 
-}
-
-@media (max-width: 550px){
-    .form{
-        width: 60%;
-    }
 }

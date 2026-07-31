@@ -28,15 +28,6 @@ const Login = () => {
             if (result && result.data && result.data.token) {
                 localStorage.setItem("token", result.data.token);
                 navigate("/"); 
-                // if(values.role === "admin"){
-                //     navigate("/admin");
-                // }   
-                // else if(values.role === "restaurant"){
-                //     navigate("/restaurant"); 
-                // }
-                // else{
-                //     navigate("/ngo"); 
-                // }
             }
 
             alert(result?.data?.message);
@@ -90,13 +81,15 @@ const Login = () => {
 
                     <div>
                         <label htmlFor="password">Password</label>
-                        <Field
-                            type={showPassword ? "text" : "password"}
-                            name="password"
-                            placeholder="Enter your password"
-                            className="form-control"
-                        />
-                        <button onClick={handleShowPassword}>{showPassword ? "Hide" : "show"}</button>
+                        <div className="password">
+                            <Field
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                                placeholder="Enter your password"
+                                className="form-control"
+                            />
+                            <button onClick={handleShowPassword} className="show-password-btn">{showPassword ? "Hide" : "show"}</button>
+                        </div>
                         <ErrorMessage name="password" component="div" className="error" />
                     </div>
 

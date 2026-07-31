@@ -68,25 +68,30 @@ const PasswordForm = ({token}) => {
             <Form className="form">
                 <div>
                     <label htmlFor="password">Enter Password</label>
-                    <Field
-                        type={showPassword?"text":"password"}
-                        name="password"
-                        placeholder="Enter your password"
-                        className="form-control"
-                    />
-                    <button onClick={handleShowPassword}>{showPassword ? "hide": "show"}</button>
+                    <div className="password">
+                        <Field
+                            type={showPassword?"text":"password"}
+                            name="password"
+                            placeholder="Enter your password"
+                            className="form-control"
+                        />
+                        <button onClick={handleShowPassword}>{showPassword ? "hide": "show"}</button>
+                    </div>
                     <ErrorMessage name="password" component="div" className="error" />
                 </div>
 
                 <div>
                     <label htmlFor="confirmPassword">Confirm Password</label>
-                    <Field
-                        type={showConfirmPassword?"text":"password"}
-                        name="confirmPassword"
-                        placeholder="Enter your password"
-                        className="form-control"
-                    />
-                    <button onClick={handleSetShowPassword}>{showConfirmPassword ? "hide": "show"}</button>
+                    <div className="password">
+                        <Field
+                            type={showConfirmPassword?"text":"password"}
+                            name="confirmPassword"
+                            placeholder="Enter your password"
+                            className="form-control"
+                        />
+                        <button onClick={handleSetShowPassword}>{showConfirmPassword ? "hide": "show"}</button>
+                    </div>
+                    
                     <ErrorMessage name="confirmPassword" component="div" className="error" />
                 </div>
 
