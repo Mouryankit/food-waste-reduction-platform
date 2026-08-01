@@ -1,3 +1,8 @@
-.available-donations{
+.donation-page{
+    padding: 20px;
+}
+
+.donation-page-heading{
     text-align: center;
+    margin-bottom: 20px;
 }

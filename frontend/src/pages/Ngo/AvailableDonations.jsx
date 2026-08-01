@@ -2,25 +2,17 @@ import "./AvailableDonations.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-// export default function(){
-//     return (
-//         <div className="available-donations">
-//             <h1>Available Donation page</h1>
-//         </div>
-//     )
-// }
-
-
 const getAllDonations = async function ({ setDonation }) {
     const url = "http://localhost:8080/ngo";
     const token = localStorage.getItem("token");
+    console.log("errlro"); 
     try {
         const res = await axios.get(url, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         });
-        // console.log(result); 
+        console.log(res); 
         console.log(res.data.result);
         if (res?.data?.result) {
             setDonation(res.data.result);
@@ -32,6 +24,7 @@ const getAllDonations = async function ({ setDonation }) {
    
 };
 
+
 export default function () {
     const [donations, setDonation] = useState([]);
     useEffect(() => {
@@ -39,14 +32,17 @@ export default function () {
     }, []);
 
     return (
-        <div className="my-donation-page">
-            <h1 className="my-donation-heading">My Donation Page</h1>
+        <div className="donation-page">
+            <h1 className="donation-page-heading">All Availbale Donation</h1>
             <div className="donations">
                 {donations.map((donation, idx) => {
                     return (
                         <div key={idx} className="donation-box">
-                            <div className="donation-box-headings">
+                            <div className="donation-box-heading">
                                 <h2>{donation.foodName}</h2>
+                                <span>
+                                    {donation.deliveryStatus}
+                                </span>
                             </div>
 
                             <div className="donation-box-quantity">
@@ -54,7 +50,8 @@ export default function () {
                             </div>
 
                             <div className="donation-box-phone">
-                                <p><strong>Mobile No:</strong> {donation.phone}</p>
+                                <p><strong>Mobile No:</strong></p>
+                                <p>{donation.phone}</p>
                             </div>
 
                             <div className="donation-box-description">
@@ -67,10 +64,6 @@ export default function () {
                                 <p>{donation.pickupAddress}</p>
                             </div>
 
-                            <div className="donation-box-pickup-address">
-                                <p><strong>Delivery Status</strong></p>
-                                <p>{donation.deliveryStatus}</p>
-                            </div>
 
                             <div className="donation-box-time">
                                 <p><strong>Donated at:</strong></p>
@@ -97,4 +90,3 @@ export default function () {
 
     );
 }
-
