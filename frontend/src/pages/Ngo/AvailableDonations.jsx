@@ -5,15 +5,12 @@ import axios from "axios";
 const getAllDonations = async function ({ setDonation }) {
     const url = "http://localhost:8080/ngo";
     const token = localStorage.getItem("token");
-    console.log("errlro"); 
     try {
         const res = await axios.get(url, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         });
-        console.log(res); 
-        console.log(res.data.result);
         if (res?.data?.result) {
             setDonation(res.data.result);
         }
@@ -21,12 +18,35 @@ const getAllDonations = async function ({ setDonation }) {
     catch(err){
         alert("some error occured");
     }
-   
 };
+
+const handleAcceptDonation = async ( donationId, setIsAccept, setDonation ) => {
+    const url = "http://localhost:8080/ngo/accept-donation";
+    const token = localStorage.getItem("token");
+    try{
+        const res = await axios.post(url, {"donationId": donationId} , {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        if(res?.data?.message){
+            alert(res.data.message); 
+            await getAllDonations({setDonation}); 
+        }
+    }
+    catch(err){
+        console.log(err.message); 
+        alert("Error : " + err.message); 
+    }
+    setIsAccept('');
+}
+
 
 
 export default function () {
     const [donations, setDonation] = useState([]);
+    const [isAccept, setIsAccept] = useState(""); 
+
     useEffect(() => {
         getAllDonations({ setDonation });
     }, []);
@@ -64,7 +84,6 @@ export default function () {
                                 <p>{donation.pickupAddress}</p>
                             </div>
 
-
                             <div className="donation-box-time">
                                 <p><strong>Donated at:</strong></p>
                                 <p>
@@ -78,15 +97,18 @@ export default function () {
                                     })}
                                 </p>
                             </div>
-
+                            
                             <div className="donation-box-status">
                                 <strong>Status:</strong> {donation.valid ? "Active" : "Blocked"}
                             </div>
+
+                            <button onClick={() => {setIsAccept(donation._id); handleAcceptDonation(donation._id, setIsAccept, setDonation)}}>
+                                {isAccept == donation._id ? "processing..." : "Accept Donation"}
+                            </button>
                         </div>
                     )
                 })}
             </div>
         </div>
-
     );
 }

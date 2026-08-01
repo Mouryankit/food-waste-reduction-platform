@@ -1,0 +1,73 @@
+const Donation = require("../models/donationSchema.js"); 
+
+
+const getAllDonation = async (req, res) => {
+    try {
+        const data = await Donation.find({ valid: true, deliveryStatus: "pending"}); 
+        return res.send({
+            "message": "data sent succesefully",
+            "result": data
+        });
+    }
+    catch (err) {
+        return res.send({
+            "message": "some error occured",
+            "error": err
+        });
+    }
+}
+
+const getAcceptedDonation = async (req, res) => { //need working
+    // const { id } = req.params;
+    // try {
+    //     const result = await Donation.find({ ngoObjectId: id });
+    //     return res.json({
+    //         "message": "data sent succesefully",
+    //         "result": result
+    //     })
+    // }
+    // catch (err) {
+    //     return res.json({
+    //         "message": "some error occur",
+    //         "error": err
+    //     })
+    // }
+    return res.json({
+        "message": "working"
+    })
+}
+
+const acceptDonation = async (req, res) => {
+    if(req.user.role !== "ngo"){
+        return res.json({
+            "message": "you are not autherized to accept donation"
+        })
+    }
+    // console.log(req.user)
+    const { donationId } = req.body; 
+    try {
+        const result1 = await Donation.findOne({ _id: donationId, deliveryStatus: "pending" }); 
+        if (!result1) {
+            return res.json({
+                "message": "Donation not exist",
+            })
+        }
+        const result2 = await Donation.updateOne({ _id: donationId }, { $set: { ngoObjectId: req.user.id, deliveryStatus: "accepted" } });
+        if (result2) {
+            return res.status(200).json({
+                "message": "Donation Accepted succesefully",
+            })
+        }
+    }
+    catch (err) {
+        return res.json({
+            "message": "Some error occure",
+            "error": err
+        })
+    }
+    return res.status(200).json({
+        "message": "working"
+    })
+};
+
+module.exports = {acceptDonation, getAllDonation, getAcceptedDonation};
