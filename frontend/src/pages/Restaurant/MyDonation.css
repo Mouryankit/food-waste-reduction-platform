@@ -1,39 +1,17 @@
-.my-donation-page{
-    text-align: center;
-    padding: 1%;
-}
-
-.my-donation-heading{
-    margin-top: 10px;
-}
-
-.donations{
+.donation-box-heading{
     display: flex;
-    flex-direction: row;
-    gap: 5%; 
-    flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
+}
+
+.donation-box div{
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(88, 85, 85, 0.173);
+    padding: 2px;
 }
 
 .donation-box{
-    border: 1px solid black;
-    margin-top: 5%;
-    width: 25%;
-    border-radius: 3%;
-    text-align: center;
-    padding: 5px;
+    padding: 30px;
+    width: 400px;
+    border-radius: 10px;
 }
 
-.donation-box > div {
-    padding: 5px; 
-}
-
-@media (max-width: 500px){
-    .donations{
-        flex-direction: column;
-        align-items: center;
-    }
-    .donation-box{
-        width: 80%; 
-    }
-}

@@ -1,5 +1,61 @@
-
+/* 
 .form h1{
     text-align: center;
     margin-bottom: 20px;
+} */
+
+
+
+
+.donation-form-heading{
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.my-donation-page {
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.my-donation-heading {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.donations {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.donation-box {
+    width: 320px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.donation-box-headings {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.donation-box-quantity,
+.donation-box-phone,
+.donation-box-description,
+.donation-box-pickup-address,
+.donation-box-time,
+.donation-box-status {
+    margin-bottom: 12px;
+}
+
+.donation-box p {
+    margin: 5px 0;
+}
+
+@media (max-width: 500px) {
+    .donation-box{
+        width: 200px; 
+    }
 }

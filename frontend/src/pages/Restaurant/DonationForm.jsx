@@ -82,7 +82,7 @@ export default function () {
             {({ isSubmitting }) => (
 
                 <Form className="form">
-                    <h1>Donate Food</h1>
+                    <h1 className="donation-form-heading">Donate Food</h1>
                     <div>
                         <label htmlFor="foodname">Food Name</label>
                         <Field

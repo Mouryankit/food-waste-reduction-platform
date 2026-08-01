@@ -29,8 +29,11 @@ export default function () {
                 {donations.map((donation, idx) => {
                     return (
                         <div key={idx} className="donation-box">
-                            <div className="donation-box-headings">
+                            <div className="donation-box-heading">
                                 <h2>{donation.foodName}</h2>
+                                <span>
+                                    {donation.deliveryStatus}
+                                </span>
                             </div>
 
                             <div className="donation-box-quantity">
@@ -38,7 +41,8 @@ export default function () {
                             </div>
 
                             <div className="donation-box-phone">
-                                <p><strong>Mobile No:</strong> {donation.phone}</p>
+                                <p><strong>Mobile No:</strong></p>
+                                <p>{donation.phone}</p>
                             </div>
 
                             <div className="donation-box-description">
@@ -51,10 +55,7 @@ export default function () {
                                 <p>{donation.pickupAddress}</p>
                             </div>
 
-                            <div className="donation-box-pickup-address">
-                                <p><strong>Delivery Status</strong></p>
-                                <p>{donation.deliveryStatus}</p>
-                            </div>
+
 
                             <div className="donation-box-time">
                                 <p><strong>Donated at:</strong></p>
@@ -81,4 +82,3 @@ export default function () {
 
     );
 }
-
