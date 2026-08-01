@@ -1,9 +1,9 @@
-const Donation = require("../models/donationSchema.js"); 
+const Donation = require("../models/donationSchema.js");
 
 
 const getAllDonation = async (req, res) => {
     try {
-        const data = await Donation.find({ valid: true, deliveryStatus: "pending"}); 
+        const data = await Donation.find({ valid: true, deliveryStatus: "pending" });
         return res.send({
             "message": "data sent succesefully",
             "result": data
@@ -18,35 +18,37 @@ const getAllDonation = async (req, res) => {
 }
 
 const getAcceptedDonation = async (req, res) => { //need working
-    // const { id } = req.params;
-    // try {
-    //     const result = await Donation.find({ ngoObjectId: id });
-    //     return res.json({
-    //         "message": "data sent succesefully",
-    //         "result": result
-    //     })
-    // }
-    // catch (err) {
-    //     return res.json({
-    //         "message": "some error occur",
-    //         "error": err
-    //     })
-    // }
+    // console.log("working"); 
+    const id = req.user.id;
+    // console.log(id); 
+    try {
+        const result = await Donation.find({ ngoObjectId: id, valid: true, deliveryStatus: "accepted" });
+        return res.json({
+            "message": "data sent succesefully",
+            "result": result
+        })
+    }
+    catch (err) {
+        return res.json({
+            "message": "some error occur",
+            "error": err
+        })
+    }
     return res.json({
         "message": "working"
     })
 }
 
 const acceptDonation = async (req, res) => {
-    if(req.user.role !== "ngo"){
+    if (req.user.role !== "ngo") {
         return res.json({
             "message": "you are not autherized to accept donation"
         })
     }
     // console.log(req.user)
-    const { donationId } = req.body; 
+    const { donationId } = req.body;
     try {
-        const result1 = await Donation.findOne({ _id: donationId, deliveryStatus: "pending" }); 
+        const result1 = await Donation.findOne({ _id: donationId, deliveryStatus: "pending", valid: true });
         if (!result1) {
             return res.json({
                 "message": "Donation not exist",
@@ -70,4 +72,61 @@ const acceptDonation = async (req, res) => {
     })
 };
 
-module.exports = {acceptDonation, getAllDonation, getAcceptedDonation};
+const deliverDonation = async (req, res) => {
+    // console.log("working"); 
+    const { donationId } = req.body;
+    try {
+        const result1 = await Donation.findOne({ _id: donationId, deliveryStatus: "accepted", valid: true });
+        if (!result1) {
+            return res.json({
+                "message": "Donation not exist",
+            })
+        }
+        // console.log(result1); 
+        const result2 = await Donation.updateOne({ _id: donationId }, { $set: { deliveryStatus: "delivered" } });
+        if (result2) {
+            return res.status(200).json({
+                "message": "Donation delivered succesefully",
+            })
+        }
+    }
+    catch (err) {
+        return res.json({
+            "message": "Failed to update status",
+            "error": err
+        })
+    }
+    return res.json({
+        "message": "working"
+    })
+};
+
+getDeliveredDonation = async (req, res) => {
+    // console.log("working"); 
+    const id = req.user.id;
+    // // console.log(id); 
+    try {
+        const result = await Donation.find({ ngoObjectId: id, valid: true, deliveryStatus: "delivered" });
+        if(!result){
+            return res.json({
+                "message": "No Delivered Donations",
+            })
+        } 
+        // console.log(result); 
+        return res.json({
+            "message": "data sent succesefully",
+            "result": result
+        })
+    }
+    catch (err) {
+        return res.json({
+            "message": "some error occur",
+            "error": err
+        })
+    }
+    return res.json({
+        "message": "working"
+    })
+};
+
+module.exports = { acceptDonation, getAllDonation, getAcceptedDonation, deliverDonation, getDeliveredDonation };

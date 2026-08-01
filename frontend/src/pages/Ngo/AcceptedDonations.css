@@ -1,6 +1,11 @@
-
-
 .accepted-donations{
     text-align: center;
     padding: 20px;
+}
+
+.active-tab{
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
 }

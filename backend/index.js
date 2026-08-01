@@ -55,14 +55,17 @@ app.get("/restaurant", myDonation)      // when user click in mydonation
 
 // ngo dashboard
 const Donation = require("./models/donationSchema.js");
-const {getAllDonation, getAcceptedDonation, acceptDonation} = require("./controllers/ngo.js"); 
+const { getAllDonation, getAcceptedDonation, acceptDonation, deliverDonation, getDeliveredDonation } = require("./controllers/ngo.js");
 app.get("/ngo", getAllDonation); // get all the donation for ngo
-app.get("/ngo/:id", getAcceptedDonation)  //get all donation accepted by ngo 
+app.get("/ngo/accepted-donation", getAcceptedDonation)  //get all donation accepted by ngo  
 app.post("/ngo/accept-donation", acceptDonation);  // accept donation
+app.post("/ngo/deliver-donation", deliverDonation);  //ngo confirm delivery donation is succesefully delivered 
+app.get("/ngo/delivered-donation", getDeliveredDonation); //get all the delivered donation for a user 
 
 
 
-app.post("/test", (req, res) => {
+
+app.post("/test", async (req, res) => {
     console.log(req.body);
     console.log("working");
     return res.json({ "message": "data recieved" });
