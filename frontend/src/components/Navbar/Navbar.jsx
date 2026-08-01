@@ -51,7 +51,7 @@ function Navbar(){
                 {role === "ngo" && (
                     <>
                     <NavLink className="navlink" to="/ngo/available-donations">Available Donations</NavLink>
-                    <NavLink className="navlink" to="/ngo/previous-donations">Previous Donations</NavLink>
+                    <NavLink className="navlink" to="/ngo/accepted-donations">Accepted Donations</NavLink>
                     </>
                 )}
                 {role === "admin" && (

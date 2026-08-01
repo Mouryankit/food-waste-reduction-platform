@@ -12,7 +12,7 @@ import ResetPassword from "./pages/User/ResetPassword.jsx";
 import DonationForm from './pages/Restaurant/DonationForm.jsx';
 import MyDonation from './pages/Restaurant/MyDonation.jsx';
 import AvailableDonations from "./pages/Ngo/AvailableDonations.jsx"; 
-import PreviousDonations from "./pages/Ngo/PreviousDonations.jsx"; 
+import AcceptedDonations from "./pages/Ngo/AcceptedDonations.jsx"; 
 import AllDonations from "./pages/Admin/AllDonations.jsx"; 
 import Analytics from "./pages/Admin/Analytics.jsx"; 
 import UserManagement from "./pages/Admin/UserManagement.jsx"; 
@@ -31,7 +31,7 @@ function App() {
                 <Route path="/restaurant/my-donation" element={<MyDonation/>}></Route>
 
                 <Route path="/ngo/available-donations" element={<AvailableDonations/>}></Route>
-                <Route path="/ngo/previous-donations" element={<PreviousDonations/>}></Route>
+                <Route path="/ngo/accepted-donations" element={<AcceptedDonations/>}></Route>
 
                 <Route path="/ngo/all-donations" element={<AllDonations/>}></Route>
                 <Route path="/ngo/analytics" element={<Analytics/>}></Route>
