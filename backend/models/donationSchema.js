@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const donationSchema = new mongoose.Schema({
     foodName: {type:String, required: true},
     quantity: {type:Number, min: [1, "Quantity cannot be less than 1"], required: true},
-    unit: {type:String, enum: ["kg", "g", "lbs", "servings", "boxes", "items"], required: true},
+    unit: {type:String, enum: ["kg", "g", "l", "ml", "pieces", "packets", "boxes", "plates"], required: true},
     description: {type:String, required: true},
     phone: {type:String, match: [/^\d{10}$/, "Phone number must be between 10 digits, without spaces or dashes"], required: true},
     pickupAddress: {type:String, required: true},
@@ -17,5 +17,3 @@ const donationSchema = new mongoose.Schema({
 
 const Donation = mongoose.model('Donation', donationSchema);
 module.exports = Donation; 
-
- 

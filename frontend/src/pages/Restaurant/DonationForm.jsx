@@ -110,8 +110,8 @@ export default function () {
                         <Field as="select" name="unit" id="unit" className="form-control">
                             <option value="kg">kg</option>
                             <option value="g">g</option>
-                            <option value="L">L</option>
-                            <option value="mL">mL</option>
+                            <option value="l">L</option>
+                            <option value="ml">mL</option>
                             <option value="pieces">Pieces</option>
                             <option value="packets">Packets</option>
                             <option value="boxes">Boxes</option>
