@@ -56,11 +56,21 @@ app.get("/restaurant", myDonation)      // when user click in mydonation
 // ngo dashboard
 const Donation = require("./models/donationSchema.js");
 const { getAllDonation, getAcceptedDonation, acceptDonation, deliverDonation, getDeliveredDonation } = require("./controllers/ngo.js");
+const User = require("./models/User.js");
 app.get("/ngo", getAllDonation); // get all the donation for ngo
 app.get("/ngo/accepted-donation", getAcceptedDonation)  //get all donation accepted by ngo  
 app.post("/ngo/accept-donation", acceptDonation);  // accept donation
 app.post("/ngo/deliver-donation", deliverDonation);  //ngo confirm delivery donation is succesefully delivered 
 app.get("/ngo/delivered-donation", getDeliveredDonation); //get all the delivered donation for a user 
+
+
+
+// admin routes 
+const {getAllDonations, blockDonation, getAllUsers, blockUser} = require("./controllers/admin.js"); 
+app.get("/admin/donations", getAllDonations);
+app.post("/admin/doation/block", blockDonation); 
+app.get("/admin/users", getAllUsers);
+app.post("/admin/user/block", blockUser);
 
 
 
