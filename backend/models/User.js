@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true }, // Must be unique in DB
     password: {type: String, required: true},
     role: {type: String, required: true, enum: ["restaurant", "ngo", "admin"]},
+    valid: {type: Boolean, default: true},
     createdAt: { type: Date, default: Date.now } // Automatically defaults to today
 });
 

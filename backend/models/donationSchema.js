@@ -11,6 +11,7 @@ const donationSchema = new mongoose.Schema({
     deliveryStatus: {type:String, default:"pending", enum: ["pending", "accepted", "delivered", "cancelled"], required: true},
     valid: {type: Boolean, default: true, required: true},
     userObjectId: {type: Schema.Types.ObjectId, ref: 'User', required: true },
+    expiryDate: { type: Date, required: true },
     ngoObjectId: {type: Schema.Types.ObjectId, ref: "User"},
     createdAt: { type: Date, default: Date.now }
 });
