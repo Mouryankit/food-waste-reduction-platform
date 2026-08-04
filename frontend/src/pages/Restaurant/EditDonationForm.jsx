@@ -1,9 +1,27 @@
+// import { useEffect } from "react";
+// import { useParams } from "react-router-dom";
+
+// export default function EditDonationForm() {
+
+//     const { id } = useParams();   
+
+//     useEffect(() => {
+//         console.log(id);
+
+//     }, [id]);
+
+//     return (
+//         <div className="donation-form">
+//             <h1>Edit Donation</h1>
+//         </div>
+//     );
+// }
 
 
 import "../User/style.css";
-import "./DonationForm.css"; 
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import "./DonationForm.css";
+import { useEffect, React } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -23,7 +41,7 @@ const donationFormSchema = Yup.object().shape({
 
     description: Yup.string()
         .max(300, "Description is too long")
-        .required("Description is required"), 
+        .required("Description is required"),
 
     phone: Yup.string()
         .matches(/^[1-9]{1}[0-9]{9}$/, "Enter a valid 10-digit phone number")
@@ -41,25 +59,54 @@ const donationFormSchema = Yup.object().shape({
 
 
 export default function () {
+    const [donation, setDonation] = useState({});
     const navigate = useNavigate();
+    const { id: donationId } = useParams();
+
+    const fetchData = async () => {
+        try {
+            // console.log(values); 
+            const token = localStorage.getItem("token");
+            const url = `http://localhost:8080/restaurant/donation/${donationId}`;
+            const result = await axios.get(url, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            // console.log(result?.data?.data); 
+            // // console.log(); 
+            if (result?.data?.data) {
+                setDonation(result.data.data);
+            }
+        }
+        catch (err) {
+            console.dir(err);
+            // alert(err.message);
+            alert("Data not saved");
+        }
+    }
+    useEffect(() => {
+        fetchData();
+    }, [donationId]);
 
     const handleSubmit = async (values, setSubmitting) => {
         // console.log(values); 
         try {
-            // console.log(values); 
-            const token = localStorage.getItem("token"); 
-            const result = await axios.post("http://localhost:8080/restaurant", values, {
+            console.log(values);
+            const token = localStorage.getItem("token");
+            const url = `http://localhost:8080/restaurant/donation/${donationId}`;
+            const result = await axios.patch(url, values, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
-            })
-            if(result.data.message) alert(result.data.message);
+            });
+            if (result.data.message) alert(result.data.message);
             navigate("/restaurant/my-donation");
         }
         catch (err) {
             console.dir(err);
             // alert(err.message);
-            alert("Data not saved"); 
+            alert("Data not saved");
         }
         setSubmitting(false);
     }
@@ -67,8 +114,19 @@ export default function () {
     return (
 
         <Formik
-            initialValues={{ foodName: "", quantity: "", unit: "kg", description: "", phone: "", pickupAddress: "", expiryDate: "" }}
+            initialValues={{
+                foodName: donation.foodName || "",
+                quantity: donation.quantity || "",
+                unit: donation.unit || "kg",
+                description: donation.description || "",
+                phone: donation.phone || "",
+                pickupAddress: donation.pickupAddress || "",
+                expiryDate: donation.expiryDate
+                    ? donation.expiryDate.split("T")[0]
+                    : "" || ""
+            }}
             validationSchema={donationFormSchema}
+            enableReinitialize={true}
             onSubmit={(values, { setSubmitting }) => {
                 // console.log(values);
                 handleSubmit(values, setSubmitting);

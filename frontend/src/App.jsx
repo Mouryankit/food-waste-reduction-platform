@@ -16,6 +16,7 @@ import AcceptedDonations from "./pages/Ngo/AcceptedDonations.jsx";
 import AllDonations from "./pages/Admin/AllDonations.jsx"; 
 import Analytics from "./pages/Admin/Analytics.jsx"; 
 import UserManagement from "./pages/Admin/UserManagement.jsx"; 
+import EditDonationForm from "./pages/Restaurant/EditDonationForm.jsx";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/reset-password" element={<ResetPassword/>}></Route>
 
                 <Route path="/restaurant/add-donation" element={<DonationForm/>}></Route>
+                <Route path="/restaurant/edit-donation/:id" element={<EditDonationForm/>}></Route>
                 <Route path="/restaurant/my-donation" element={<MyDonation/>}></Route>
 
                 <Route path="/ngo/available-donations" element={<AvailableDonations/>}></Route>

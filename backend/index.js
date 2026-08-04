@@ -23,7 +23,8 @@ app.use(cors());
 // app.use(cors(corsOptions)); 
 
 
-
+const Donation = require("./models/donationSchema.js");
+const User = require("./models/User.js");
 
 app.get("/", (req, res) => {
     return res.json({
@@ -48,15 +49,18 @@ app.post("/auth/reset-password", verifyPasswordResetToken, resetPassword);
 // restaurant dashboard routes 
 const verifyToken = require("./middleware/verifyToken.js");
 app.use(verifyToken);
-const { AddDonation, myDonation } = require("./controllers/restaurant.js");
-app.post("/restaurant", AddDonation);   //when user click add donation
+const { AddDonation, myDonation, getDonationDetail, updateDonationDetail } = require("./controllers/restaurant.js");
+app.post("/restaurant", AddDonation);   //restaurant can create donation for it 
 app.get("/restaurant", myDonation)      // when user click in mydonation
+app.get("/restaurant/donation/:id", getDonationDetail);    //get donation by id
+app.patch("/restaurant/donation/:id", updateDonationDetail); 
+// app.delete("/restaurant/:id"); 
 
 
 // ngo dashboard
-const Donation = require("./models/donationSchema.js");
+
 const { getAllDonation, getAcceptedDonation, acceptDonation, deliverDonation, getDeliveredDonation } = require("./controllers/ngo.js");
-const User = require("./models/User.js");
+
 app.get("/ngo", getAllDonation); // get all the donation for ngo
 app.get("/ngo/accepted-donation", getAcceptedDonation)  //get all donation accepted by ngo  
 app.post("/ngo/accept-donation", acceptDonation);  // accept donation
@@ -66,9 +70,9 @@ app.get("/ngo/delivered-donation", getDeliveredDonation); //get all the delivere
 
 
 // admin routes 
-const {getAllDonations, blockDonation, getAllUsers, blockUser} = require("./controllers/admin.js"); 
+const { getAllDonations, blockDonation, getAllUsers, blockUser } = require("./controllers/admin.js");
 app.get("/admin/donations", getAllDonations);
-app.post("/admin/doation/block", blockDonation); 
+app.post("/admin/doation/block", blockDonation);
 app.get("/admin/users", getAllUsers);
 app.post("/admin/user/block", blockUser);
 

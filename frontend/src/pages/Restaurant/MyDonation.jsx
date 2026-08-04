@@ -1,6 +1,7 @@
 import "./MyDonation.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const getDonations = async function ({ setDonation }) {
     const url = "http://localhost:8080/restaurant";
@@ -17,6 +18,7 @@ const getDonations = async function ({ setDonation }) {
 };
 
 export default function () {
+    const navigate = useNavigate();
     const [donations, setDonation] = useState([]);
     useEffect(() => {
         getDonations({ setDonation });
@@ -55,7 +57,16 @@ export default function () {
                                 <p>{donation.pickupAddress}</p>
                             </div>
 
-
+                            <div className="donation-box-time">
+                                <p><strong>Expired at:</strong></p>
+                                <p>
+                                    {new Date(donation.expiryDate).toLocaleString('en-US', {
+                                        month: 'short',
+                                        day: 'numeric',
+                                        year: 'numeric',
+                                    })}
+                                </p>
+                            </div>
 
                             <div className="donation-box-time">
                                 <p><strong>Donated at:</strong></p>
@@ -73,6 +84,12 @@ export default function () {
 
                             <div className="donation-box-status">
                                 <strong>Status:</strong> {donation.valid ? "Active" : "Blocked"}
+                            </div>
+                            <div>
+                                <button onClick={() => {
+                                    navigate(`/restaurant/edit-donation/${donation._id}`);
+                                }}> Edit</button>
+                                <button>Delete</button>
                             </div>
                         </div>
                     )
