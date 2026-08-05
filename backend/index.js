@@ -70,14 +70,25 @@ app.get("/ngo/delivered-donation", getDeliveredDonation); //get all the delivere
 
 
 // admin routes 
-const { getAllDonations, blockDonation, getAllUsers, blockUser } = require("./controllers/admin.js");
-app.get("/admin/donations", getAllDonations);
-app.post("/admin/doation/block", blockDonation);
+const { getAllUsers, blockUser, unblockUser, getUser, updateUser } = require("./controllers/admin.js");
+
+// user management
 app.get("/admin/users", getAllUsers);
-app.post("/admin/user/block", blockUser);
+app.patch("/admin/block-user/:id", blockUser);
+app.patch("/admin/unblock-user/:id", unblockUser);
+app.get("/admin/user/:id", getUser);
+app.put("/admin/user/:id", updateUser);
 
 
+const { getAllDonations, updateDonationStatus, getDonation, updateDonation } = require("./controllers/admin.js");
+// donation management
+app.get("/admin/donations", getAllDonations);
+app.patch("/admin/donation-status/:id", updateDonationStatus);
+app.get("/admin/donation/:id", getDonation);
+app.patch("/admin/donation/:id", updateDonation);
 
+const {getAnalytics} = require("./controllers/analytics.js"); 
+app.get("/admin/analytics", getAnalytics);
 
 app.post("/test", async (req, res) => {
     console.log(req.body);

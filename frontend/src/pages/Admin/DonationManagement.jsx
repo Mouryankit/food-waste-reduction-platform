@@ -1,0 +1,234 @@
+// import "./DonationManagement.css"; 
+
+// export default function(){
+//     return (
+//         <div className="all-donations">
+//             <h1>All Donations</h1>
+//         </div>
+//     )
+// }
+
+
+import "./DonationManagement.css";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+export default function DonationManagement() {
+
+    const navigate = useNavigate();
+    const token = localStorage.getItem("token");
+
+    const [donations, setDonations] = useState([]);
+
+    const [status, setStatus] = useState("");
+
+    const getDonations = async () => {
+
+        try {
+
+            let url = "http://localhost:8080/admin/donations";
+
+            if (status !== "") {
+                url += `?status=${status}`;
+            }
+
+            const res = await axios.get(url, {
+
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+
+            });
+
+            setDonations(res.data.donations);
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+
+    };
+
+    useEffect(() => {
+
+        getDonations();
+
+    }, [status]);
+
+    const updateStatus = async (id, value) => {
+
+        try {
+
+            await axios.patch(
+
+                `http://localhost:8080/admin/donation-status/${id}`,
+
+                {
+                    deliveryStatus: value
+                },
+
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+
+            );
+
+            getDonations();
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+
+    };
+
+    return (
+
+        <div className="all-donations">
+
+            <h1>Donation Management</h1>
+
+            <div className="filter">
+
+                <label>Status : </label>
+
+                <select
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                >
+
+                    <option value="">All</option>
+                    <option value="pending">Pending</option>
+                    <option value="accepted">Accepted</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="cancelled">Cancelled</option>
+
+                </select>
+
+            </div>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Food</th>
+                        <th>Quantity</th>
+                        <th>Restaurant</th>
+                        <th>NGO</th>
+                        <th>Status</th>
+                        <th>Expiry</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {
+
+                        donations.map((donation) => (
+
+                            <tr key={donation._id}>
+
+                                <td>{donation.foodName}</td>
+
+                                <td>
+                                    {donation.quantity} {donation.unit}
+                                </td>
+
+                                <td>
+
+                                    {
+                                        donation.userObjectId?.name
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    {
+                                        donation.ngoObjectId
+                                            ?
+                                            donation.ngoObjectId.name
+                                            :
+                                            "Not Accepted"
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    <select
+
+                                        value={donation.deliveryStatus}
+
+                                        onChange={(e) =>
+                                            updateStatus(
+                                                donation._id,
+                                                e.target.value
+                                            )
+                                        }
+
+                                    >
+
+                                        <option value="pending">
+                                            Pending
+                                        </option>
+
+                                        <option value="accepted">
+                                            Accepted
+                                        </option>
+
+                                        <option value="delivered">
+                                            Delivered
+                                        </option>
+
+                                        <option value="cancelled">
+                                            Cancelled
+                                        </option>
+
+                                    </select>
+
+                                </td>
+
+                                <td>
+
+                                    {
+
+                                        new Date(
+                                            donation.expiryDate
+                                        ).toLocaleDateString()
+
+                                    }
+
+                                </td>
+                                <td>
+                                    <button
+                                        onClick={() => navigate(`/admin/edit-donation/${donation._id}`)}
+                                    >
+                                        Edit
+                                    </button>
+                                </td>
+
+                            </tr>
+
+                        ))
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    );
+
+}
