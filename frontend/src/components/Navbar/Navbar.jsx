@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import "./Navbar.css";
 
 function Navbar() {
+    const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
     const [role, setRole] = useState("");
     // const [token, setToken] = useState(localStorage.getItem('token')); 
@@ -34,42 +35,85 @@ function Navbar() {
     }
 
     return (
-        <div className="navbar">
-            <NavLink className="navlink" to="/">Home</NavLink>
-            {token ?
-                <>
-                    {/* <NavLink className="navlink" to="/">Home</NavLink> */}
-                    {role === "restaurant" && (
-                        <>
-                            <NavLink className="navlink" to="/restaurant/add-donation">Add Donation</NavLink>
-                            <NavLink className="navlink" to="/restaurant/my-donation">My Donation</NavLink>
-                        </>
-                    )}
+        <nav className="navbar">
 
-                    {role === "ngo" && (
-                        <>
-                            <NavLink className="navlink" to="/ngo/available-donations">Available Donations</NavLink>
-                            <NavLink className="navlink" to="/ngo/accepted-donations">Accepted Donations</NavLink>
-                        </>
-                    )}
-                    {role === "admin" && (
-                        <>
-                            <NavLink className="navlink" to="/admin/all-donations">Donations</NavLink>
-                            <NavLink className="navlink" to="/admin/analytics">Analytics</NavLink>
-                            <NavLink className="navlink" to="/admin/user-management">User Management</NavLink>
-                        </>
-                    )}
-                    <NavLink className="navlink" onClick={handleLogout}>Logout</NavLink>
-                </>
-                :
-                <>
-                    {/* <NavLink className="navlink" to="/">Home</NavLink> */}
-                    <NavLink className="navlink" to="/login">Login</NavLink>
-                    <NavLink className="navlink" to="/signup">Signup</NavLink>
-                </>
-            }
+            <h2 className="logo">FWRP</h2>
 
-        </div>
+            <div
+                className="hamburger"
+                onClick={() => setMenuOpen(!menuOpen)}
+            >
+                ☰
+            </div>
+
+            <div className={`nav-links ${menuOpen ? "active" : ""}`}>
+
+                <NavLink className="navlink" to="/">Home</NavLink>
+
+                {token ? (
+                    <>
+                        {role === "restaurant" && (
+                            <>
+                                <NavLink className="navlink" to="/restaurant/add-donation">
+                                    Add Donation
+                                </NavLink>
+
+                                <NavLink className="navlink" to="/restaurant/my-donation">
+                                    My Donations
+                                </NavLink>
+                            </>
+                        )}
+
+                        {role === "ngo" && (
+                            <>
+                                <NavLink className="navlink" to="/ngo/available-donations">
+                                    Available Donations
+                                </NavLink>
+
+                                <NavLink className="navlink" to="/ngo/accepted-donations">
+                                    Accepted Donations
+                                </NavLink>
+                            </>
+                        )}
+
+                        {role === "admin" && (
+                            <>
+                                <NavLink className="navlink" to="/admin/all-donations">
+                                    Donations
+                                </NavLink>
+
+                                <NavLink className="navlink" to="/admin/user-management">
+                                    Users
+                                </NavLink>
+
+                                <NavLink className="navlink" to="/admin/analytics">
+                                    Analytics
+                                </NavLink>
+                            </>
+                        )}
+
+                        <NavLink
+                            className="navlink"
+                            onClick={handleLogout}
+                        >
+                            Logout
+                        </NavLink>
+                    </>
+                ) : (
+                    <>
+                        <NavLink className="navlink" to="/login">
+                            Login
+                        </NavLink>
+
+                        <NavLink className="navlink" to="/signup">
+                            Signup
+                        </NavLink>
+                    </>
+                )}
+
+            </div>
+
+        </nav>
     )
 }
 
