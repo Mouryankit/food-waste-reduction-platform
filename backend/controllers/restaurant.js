@@ -119,4 +119,41 @@ const updateDonationDetail = async (req, res) => {
     })
 }
 
-module.exports = { AddDonation, myDonation, getDonationDetail, updateDonationDetail }; 
+const deleteDonation = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const donation = await Donation.findById(id);
+
+        if (!donation) {
+            return res.status(404).json({
+                success: false,
+                message: "Donation not found"
+            });
+        }
+
+        if (donation.userObjectId.toString() !== req.user.id) {
+            return res.status(403).json({
+                success: false,
+                message: "Unauthorized"
+            });
+        }
+
+        await Donation.findByIdAndDelete(id);
+
+        return res.status(200).json({
+            success: true,
+            message: "Donation deleted successfully"
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        });
+    }
+};
+
+module.exports = { AddDonation, myDonation, getDonationDetail, updateDonationDetail, deleteDonation }; 

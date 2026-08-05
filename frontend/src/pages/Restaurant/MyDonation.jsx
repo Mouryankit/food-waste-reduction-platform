@@ -20,9 +20,31 @@ const getDonations = async function ({ setDonation }) {
 export default function () {
     const navigate = useNavigate();
     const [donations, setDonation] = useState([]);
+
     useEffect(() => {
         getDonations({ setDonation });
     }, []);
+
+    const deleteDonation = async (id) => {
+        try {
+            const result = await axios.delete(
+                `http://localhost:8080/restaurant/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                }
+            );
+
+            alert(result.data.message);
+            setDonation((prev) => prev.filter((item) => item._id !== id));
+            // Remove the deleted donation from state
+            // or fetch the donations again
+        } catch (error) {
+            console.log(error);
+            alert("Failed to delete donation");
+        }
+    };
 
     return (
         <div className="my-donation-page">
@@ -89,7 +111,8 @@ export default function () {
                                 <button onClick={() => {
                                     navigate(`/restaurant/edit-donation/${donation._id}`);
                                 }}> Edit</button>
-                                <button>Delete</button>
+
+                                <button onClick={() => deleteDonation(donation._id)}> Delete </button>
                             </div>
                         </div>
                     )

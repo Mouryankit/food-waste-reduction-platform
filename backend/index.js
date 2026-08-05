@@ -49,12 +49,12 @@ app.post("/auth/reset-password", verifyPasswordResetToken, resetPassword);
 // restaurant dashboard routes 
 const verifyToken = require("./middleware/verifyToken.js");
 app.use(verifyToken);
-const { AddDonation, myDonation, getDonationDetail, updateDonationDetail } = require("./controllers/restaurant.js");
+const { AddDonation, myDonation, getDonationDetail, updateDonationDetail, deleteDonation } = require("./controllers/restaurant.js");
 app.post("/restaurant", AddDonation);   //restaurant can create donation for it 
 app.get("/restaurant", myDonation)      // when user click in mydonation
 app.get("/restaurant/donation/:id", getDonationDetail);    //get donation by id
 app.patch("/restaurant/donation/:id", updateDonationDetail); 
-// app.delete("/restaurant/:id"); 
+app.delete("/restaurant/:id", deleteDonation);   //delete a donation
 
 
 // ngo dashboard
