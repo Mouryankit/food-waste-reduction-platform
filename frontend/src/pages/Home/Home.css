@@ -12,7 +12,7 @@
 /* Hero */
 
 .hero{
-    background:#4CAF50;
+    background:#2e7d32;;
     color:white;
     text-align:center;
     padding:80px 20px;
@@ -39,12 +39,14 @@
 
 .hero-buttons button:first-child{
     background:white;
-    color:#4CAF50;
+    color:#017505;
 }
 
 .hero-buttons button:last-child{
-    background:#2E7D32;
-    color:white;
+    /* background:#2E7D32;
+    color:white; */
+    background:white;
+    color:#017505;
 }
 
 /* About */

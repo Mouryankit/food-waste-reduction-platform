@@ -30,7 +30,7 @@
 }
 
 .all-donations thead{
-    background:#0d6efd;
+    background:#2e7d32;
     color:white;
 }
 
@@ -49,3 +49,19 @@
     padding:7px;
     border-radius:6px;
 }
+
+
+
+
+.all-donations button {
+    padding: 7px 15px;
+    border: none;
+    border-radius: 5px;
+    background: #2e7d32;
+    color: white;
+    cursor: pointer;
+}
+
+.all-donations button:hover {
+    background: #256628;
+} 

@@ -71,6 +71,7 @@ export default function UserManagement() {
                         <th>Role</th>
                         <th>Status</th>
                         <th>Action</th>
+                        <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>

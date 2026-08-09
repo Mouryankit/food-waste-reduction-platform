@@ -1,13 +1,3 @@
-// import "./DonationManagement.css"; 
-
-// export default function(){
-//     return (
-//         <div className="all-donations">
-//             <h1>All Donations</h1>
-//         </div>
-//     )
-// }
-
 
 import "./DonationManagement.css";
 import { useEffect, useState } from "react";
@@ -124,6 +114,7 @@ export default function DonationManagement() {
                         <th>NGO</th>
                         <th>Status</th>
                         <th>Expiry</th>
+                        <th>Edit</th>
 
                     </tr>
 

@@ -1,4 +1,4 @@
-.accepted-donations{
+/* .accepted-donations{
     text-align: center;
     padding: 20px;
 }
@@ -8,4 +8,77 @@
     gap: 20px;
     padding: 20px;
     justify-content: center;
+} */
+
+.accepted-donations {
+    width: 90%;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.accepted-donations-heading {
+    margin: 0 0 25px;
+    color: #2e7d32;
+    font-size: 28px;
+    text-align: center;
+}
+
+/* Tabs */
+.active-tab {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.active-tab button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 6px;
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.active-tab button:hover {
+    background-color: #c8e6c9;
+}
+
+/* Active tab */
+.active-tab .accepted.active,
+.active-tab .delivered.active {
+    background-color: #2e7d32;
+    color: white;
+}
+
+/* Content area */
+.accepted-donations > div:last-child {
+    margin-top: 20px;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .accepted-donations {
+        width: 90%;
+        padding: 18px;
+        margin: 25px auto;
+    }
+
+    .accepted-donations-heading {
+        font-size: 24px;
+    }
+
+    .active-tab button {
+        padding: 8px 18px;
+        font-size: 14px;
+    }
 }
