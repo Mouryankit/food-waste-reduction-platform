@@ -3,20 +3,20 @@ const Donation = require("../models/donationSchema.js");
 
 const AddDonation = async (req, res) => {
     // console.log(req.body); 
-    const { foodName, quantity, unit, description, phone, pickupAddress, expiryDate } = req.body;
-    if (!foodName || !quantity || !unit || !description || !phone || !pickupAddress || !expiryDate) {
+    const { foodName, quantity, unit, description, phone, pickupAddress, pickupLocation, expiryDate } = req.body;
+    if (!foodName || !quantity || !unit || !description || !phone || !pickupAddress || !pickupLocation || !expiryDate) {
         return res.json({
             "message": "Data is missing"
         })
     }
+
     const { user } = req;
     if (user.role === "restaurant") {
         // console.log(user); 
         const deliveryStatus = "pending";
-        const valid = true;
-        const data = { foodName, quantity, unit, description, phone, pickupAddress, deliveryStatus, valid, expiryDate, userObjectId: user.id };
+        const data = { foodName, quantity, unit, description, phone, pickupAddress, pickupLocation, deliveryStatus, expiryDate, userObjectId: user.id };
 
-        // console.log(data); 
+        console.log(data); 
         const newDonation = new Donation(data);
         try {
             const result = await newDonation.save();
@@ -78,17 +78,19 @@ const getDonationDetail = async (req, res) => {
 
 const updateDonationDetail = async (req, res) => {
     // console.log(req.body); 
-    const { foodName, quantity, unit, description, phone, pickupAddress, expiryDate } = req.body;
-    if (!foodName || !quantity || !unit || !description || !phone || !pickupAddress || !expiryDate) {
+    const { foodName, quantity, unit, description, phone, pickupAddress, pickupLocation, expiryDate } = req.body;
+    if (!foodName || !quantity || !unit || !description || !phone || !pickupAddress || !pickupLocation || !expiryDate) {
         return res.json({
             "message": "Data is missing"
         })
     }
+
     const { user } = req;
     const {id: donationId} = req.params; 
     if (user.role === "restaurant") {
-        const data = { foodName, quantity, unit, description, phone, pickupAddress, expiryDate };
-
+        const data = { foodName, quantity, unit, description, phone, pickupAddress, pickupLocation, expiryDate };
+        
+        // console.log(data); 
         try {
             const updatedDonation = await Donation.findOneAndUpdate(
                 {

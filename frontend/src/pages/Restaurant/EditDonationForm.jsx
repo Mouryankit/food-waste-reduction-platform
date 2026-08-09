@@ -26,6 +26,7 @@ import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
+import Map from "../Map/Map.jsx";
 
 const donationFormSchema = Yup.object().shape({
     foodName: Yup.string()
@@ -62,6 +63,7 @@ export default function () {
     const [donation, setDonation] = useState({});
     const navigate = useNavigate();
     const { id: donationId } = useParams();
+    const [pickupLocation, setPickupLocation] = useState(null);
 
     const fetchData = async () => {
         try {
@@ -77,6 +79,7 @@ export default function () {
             // // console.log(); 
             if (result?.data?.data) {
                 setDonation(result.data.data);
+                setPickupLocation(result.data.data.pickupLocation);
             }
         }
         catch (err) {
@@ -95,7 +98,12 @@ export default function () {
             console.log(values);
             const token = localStorage.getItem("token");
             const url = `http://localhost:8080/restaurant/donation/${donationId}`;
-            const result = await axios.patch(url, values, {
+            const updatedData = {
+                ...values,
+                pickupLocation: pickupLocation
+            }
+            // console.log(updatedData); 
+            const result = await axios.patch(url, updatedData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -205,6 +213,7 @@ export default function () {
                         />
                         <ErrorMessage name="pickupAddress" component="div" className="error" />
                     </div>
+
                     <div>
                         <label htmlFor="expiryDate">Expiry date</label>
                         <Field
@@ -214,6 +223,29 @@ export default function () {
                             className="form-control"
                         />
                         <ErrorMessage name="expiryDate" component="div" className="error" />
+                    </div>
+
+                    <div>
+                        <label>Pickup Location</label>
+
+                        <Map
+                            height="300px"
+                            width="100%"
+                            location={pickupLocation}
+                            setLocation={setPickupLocation}
+                        />
+
+                        {pickupLocation && (
+                            <div>
+                                <p>
+                                    Latitude: {pickupLocation.latitude}
+                                </p>
+
+                                <p>
+                                    Longitude: {pickupLocation.longitude}
+                                </p>
+                            </div>
+                        )}
                     </div>
 
                     <button type="submit" disabled={isSubmitting}>

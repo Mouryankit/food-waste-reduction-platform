@@ -1,13 +1,14 @@
 
 
 import "../User/style.css";
-import "./DonationForm.css"; 
+import "./DonationForm.css";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
+import Map from "../Map/Map.jsx";
 
 const donationFormSchema = Yup.object().shape({
     foodName: Yup.string()
@@ -23,7 +24,7 @@ const donationFormSchema = Yup.object().shape({
 
     description: Yup.string()
         .max(300, "Description is too long")
-        .required("Description is required"), 
+        .required("Description is required"),
 
     phone: Yup.string()
         .matches(/^[1-9]{1}[0-9]{9}$/, "Enter a valid 10-digit phone number")
@@ -42,24 +43,40 @@ const donationFormSchema = Yup.object().shape({
 
 export default function () {
     const navigate = useNavigate();
+    const [pickupLocation, setPickupLocation] = useState(null);
 
     const handleSubmit = async (values, setSubmitting) => {
+
+        if (!pickupLocation) {
+            alert("Please select pickup location on the map");
+            setSubmitting(false);
+            return;
+        }
+
         // console.log(values); 
         try {
             // console.log(values); 
-            const token = localStorage.getItem("token"); 
-            const result = await axios.post("http://localhost:8080/restaurant", values, {
+            const token = localStorage.getItem("token");
+
+            const donationData = {
+                ...values,
+                pickupLocation: pickupLocation
+            };
+
+            console.log(donationData); 
+
+            const result = await axios.post("http://localhost:8080/restaurant", donationData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
-            if(result.data.message) alert(result.data.message);
+            if (result.data.message) alert(result.data.message);
             navigate("/restaurant/my-donation");
         }
         catch (err) {
             console.dir(err);
             // alert(err.message);
-            alert("Data not saved"); 
+            alert("Data not saved");
         }
         setSubmitting(false);
     }
@@ -147,6 +164,7 @@ export default function () {
                         />
                         <ErrorMessage name="pickupAddress" component="div" className="error" />
                     </div>
+
                     <div>
                         <label htmlFor="expiryDate">Expiry date</label>
                         <Field
@@ -158,6 +176,28 @@ export default function () {
                         <ErrorMessage name="expiryDate" component="div" className="error" />
                     </div>
 
+                    <div>
+                        <label>Pickup Location</label>
+
+                        <Map
+                            height="300px"
+                            width="100%"
+                            setLocation={setPickupLocation}
+                        />
+
+                        {pickupLocation && (
+                            <div>
+                                <p>
+                                    Latitude: {pickupLocation.latitude}
+                                </p>
+
+                                <p>
+                                    Longitude: {pickupLocation.longitude}
+                                </p>
+                            </div>
+                        )}
+                    </div>
+
                     <button type="submit" disabled={isSubmitting}>
                         {isSubmitting ? "Submitting..." : "Submit"}
                     </button>
@@ -167,3 +207,15 @@ export default function () {
         </Formik>
     );
 };
+
+
+// import Map from "../Map/Map.jsx";
+
+// export default function App() {
+//     return (
+//         <div>
+//             <h1>Select Pickup Location</h1>
+//             <Map />
+//         </div>
+//     );
+// }

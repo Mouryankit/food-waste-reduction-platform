@@ -5,7 +5,11 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
+import Map from "../Map/Map.jsx";
+
+
 const donationSchema = Yup.object().shape({
+
     foodName: Yup.string()
         .min(2, "Food name must be at least 2 characters")
         .required("Food name is required"),
@@ -14,7 +18,8 @@ const donationSchema = Yup.object().shape({
         .positive("Quantity must be greater than 0")
         .required("Quantity is required"),
 
-    unit: Yup.string().required("Unit is required"),
+    unit: Yup.string()
+        .required("Unit is required"),
 
     description: Yup.string()
         .max(300, "Description is too long")
@@ -33,7 +38,9 @@ const donationSchema = Yup.object().shape({
     deliveryStatus: Yup.string()
         .oneOf(["pending", "accepted", "delivered", "cancelled"])
         .required("Status is required")
+
 });
+
 
 export default function EditDonation() {
 
@@ -42,7 +49,11 @@ export default function EditDonation() {
 
     const [donation, setDonation] = useState({});
 
+    // Store pickup coordinates
+    const [pickupLocation, setPickupLocation] = useState(null);
+
     const token = localStorage.getItem("token");
+
 
     const getDonation = async () => {
 
@@ -57,8 +68,16 @@ export default function EditDonation() {
                 }
             );
 
+
             if (res.data.success) {
-                setDonation(res.data.donation);
+
+                const data = res.data.donation;
+
+                setDonation(data);
+
+                // Get existing coordinates
+                setPickupLocation(data.pickupLocation);
+
             }
 
         } catch (error) {
@@ -69,21 +88,36 @@ export default function EditDonation() {
 
     };
 
+
     useEffect(() => {
 
         getDonation();
 
     }, [id]);
 
+
     const handleSubmit = async (values, setSubmitting) => {
 
         try {
+
+            // Add pickupLocation to form data
+            const updatedData = {
+
+                ...values,
+
+                pickupLocation: pickupLocation
+
+            };
+
+
+            console.log("Updated data:", updatedData);
+
 
             const res = await axios.patch(
 
                 `http://localhost:8080/admin/donation/${id}`,
 
-                values,
+                updatedData,
 
                 {
                     headers: {
@@ -93,9 +127,11 @@ export default function EditDonation() {
 
             );
 
+
             alert(res.data.message);
 
             navigate("/admin/all-donations");
+
 
         } catch (error) {
 
@@ -105,9 +141,11 @@ export default function EditDonation() {
 
         }
 
+
         setSubmitting(false);
 
     };
+
 
     return (
 
@@ -118,12 +156,20 @@ export default function EditDonation() {
             initialValues={{
 
                 foodName: donation.foodName || "",
+
                 quantity: donation.quantity || "",
+
                 unit: donation.unit || "kg",
+
                 description: donation.description || "",
+
                 phone: donation.phone || "",
+
                 pickupAddress: donation.pickupAddress || "",
-                deliveryStatus: donation.deliveryStatus || "pending",
+
+                deliveryStatus:
+                    donation.deliveryStatus || "pending",
+
                 expiryDate:
                     donation.expiryDate
                         ? donation.expiryDate.split("T")[0]
@@ -147,17 +193,35 @@ export default function EditDonation() {
                         Update Donation
                     </h1>
 
+
                     <label>Food Name</label>
-                    <Field name="foodName" className="form-control" />
-                    <ErrorMessage name="foodName" component="div" className="error"/>
+
+                    <Field
+                        name="foodName"
+                        className="form-control"
+                    />
+
+                    <ErrorMessage
+                        name="foodName"
+                        component="div"
+                        className="error"
+                    />
+
 
                     <label>Quantity</label>
+
                     <Field
                         type="number"
                         name="quantity"
                         className="form-control"
                     />
-                    <ErrorMessage name="quantity" component="div" className="error"/>
+
+                    <ErrorMessage
+                        name="quantity"
+                        component="div"
+                        className="error"
+                    />
+
 
                     <label>Unit</label>
 
@@ -178,26 +242,48 @@ export default function EditDonation() {
 
                     </Field>
 
+
                     <label>Description</label>
+
                     <Field
                         name="description"
                         className="form-control"
                     />
-                    <ErrorMessage name="description" component="div" className="error"/>
+
+                    <ErrorMessage
+                        name="description"
+                        component="div"
+                        className="error"
+                    />
+
 
                     <label>Phone</label>
+
                     <Field
                         name="phone"
                         className="form-control"
                     />
-                    <ErrorMessage name="phone" component="div" className="error"/>
+
+                    <ErrorMessage
+                        name="phone"
+                        component="div"
+                        className="error"
+                    />
+
 
                     <label>Pickup Address</label>
+
                     <Field
                         name="pickupAddress"
                         className="form-control"
                     />
-                    <ErrorMessage name="pickupAddress" component="div" className="error"/>
+
+                    <ErrorMessage
+                        name="pickupAddress"
+                        component="div"
+                        className="error"
+                    />
+
 
                     <label>Expiry Date</label>
 
@@ -207,9 +293,17 @@ export default function EditDonation() {
                         className="form-control"
                     />
 
-                    <ErrorMessage name="expiryDate" component="div" className="error"/>
+                    <ErrorMessage
+                        name="expiryDate"
+                        component="div"
+                        className="error"
+                    />
 
-                    <label>Delivery Status</label>
+                    {/* DELIVERY STATUS */}
+
+                    <label>
+                        Delivery Status
+                    </label>
 
                     <Field
                         as="select"
@@ -217,10 +311,21 @@ export default function EditDonation() {
                         className="form-control"
                     >
 
-                        <option value="pending">Pending</option>
-                        <option value="accepted">Accepted</option>
-                        <option value="delivered">Delivered</option>
-                        <option value="cancelled">Cancelled</option>
+                        <option value="pending">
+                            Pending
+                        </option>
+
+                        <option value="accepted">
+                            Accepted
+                        </option>
+
+                        <option value="delivered">
+                            Delivered
+                        </option>
+
+                        <option value="cancelled">
+                            Cancelled
+                        </option>
 
                     </Field>
 
@@ -230,16 +335,65 @@ export default function EditDonation() {
                         className="error"
                     />
 
+                    {/* PICKUP LOCATION */}
+                    
+                    <div>
+
+                        <label>
+                            Pickup Location
+                        </label>
+
+
+                        <Map
+                            height="300px"
+                            width="100%"
+                            location={pickupLocation}
+                            setLocation={setPickupLocation}
+                        />
+
+
+                        {pickupLocation && (
+
+                            <div>
+
+                                <p>
+                                    <strong>
+                                        Latitude:
+                                    </strong>{" "}
+
+                                    {pickupLocation.latitude}
+
+                                </p>
+
+
+                                <p>
+                                    <strong>
+                                        Longitude:
+                                    </strong>{" "}
+
+                                    {pickupLocation.longitude}
+
+                                </p>
+
+                            </div>
+
+                        )}
+
+                    </div>
+
+
+
                     <button
                         type="submit"
                         disabled={isSubmitting}
                     >
-                        {
-                            isSubmitting
-                                ? "Updating..."
-                                : "Update Donation"
-                        }
+
+                        {isSubmitting
+                            ? "Updating..."
+                            : "Update Donation"}
+
                     </button>
+
 
                 </Form>
 
