@@ -103,10 +103,6 @@ export default function Accepted() {
                                 </p>
                             </div>
                             
-                            <div className="donation-box-status">
-                                <strong>Status:</strong> {donation.valid ? "Active" : "Blocked"}
-                            </div>
-
                             <button onClick={() => {setIsDeliver(donation._id); handleDelivered(donation._id, setIsDeliver, setDonation)}}>
                                 {isDeliver == donation._id ? "processing..." : "Mark Delivered"}
                             </button>

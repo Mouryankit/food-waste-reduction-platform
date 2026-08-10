@@ -2,7 +2,7 @@
 
 
 
-import "./Delivered.css"; 
+import "./Delivered.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -23,10 +23,10 @@ const getDeliveredDonations = async function ({ setDonation }) {
         }
         // console.log("working"); 
     }
-    catch(err){
+    catch (err) {
         alert("some error occured");
     }
-    console.log("working"); 
+    console.log("working");
 }
 
 
@@ -83,11 +83,6 @@ export default function Delivered() {
                                     })}
                                 </p>
                             </div>
-                            
-                            <div className="donation-box-status">
-                                <strong>Status:</strong> {donation.valid ? "Active" : "Blocked"}
-                            </div>
-
                         </div>
                     )
                 })}

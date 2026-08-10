@@ -104,9 +104,6 @@ export default function () {
                                 </p>
                             </div>
 
-                            <div className="donation-box-status">
-                                <strong>Status:</strong> {donation.valid ? "Active" : "Blocked"}
-                            </div>
                             <div>
                                 <button onClick={() => {
                                     navigate(`/restaurant/edit-donation/${donation._id}`);

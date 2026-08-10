@@ -3,7 +3,8 @@ const Donation = require("../models/donationSchema.js");
 
 const getAllDonation = async (req, res) => {
     try {
-        const data = await Donation.find({ valid: true, deliveryStatus: "pending" });
+        const data = await Donation.find({ deliveryStatus: "pending" });
+        console.log(data); 
         return res.send({
             "message": "data sent succesefully",
             "result": data
@@ -22,7 +23,7 @@ const getAcceptedDonation = async (req, res) => { //need working
     const id = req.user.id;
     // console.log(id); 
     try {
-        const result = await Donation.find({ ngoObjectId: id, valid: true, deliveryStatus: "accepted" });
+        const result = await Donation.find({ ngoObjectId: id, deliveryStatus: "accepted" });
         return res.json({
             "message": "data sent succesefully",
             "result": result
@@ -48,7 +49,7 @@ const acceptDonation = async (req, res) => {
     // console.log(req.user)
     const { donationId } = req.body;
     try {
-        const result1 = await Donation.findOne({ _id: donationId, deliveryStatus: "pending", valid: true });
+        const result1 = await Donation.findOne({ _id: donationId, deliveryStatus: "pending"});
         if (!result1) {
             return res.json({
                 "message": "Donation not exist",
@@ -76,7 +77,7 @@ const deliverDonation = async (req, res) => {
     // console.log("working"); 
     const { donationId } = req.body;
     try {
-        const result1 = await Donation.findOne({ _id: donationId, deliveryStatus: "accepted", valid: true });
+        const result1 = await Donation.findOne({ _id: donationId, deliveryStatus: "accepted" });
         if (!result1) {
             return res.json({
                 "message": "Donation not exist",
@@ -106,7 +107,7 @@ getDeliveredDonation = async (req, res) => {
     const id = req.user.id;
     // // console.log(id); 
     try {
-        const result = await Donation.find({ ngoObjectId: id, valid: true, deliveryStatus: "delivered" });
+        const result = await Donation.find({ ngoObjectId: id, deliveryStatus: "delivered" });
         if(!result){
             return res.json({
                 "message": "No Delivered Donations",
