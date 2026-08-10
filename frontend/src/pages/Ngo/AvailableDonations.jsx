@@ -51,21 +51,21 @@ const handleAcceptDonation = async (
 };
 
 // Distance calculation
-const calculateDistance = (
-    lat1,
-    lon1,
-    lat2,
-    lon2
-) => {
-    const R = 6371; // Earth radius in km
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
-};
+// const calculateDistance = (
+//     lat1,
+//     lon1,
+//     lat2,
+//     lon2
+// ) => {
+//     const R = 6371; // Earth radius in km
+//     const dLat = (lat2 - lat1) * Math.PI / 180;
+//     const dLon = (lon2 - lon1) * Math.PI / 180;
+//     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+//         Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+//         Math.sin(dLon / 2) * Math.sin(dLon / 2);
+//     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//     return R * c;
+// };
 
 export default function () {
     const [donations, setDonation] = useState([]);
@@ -103,8 +103,7 @@ export default function () {
         // FOOD NAME SEARCH
 
         if (
-            searchFood !== "" &&
-            !donation.foodName
+            searchFood !== "" && !donation.foodName
                 .toLowerCase()
                 .includes(searchFood.toLowerCase())
         ) {
@@ -113,58 +112,59 @@ export default function () {
 
         // FRESHNESS FILTER
 
-        if (freshness !== "") {
-            const today = new Date();
-            const expiry = new Date(
-                donation.expiryDate
-            );
-            const difference = expiry.getTime() - today.getTime();
-            const daysLeft =
-                difference /
-                (1000 * 60 * 60 * 24);
-            if (
-                freshness === "today" &&
-                daysLeft > 1
-            ) {
-                return false;
-            }
+        // if (freshness !== "") {
+        //     const today = new Date();
+        //     const expiry = new Date(
+        //         donation.expiryDate
+        //     );
+        //     const difference = expiry.getTime() - today.getTime();
+        //     const daysLeft =
+        //         difference /
+        //         (1000 * 60 * 60 * 24);
+        //     if (
+        //         freshness === "today" &&
+        //         daysLeft > 1
+        //     ) {
+        //         return false;
+        //     }
 
-            if (
-                freshness === "3days" &&
-                daysLeft > 3
-            ) {
-                return false;
-            }
+        //     if (
+        //         freshness === "3days" &&
+        //         daysLeft > 3
+        //     ) {
+        //         return false;
+        //     }
 
-            if (
-                freshness === "7days" &&
-                daysLeft > 7
-            ) {
-                return false;
-            }
-        }
+        //     if (
+        //         freshness === "7days" &&
+        //         daysLeft > 7
+        //     ) {
+        //         return false;
+        //     }
+        // }
 
         // DISTANCE FILTER
 
-        if (
-            distance !== "" &&
-            ngoLocation &&
-            donation.pickupLocation
-        ) {
-            const donationDistance =
-                calculateDistance(
-                    ngoLocation.latitude,
-                    ngoLocation.longitude,
-                    donation.pickupLocation.latitude,
-                    donation.pickupLocation.longitude
-                );
-            if (
-                donationDistance >
-                Number(distance)
-            ) {
-                return false;
-            }
-        }
+        // if (
+        //     distance !== "" &&
+        //     ngoLocation &&
+        //     donation.pickupLocation
+        // ) {
+        //     const donationDistance =
+        //         calculateDistance(
+        //             ngoLocation.latitude,
+        //             ngoLocation.longitude,
+        //             donation.pickupLocation.latitude,
+        //             donation.pickupLocation.longitude
+        //         );
+        //     if (
+        //         donationDistance >
+        //         Number(distance)
+        //     ) {
+        //         return false;
+        //     }
+        // }
+
         return true;
     });
 
