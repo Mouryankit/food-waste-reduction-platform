@@ -1,22 +1,3 @@
-// import { useEffect } from "react";
-// import { useParams } from "react-router-dom";
-
-// export default function EditDonationForm() {
-
-//     const { id } = useParams();   
-
-//     useEffect(() => {
-//         console.log(id);
-
-//     }, [id]);
-
-//     return (
-//         <div className="donation-form">
-//             <h1>Edit Donation</h1>
-//         </div>
-//     );
-// }
-
 
 import "../User/style.css";
 import "./DonationForm.css";
@@ -25,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from 'axios';
+import API from "../../api";
 import Map from "../Map/Map.jsx";
 
 const donationFormSchema = Yup.object().shape({
@@ -67,16 +48,7 @@ export default function () {
 
     const fetchData = async () => {
         try {
-            // console.log(values); 
-            const token = localStorage.getItem("token");
-            const url = `http://localhost:8080/restaurant/donation/${donationId}`;
-            const result = await axios.get(url, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            // console.log(result?.data?.data); 
-            // // console.log(); 
+            const result = await API.get(`/restaurant/donation/${donationId}`);
             if (result?.data?.data) {
                 setDonation(result.data.data);
                 setPickupLocation(result.data.data.pickupLocation);
@@ -84,7 +56,6 @@ export default function () {
         }
         catch (err) {
             console.dir(err);
-            // alert(err.message);
             alert("Data not saved");
         }
     }
@@ -93,27 +64,18 @@ export default function () {
     }, [donationId]);
 
     const handleSubmit = async (values, setSubmitting) => {
-        // console.log(values); 
         try {
             console.log(values);
-            const token = localStorage.getItem("token");
-            const url = `http://localhost:8080/restaurant/donation/${donationId}`;
             const updatedData = {
                 ...values,
                 pickupLocation: pickupLocation
             }
-            // console.log(updatedData); 
-            const result = await axios.patch(url, updatedData, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            const result = await API.patch(`/restaurant/donation/${donationId}`, updatedData);
             if (result.data.message) alert(result.data.message);
             navigate("/restaurant/my-donation");
         }
         catch (err) {
             console.dir(err);
-            // alert(err.message);
             alert("Data not saved");
         }
         setSubmitting(false);

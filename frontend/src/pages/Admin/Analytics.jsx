@@ -1,17 +1,7 @@
-// import "./Analytics.css"; 
-
-// export default function(){
-//     return (
-//         <div className="analytics">
-//             <h1>Analytics </h1>
-//         </div>
-//     )
-// }
-
-
 import "./Analytics.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API from "../../api"; 
 
 export default function Analytics(){
 
@@ -20,16 +10,8 @@ export default function Analytics(){
     const getAnalytics=async()=>{
 
         try{
-
-            const res=await axios.get(
-                "http://localhost:8080/admin/analytics",
-                {
-                    headers:{
-                        Authorization:`Bearer ${localStorage.getItem("token")}`
-                    }
-                }
-            );
-
+            const res = await API.get("/admin/analytics"); 
+            
             setAnalytics(res.data.analytics);
 
         }catch(error){

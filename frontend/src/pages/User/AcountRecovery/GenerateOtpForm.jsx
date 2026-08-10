@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+import API from "../../../api";
 
 const generateOtpSchema = Yup.object().shape({
     email: Yup.string()
@@ -14,10 +14,8 @@ const generateOtpSchema = Yup.object().shape({
 
 const GenerateOtpForm = ({setEmail, setOtpSent}) => {
     const handleSubmit = async (values, setSubmitting) => {
-        // console.log(values); 
-        let url = "http://localhost:8080/auth/generate-otp"
         try{
-            const result = await axios.post(url, values);
+            const result = await API.post("/auth/generate-otp", values);
             console.log(result); 
             if(result){
                 alert(result.data.message); 

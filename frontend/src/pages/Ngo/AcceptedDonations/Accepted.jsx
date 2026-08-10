@@ -1,25 +1,15 @@
 
 import "./Accepted.css"; 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../../../api"; 
 
 
 const getAcceptedDonations = async function ({ setDonation }) {
-    const url = `http://localhost:8080/ngo/accepted-donation`;
-    const token = localStorage.getItem("token");
-    // console.log(url); 
     try {
-        const res = await axios.get(url, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+        const res = await API.get('/ngo/accepted-donation');
         if (res?.data?.result) {
             setDonation(res.data.result);
-            // console.log(res.data.result); 
-            // console.log(res);
         }
-        // console.log("working"); 
     }
     catch(err){
         alert("some error occured");
@@ -27,14 +17,8 @@ const getAcceptedDonations = async function ({ setDonation }) {
 };
 
 const handleDelivered = async ( donationId, setIsAccept, setDonation ) => {
-    const url = "http://localhost:8080/ngo/deliver-donation";
-    const token = localStorage.getItem("token");
     try{
-        const res = await axios.post(url, {"donationId": donationId} , {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+        const res = await API.post('/ngo/deliver-donation', {"donationId": donationId});
         if(res?.data?.message){
             alert(res.data.message);  
             await getAcceptedDonations({setDonation}); 

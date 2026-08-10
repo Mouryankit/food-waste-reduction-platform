@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from 'axios';
+import API from "../../api";
 import Map from "../Map/Map.jsx";
 
 const donationFormSchema = Yup.object().shape({
@@ -53,11 +53,7 @@ export default function () {
             return;
         }
 
-        // console.log(values); 
         try {
-            // console.log(values); 
-            const token = localStorage.getItem("token");
-
             const donationData = {
                 ...values,
                 pickupLocation: pickupLocation
@@ -65,17 +61,12 @@ export default function () {
 
             console.log(donationData); 
 
-            const result = await axios.post("http://localhost:8080/restaurant", donationData, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
+            const result = await API.post("/restaurant", donationData);
             if (result.data.message) alert(result.data.message);
             navigate("/restaurant/my-donation");
         }
         catch (err) {
             console.dir(err);
-            // alert(err.message);
             alert("Data not saved");
         }
         setSubmitting(false);

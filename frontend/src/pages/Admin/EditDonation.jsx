@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-
+import API from "../../api.js"; 
 import Map from "../Map/Map.jsx";
 
 
@@ -59,15 +59,7 @@ export default function EditDonation() {
 
         try {
 
-            const res = await axios.get(
-                `http://localhost:8080/admin/donation/${id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
-
+            const res = await API.get(`/admin/donation/${id}`); 
 
             if (res.data.success) {
 
@@ -109,24 +101,9 @@ export default function EditDonation() {
 
             };
 
-
             console.log("Updated data:", updatedData);
-
-
-            const res = await axios.patch(
-
-                `http://localhost:8080/admin/donation/${id}`,
-
-                updatedData,
-
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-
-            );
-
+            
+            const res = await API.patch(`/admin/donation/${id}`, updatedData); 
 
             alert(res.data.message);
 

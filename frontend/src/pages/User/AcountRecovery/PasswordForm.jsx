@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+import API from "../../../api";
 
 
 const passwordSchema = Yup.object().shape({
@@ -29,21 +29,18 @@ const PasswordForm = ({token}) => {
         setShowConfirmPassword(!showConfirmPassword); 
     }
     const handleSubmit = async (values, setSubmitting) => {
-        // console.log(values); 
         if(values.password != values.confirmPassword){ 
             alert("Password do not match");
             setSubmitting(false);  
             return; 
         }
         try{  
-            // console.log(values); 
             const userData = {password: values.password};
             const headersInfo = {headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             }}
-            // console.log(userData, headersInfo); 
-            const result = await axios.post("http://localhost:8080/auth/reset-password", userData, headersInfo);
+            const result = await API.post("/auth/reset-password", userData, headersInfo);
             
             if(result){
                 alert(result.data.message);

@@ -40,17 +40,17 @@ export default function Home() {
                 <div className="feature-container">
 
                     <div className="feature-card">
-                        <h3>🍽 Donate Food</h3>
+                        <h3>Donate Food</h3>
                         <p>Restaurants can donate surplus food.</p>
                     </div>
 
                     <div className="feature-card">
-                        <h3>🤝 NGO Support</h3>
+                        <h3>NGO Support</h3>
                         <p>NGOs can accept and distribute food.</p>
                     </div>
 
                     <div className="feature-card">
-                        <h3>📊 Dashboard</h3>
+                        <h3>Dashboard</h3>
                         <p>Track donations and monitor activities.</p>
                     </div>
 

@@ -4,24 +4,14 @@
 
 import "./Delivered.css";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../../../api";
 
 const getDeliveredDonations = async function ({ setDonation }) {
-    const url = `http://localhost:8080/ngo/delivered-donation`;
-    const token = localStorage.getItem("token");
-    // console.log(url); 
     try {
-        const res = await axios.get(url, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+        const res = await API.get('/ngo/delivered-donation');
         if (res?.data?.result) {
             setDonation(res.data.result);
-            // console.log(res.data.result); 
-            // console.log(res);
         }
-        // console.log("working"); 
     }
     catch (err) {
         alert("some error occured");

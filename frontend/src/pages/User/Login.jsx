@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+import API from "../../api";
 
 const LoginSchema = Yup.object().shape({
     email: Yup.string()
@@ -21,9 +21,8 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleSubmit = async (values, setSubmitting) => {
-        // console.log(values);
         try {
-            const result = await axios.post("http://localhost:8080/auth/login", values)
+            const result = await API.post("/auth/login", values)
 
             if (result && result.data && result.data.token) {
                 localStorage.setItem("token", result.data.token);

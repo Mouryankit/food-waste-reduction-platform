@@ -1,19 +1,11 @@
 import "./MyDonation.css";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../../api";
 import { useNavigate } from "react-router-dom";
 
 const getDonations = async function ({ setDonation }) {
-    const url = "http://localhost:8080/restaurant";
-    const token = localStorage.getItem("token");
-
     try {
-        const res = await axios.get(url, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-        // console.log(res.data.result);
+        const res = await API.get("/restaurant");
         if (res?.data?.result) {
             setDonation(res.data.result);
         }
@@ -34,14 +26,7 @@ export default function MyDonation() {
 
     const deleteDonation = async (id) => {
         try {
-            const result = await axios.delete(
-                `http://localhost:8080/restaurant/${id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                }
-            );
+            const result = await API.delete(`/restaurant/${id}`);
             alert(result.data.message);
             setDonation((prev) =>
                 prev.filter((item) => item._id !== id)

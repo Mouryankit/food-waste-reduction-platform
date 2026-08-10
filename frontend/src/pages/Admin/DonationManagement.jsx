@@ -3,6 +3,7 @@ import "./DonationManagement.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import API from "../../api";
 
 export default function DonationManagement() {
 
@@ -16,20 +17,12 @@ export default function DonationManagement() {
     const getDonations = async () => {
 
         try {
-
-            let url = "http://localhost:8080/admin/donations";
-
+            let url = "/admin/donations";
             if (status !== "") {
                 url += `?status=${status}`;
             }
 
-            const res = await axios.get(url, {
-
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-
-            });
+            const res = await API.get(url);
 
             setDonations(res.data.donations);
 
@@ -50,22 +43,7 @@ export default function DonationManagement() {
     const updateStatus = async (id, value) => {
 
         try {
-
-            await axios.patch(
-
-                `http://localhost:8080/admin/donation-status/${id}`,
-
-                {
-                    deliveryStatus: value
-                },
-
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-
-            );
+            await API.patch(`/admin/donation-status/${id}`, {deliveryStatus: value}); 
 
             getDonations();
 

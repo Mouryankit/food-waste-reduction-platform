@@ -4,6 +4,7 @@ import "./UserManagement.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import API from "../../api"; 
 
 export default function UserManagement() {
     const [users, setUsers] = useState([]);
@@ -11,15 +12,7 @@ export default function UserManagement() {
     const token = localStorage.getItem("token");
     const getUsers = async () => {
         try {
-            const url = "http://localhost:8080/admin/users";
-            const res = await axios.get(
-                url,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
+            const res = await API.get(`/admin/users`); 
             setUsers(res.data.users);
         } catch (error) {
             console.log(error);
@@ -30,15 +23,7 @@ export default function UserManagement() {
     }, []);
     const blockUser = async (id) => {
         try {
-            await axios.patch(
-                `http://localhost:8080/admin/block-user/${id}`,
-                {},
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
+            await API.patch(`/admin/block-user/${id}`);
             getUsers();
         } catch (error) {
             console.log(error);
@@ -46,15 +31,7 @@ export default function UserManagement() {
     };
     const unblockUser = async (id) => {
         try {
-            await axios.patch(
-                `http://localhost:8080/admin/unblock-user/${id}`,
-                {},
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
+            await API.patch(`/admin/unblock-user/${id}`);
             getUsers();
         } catch (error) {
             console.log(error);

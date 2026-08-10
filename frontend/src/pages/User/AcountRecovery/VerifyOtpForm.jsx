@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+import API from "../../../api";
 
 const verifyOtpSchema = Yup.object().shape({
     otp: Yup.string()
@@ -15,16 +15,12 @@ const verifyOtpSchema = Yup.object().shape({
 
 const VerifyOtpForm = ({email, setVerifyEmail, setToken}) =>  {
     const handleSubmit = async (values, setSubmitting) => {
-        // console.log(values); 
-        // console.log(props);
         const data = {
             "email": email,
             ...values
         }
         try{
-            let url = "http://localhost:8080/auth/verify-otp"; 
-            const result = await axios.post(url, data); 
-            // console.log(result); 
+            const result = await API.post("/auth/verify-otp", data); 
             alert(result.data.message);
             setVerifyEmail(true); 
             setToken(result.data.token); 

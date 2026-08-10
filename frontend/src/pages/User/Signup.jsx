@@ -17,7 +17,7 @@ const SignupSchema = Yup.object().shape({
         .required("Password is required"),
 });
 
-import axios from 'axios';
+import API from "../../api";
 
 
 const Signup = () => {
@@ -26,7 +26,7 @@ const Signup = () => {
 
     const handleSubmit = async (values, setSubmitting) => {
         try {
-            const result = await axios.post("http://localhost:8080/auth/signup", values)
+            const result = await API.post("/auth/signup", values)
             alert(result.data.message);
             navigate("/");
         }
