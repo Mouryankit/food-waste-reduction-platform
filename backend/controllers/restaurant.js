@@ -16,7 +16,7 @@ const AddDonation = async (req, res) => {
         const deliveryStatus = "pending";
         const data = { foodName, quantity, unit, description, phone, pickupAddress, pickupLocation, deliveryStatus, expiryDate, userObjectId: user.id };
 
-        console.log(data); 
+        // console.log(data); 
         const newDonation = new Donation(data);
         try {
             const result = await newDonation.save();
@@ -43,7 +43,7 @@ const myDonation = async (req, res) => {   //when user click my donation
     try {
         const { id } = req.user;
         const result = await Donation.find({ userObjectId: id }).populate("ngoObjectId", "name");
-        console.log(result); 
+        // console.log(result); 
         return res.json({
             "message": "Data send Succesefully",
             "result": result
@@ -58,11 +58,11 @@ const myDonation = async (req, res) => {   //when user click my donation
 }
 
 const getDonationDetail = async (req, res) => {
-    console.log("working");
+    // console.log("working");
     try {
         const { id: donationId } = req.params;
 
-        console.log(donationId);
+        // console.log(donationId);
         const result = await Donation.findById(donationId).populate("ngoObjectId", "-password");
         // console.log(result); 
         return res.json({
@@ -104,7 +104,7 @@ const updateDonationDetail = async (req, res) => {
                     runValidators: true
                 }
             );
-            console.log(updatedDonation); 
+            // console.log(updatedDonation); 
         }
         catch (err) {
             return res.status(401).json({

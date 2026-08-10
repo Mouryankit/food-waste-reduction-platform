@@ -13,9 +13,7 @@ const getDonations = async function ({ setDonation }) {
                 Authorization: `Bearer ${token}`
             }
         });
-
-        console.log(res.data.result);
-
+        // console.log(res.data.result);
         if (res?.data?.result) {
             setDonation(res.data.result);
         }

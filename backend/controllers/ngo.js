@@ -4,7 +4,7 @@ const Donation = require("../models/donationSchema.js");
 const getAllDonation = async (req, res) => {
     try {
         const data = await Donation.find({ deliveryStatus: "pending" });
-        console.log(data); 
+        // console.log(data); 
         return res.send({
             "message": "data sent succesefully",
             "result": data

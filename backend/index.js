@@ -48,7 +48,9 @@ app.post("/auth/reset-password", verifyPasswordResetToken, resetPassword);
 
 // restaurant dashboard routes 
 const verifyToken = require("./middleware/verifyToken.js");
+const verifyUser = require("./middleware/verifyUser.js");
 app.use(verifyToken);
+app.use(verifyUser); 
 const { AddDonation, myDonation, getDonationDetail, updateDonationDetail, deleteDonation } = require("./controllers/restaurant.js");
 app.post("/restaurant", AddDonation);   //restaurant can create donation for it 
 app.get("/restaurant", myDonation)      // when user click in mydonation
@@ -91,8 +93,8 @@ const {getAnalytics} = require("./controllers/analytics.js");
 app.get("/admin/analytics", getAnalytics);
 
 app.post("/test", async (req, res) => {
-    console.log(req.body);
-    console.log("working");
+    // console.log(req.body);
+    // console.log("working");
     return res.json({ "message": "data recieved" });
 });
 
