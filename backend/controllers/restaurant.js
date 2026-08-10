@@ -42,7 +42,8 @@ const AddDonation = async (req, res) => {
 const myDonation = async (req, res) => {   //when user click my donation
     try {
         const { id } = req.user;
-        const result = await Donation.find({ userObjectId: id });
+        const result = await Donation.find({ userObjectId: id }).populate("ngoObjectId", "name");
+        console.log(result); 
         return res.json({
             "message": "Data send Succesefully",
             "result": result
@@ -62,7 +63,8 @@ const getDonationDetail = async (req, res) => {
         const { id: donationId } = req.params;
 
         console.log(donationId);
-        const result = await Donation.findById(donationId).populate("ngoObjectId");
+        const result = await Donation.findById(donationId).populate("ngoObjectId", "-password");
+        // console.log(result); 
         return res.json({
             "message": "Data send Succesefully",
             "data": result
