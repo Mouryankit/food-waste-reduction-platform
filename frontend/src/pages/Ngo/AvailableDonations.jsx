@@ -1,13 +1,36 @@
 import "./AvailableDonations.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import API from "../../api"; 
+import API from "../../api";
+import { jwtDecode } from "jwt-decode";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+
+// Red marker icon for NGO
+const ngoIcon = new L.Icon({
+    iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+    shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+
+// Green marker icon for Donations
+const donationIcon = new L.Icon({
+    iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
+    shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+
 
 const getAllDonations = async function ({ setDonation }) {
-
     try {
- 
-        const res = await API.get(`/ngo`); 
+        const res = await API.get(`/ngo`);
         if (res?.data?.result) {
             setDonation(res.data.result);
         }
@@ -42,21 +65,21 @@ const handleAcceptDonation = async (
 };
 
 // Distance calculation
-// const calculateDistance = (
-//     lat1,
-//     lon1,
-//     lat2,
-//     lon2
-// ) => {
-//     const R = 6371; // Earth radius in km
-//     const dLat = (lat2 - lat1) * Math.PI / 180;
-//     const dLon = (lon2 - lon1) * Math.PI / 180;
-//     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-//         Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-//         Math.sin(dLon / 2) * Math.sin(dLon / 2);
-//     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-//     return R * c;
-// };
+const calculateDistance = (
+    lat1,
+    lon1,
+    lat2,
+    lon2
+) => {
+    const R = 6371; // Earth radius in km
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+};
 
 export default function () {
     const [donations, setDonation] = useState([]);
@@ -65,6 +88,7 @@ export default function () {
     const [freshness, setFreshness] = useState("");
     const [distance, setDistance] = useState("");
     const [ngoLocation, setNgoLocation] = useState(null);
+    const [showMapModal, setShowMapModal] = useState(false);
 
     // Get donations
     useEffect(() => {
@@ -75,17 +99,33 @@ export default function () {
 
     // Get NGO current location
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                setNgoLocation({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude
-                });
-            },
-            (error) => {
-                console.log(error);
+        const token = localStorage.getItem("token");
+        if (token) {
+            try {
+                const decoded = jwtDecode(token);
+                if (decoded && decoded.location && decoded.location.latitude && decoded.location.longitude) {
+                    setNgoLocation(decoded.location);
+                    console.log("Using NGO profile location from token:", decoded.location);
+                    return;
+                }
+            } catch (err) {
+                console.error("Failed to decode token for location:", err);
             }
-        );
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    setNgoLocation({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    });
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+        }
     }, []);
 
     // FILTER DONATIONS
@@ -102,59 +142,49 @@ export default function () {
         }
 
         // FRESHNESS FILTER
+        const today = new Date();
+        const expiry = new Date(donation.expiryDate);
+        const difference = expiry.getTime() - today.getTime();
+        const daysLeft = difference / (1000 * 60 * 60 * 24);
 
-        // if (freshness !== "") {
-        //     const today = new Date();
-        //     const expiry = new Date(
-        //         donation.expiryDate
-        //     );
-        //     const difference = expiry.getTime() - today.getTime();
-        //     const daysLeft =
-        //         difference /
-        //         (1000 * 60 * 60 * 24);
-        //     if (
-        //         freshness === "today" &&
-        //         daysLeft > 1
-        //     ) {
-        //         return false;
-        //     }
+        // Always hide already expired donations
+        if (daysLeft <= 0) {
+            return false;
+        }
 
-        //     if (
-        //         freshness === "3days" &&
-        //         daysLeft > 3
-        //     ) {
-        //         return false;
-        //     }
-
-        //     if (
-        //         freshness === "7days" &&
-        //         daysLeft > 7
-        //     ) {
-        //         return false;
-        //     }
-        // }
+        // Apply selected freshness constraints
+        if (freshness !== "") {
+            if (freshness === "today" && daysLeft > 1) {
+                return false;
+            }
+            if (freshness === "3days" && daysLeft > 3) {
+                return false;
+            }
+            if (freshness === "7days" && daysLeft > 7) {
+                return false;
+            }
+        }
 
         // DISTANCE FILTER
-
-        // if (
-        //     distance !== "" &&
-        //     ngoLocation &&
-        //     donation.pickupLocation
-        // ) {
-        //     const donationDistance =
-        //         calculateDistance(
-        //             ngoLocation.latitude,
-        //             ngoLocation.longitude,
-        //             donation.pickupLocation.latitude,
-        //             donation.pickupLocation.longitude
-        //         );
-        //     if (
-        //         donationDistance >
-        //         Number(distance)
-        //     ) {
-        //         return false;
-        //     }
-        // }
+        if (
+            distance !== "" &&
+            ngoLocation &&
+            donation.pickupLocation
+        ) {
+            const donationDistance =
+                calculateDistance(
+                    ngoLocation.latitude,
+                    ngoLocation.longitude,
+                    donation.pickupLocation.latitude,
+                    donation.pickupLocation.longitude
+                );
+            if (
+                donationDistance >
+                Number(distance)
+            ) {
+                return false;
+            }
+        }
 
         return true;
     });
@@ -164,6 +194,10 @@ export default function () {
             <h1 className="donation-page-heading">
                 All Available Donations
             </h1>
+
+            <button className="view-map-btn" onClick={() => setShowMapModal(true)}>
+                🗺️ View Nearby Donations on Map
+            </button>
 
             {/* FILTERS */}
             <div className="donation-filters">
@@ -259,6 +293,22 @@ export default function () {
                                     </p>
                                 </div>
 
+                                {ngoLocation && donation.pickupLocation && (
+                                    <div className="donation-box-distance" style={{ marginTop: "10px" }}>
+                                        <p>
+                                            <strong>Distance:</strong>
+                                        </p>
+                                        <p>
+                                            {calculateDistance(
+                                                ngoLocation.latitude,
+                                                ngoLocation.longitude,
+                                                donation.pickupLocation.latitude,
+                                                donation.pickupLocation.longitude
+                                            ).toFixed(1)} km away
+                                        </p>
+                                    </div>
+                                )}
+
                                 <div className="donation-box-time">
 
                                     <p>
@@ -305,6 +355,79 @@ export default function () {
                     }
                 )}
             </div>
+
+            {showMapModal && (
+                <div className="map-modal-overlay">
+                    <div className="map-modal-content">
+                        <div className="map-modal-header">
+                            <h2>Nearby Donations Map</h2>
+                            <button className="map-modal-close-btn" onClick={() => setShowMapModal(false)}>
+                                Close Map
+                            </button>
+                        </div>
+                        <div className="map-container-wrapper">
+                            <MapContainer
+                                center={ngoLocation ? [ngoLocation.latitude, ngoLocation.longitude] : [22.7196, 75.8577]}
+                                zoom={12}
+                                style={{ height: "100%", width: "100%" }}
+                            >
+                                <TileLayer
+                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                    attribution="&copy; OpenStreetMap contributors"
+                                />
+
+                                {/* NGO Marker */}
+                                {ngoLocation && (
+                                    <Marker position={[ngoLocation.latitude, ngoLocation.longitude]} icon={ngoIcon}>
+                                        <Popup>
+                                            <strong>Your Location (NGO)</strong>
+                                        </Popup>
+                                    </Marker>
+                                )}
+
+                                {/* Donation Markers */}
+                                {filteredDonations.map((donation) => {
+                                    if (donation.pickupLocation && donation.pickupLocation.latitude && donation.pickupLocation.longitude) {
+                                        return (
+                                            <Marker
+                                                key={donation._id}
+                                                position={[donation.pickupLocation.latitude, donation.pickupLocation.longitude]}
+                                                icon={donationIcon}
+                                            >
+                                                <Popup>
+                                                    <div style={{ fontSize: "14px" }}>
+                                                        <h3 style={{ margin: "0 0 5px 0" }}>{donation.foodName}</h3>
+                                                        <p style={{ margin: "0 0 5px 0" }}>
+                                                            <strong>Quantity:</strong> {donation.quantity} {donation.unit}
+                                                        </p>
+                                                        <p style={{ margin: "0 0 5px 0" }}>
+                                                            <strong>Phone:</strong> {donation.phone}
+                                                        </p>
+                                                        <p style={{ margin: "0 0 5px 0" }}>
+                                                            <strong>Address:</strong> {donation.pickupAddress}
+                                                        </p>
+                                                        {ngoLocation && (
+                                                            <p style={{ margin: "5px 0 0 0", color: "#4caf50", fontWeight: "bold" }}>
+                                                                {calculateDistance(
+                                                                    ngoLocation.latitude,
+                                                                    ngoLocation.longitude,
+                                                                    donation.pickupLocation.latitude,
+                                                                    donation.pickupLocation.longitude
+                                                                ).toFixed(1)} km away
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                </Popup>
+                                            </Marker>
+                                        );
+                                    }
+                                    return null;
+                                })}
+                            </MapContainer>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

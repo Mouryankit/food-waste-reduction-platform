@@ -5,8 +5,8 @@ const plainToHashPassword = require("../utils/hash.js");
 
 const signup = async (req, res) => {
 
-    const {username, email, password, role} = req.body;  
-    if(!username || !email || !password || !role){
+    const {username, email, password, role, location} = req.body;  
+    if(!username || !email || !password || !role || !location){
         return res.status(401).json({
             "message": "data is missing"
         })
@@ -18,7 +18,8 @@ const signup = async (req, res) => {
             name: username,
             email: email,
             password: hashedPassword,
-            role: role      
+            role: role,
+            location: location     
         });
 
         const savedUser = await validUser.save(); 
@@ -46,6 +47,7 @@ const login = async (req, res) => {
             const payload = {
                 id: user._id, 
                 role: user.role, 
+                location: user.location
             };
             const token = jwt.sign(payload, secretKey, {
                 expiresIn: '1d'

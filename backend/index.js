@@ -10,18 +10,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // cors enabling 
-const cors = require('cors');
-app.use(cors());
+// const cors = require('cors');
+// app.use(cors());
 
 // Configuration for Production
-// const corsOptions = {
-//   origin: process.env.FRONTEND_URL, // Allow only this domain
-// //   methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allowed HTTP actions
-// //   allowedHeaders: ['Content-Type', 'Authorization'] 
-// };
+// cors enabling 
+const cors = require('cors');
 
-// app.use(cors(corsOptions)); 
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173', // Fallback to local Vite server in development
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // Allowed HTTP actions
+  allowedHeaders: ['Content-Type', 'Authorization']   // Allowed Headers
+};
 
+app.use(cors(corsOptions));
 
 const Donation = require("./models/donationSchema.js");
 const User = require("./models/User.js");

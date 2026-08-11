@@ -23,6 +23,7 @@ const Login = () => {
     const handleSubmit = async (values, setSubmitting) => {
         try {
             const result = await API.post("/auth/login", values)
+            console.log(result); 
 
             if (result && result.data && result.data.token) {
                 localStorage.setItem("token", result.data.token);

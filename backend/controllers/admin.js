@@ -99,13 +99,14 @@ const getUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
-        const { name, email, role } = req.body;
+        const { name, email, role, location } = req.body;
         const user = await User.findByIdAndUpdate(
             req.params.id,
             {
                 name,
                 email,
-                role
+                role,
+                location
             },
             {
                 new: true,

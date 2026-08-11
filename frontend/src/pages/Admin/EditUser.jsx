@@ -17,6 +17,7 @@ export default function EditUser() {
         email: "",
         role: ""
     });
+    const [location, setLocation] = useState(null);
 
     const token = localStorage.getItem("token");
 
@@ -31,6 +32,7 @@ export default function EditUser() {
 
             if (res?.data?.user) {
                 setUser(res.data.user);
+                setLocation(res.data.user.location || null);
             }
 
         } catch (error) {
@@ -46,7 +48,8 @@ export default function EditUser() {
             const res = await API.put(`/admin/user/${id}`, {
                 name: user.name,
                 email: user.email,
-                role: user.role
+                role: user.role,
+                location: location
             }); 
 
             alert(res.data.message);
@@ -122,6 +125,20 @@ export default function EditUser() {
                     </option>
 
                 </select>
+
+                <label style={{ marginTop: "15px" }}>Location Coordinates</label>
+                <Map
+                    height="300px"
+                    width="100%"
+                    location={location}
+                    setLocation={setLocation}
+                />
+                {location && (
+                    <div style={{ marginTop: "10px", marginBottom: "15px" }}>
+                        <p><strong>Latitude:</strong> {location.latitude}</p>
+                        <p><strong>Longitude:</strong> {location.longitude}</p>
+                    </div>
+                )}
 
                 <button
                     onClick={updateUser}
