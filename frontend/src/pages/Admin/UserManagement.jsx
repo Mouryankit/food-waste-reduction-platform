@@ -9,7 +9,6 @@ import API from "../../api";
 export default function UserManagement() {
     const [users, setUsers] = useState([]);
     const navigate = useNavigate(); 
-    const token = localStorage.getItem("token");
     const getUsers = async () => {
         try {
             const res = await API.get(`/admin/users`); 

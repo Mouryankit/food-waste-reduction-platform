@@ -19,8 +19,6 @@ export default function EditUser() {
     });
     const [location, setLocation] = useState(null);
 
-    const token = localStorage.getItem("token");
-
     useEffect(() => {
         getUser();
     }, []);

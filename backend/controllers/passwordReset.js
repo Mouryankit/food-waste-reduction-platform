@@ -9,7 +9,13 @@ const User = require("../models/User.js");
 
 const generateOtp = async (req, res) => {
     const { email } = req.body;
-    const otp = otpGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false }); 
+    console.log(email); 
+    const otp = otpGenerator.generate(6, { 
+        digits: true, 
+        lowerCaseAlphabets: false, 
+        upperCaseAlphabets: false, 
+        specialChars: false 
+    }); 
     try {
         await OTP.create({ email, otp });
 

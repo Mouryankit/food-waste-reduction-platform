@@ -52,9 +52,6 @@ export default function EditDonation() {
     // Store pickup coordinates
     const [pickupLocation, setPickupLocation] = useState(null);
 
-    const token = localStorage.getItem("token");
-
-
     const getDonation = async () => {
 
         try {

@@ -2,7 +2,7 @@ const User = require("../models/User.js");
 
 const checkEmailExist = async (req, res, next) => {
     // console.log(req.body); 
-    // console.log("working");
+    console.log("working");
     const {email} = req.body; 
     const user = await User.findOne({ email: email});
     // console.log("working");

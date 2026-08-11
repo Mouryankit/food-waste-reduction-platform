@@ -9,6 +9,10 @@ connectDb();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// cookies 
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
 // cors enabling 
 // const cors = require('cors');
 // app.use(cors());
@@ -35,10 +39,18 @@ app.get("/", (req, res) => {
     })
 });
 
+const authMiddleware = require("./middleware/authMiddleware.js"); 
+app.get("/auth/me", authMiddleware, (req, res) => {
+    res.json({
+        user: req.user
+    });
+});
+
 // authentication routes 
-const { signup, login } = require("./controllers/User.js");
+const { signup, login, logout } = require("./controllers/User.js");
 app.post("/auth/signup", signup);
 app.post("/auth/login", login);
+app.post("/auth/logout", logout);
 
 // password reset routes
 const checkEmailExist = require("./middleware/checkEmailExist.js");

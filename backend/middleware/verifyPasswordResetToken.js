@@ -2,8 +2,9 @@ const { verify } = require("jsonwebtoken");
 const jwt = require("jsonwebtoken"); 
 const verifyPasswordResetToken = (req, res, next) => {
 
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; // Extract token
+    // const authHeader = req.headers['authorization'];
+    // const token = authHeader && authHeader.split(' ')[1]; // Extract token
+    const token = req.cookies.token;
     if (!token) return res.status(401).json({ message: 'Token missing.' })
     const secretKey = process.env.JWT_SECRET; 
 

@@ -8,7 +8,6 @@ import API from "../../api";
 export default function DonationManagement() {
 
     const navigate = useNavigate();
-    const token = localStorage.getItem("token");
 
     const [donations, setDonations] = useState([]);
 

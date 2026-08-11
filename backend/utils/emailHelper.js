@@ -11,15 +11,16 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-/**
- * Reusable helper to send emails
- * @param {Object} options
- * @param {string} [options.to] - Primary recipient
- * @param {string[]} [options.bcc] - Array of BCC recipient emails
- * @param {string} options.subject - Email subject line
- * @param {string} [options.text] - Plain text body
- * @param {string} [options.html] - HTML body
- */
+// /**
+//  * Reusable helper to send emails
+//  * @param {Object} options
+//  * @param {string} [options.to] - Primary recipient
+//  * @param {string[]} [options.bcc] - Array of BCC recipient emails
+//  * @param {string} options.subject - Email subject line
+//  * @param {string} [options.text] - Plain text body
+//  * @param {string} [options.html] - HTML body
+//  */
+
 const sendEmail = async ({ to, bcc, subject, text, html }) => {
   try {
     const mailOptions = {
@@ -33,6 +34,7 @@ const sendEmail = async ({ to, bcc, subject, text, html }) => {
 
     const info = await transporter.sendMail(mailOptions);
     console.log("Email sent successfully: ", info.messageId);
+    // console.log(info); 
     return info;
   } catch (error) {
     console.error("Error sending email: ", error);

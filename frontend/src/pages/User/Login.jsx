@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import API from "../../api";
+import { useAuth } from "../../context/AuthContext";
 
 const LoginSchema = Yup.object().shape({
     email: Yup.string()
@@ -19,16 +20,16 @@ const LoginSchema = Yup.object().shape({
 const Login = () => {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
+    const { checkAuth } = useAuth();
 
     const handleSubmit = async (values, setSubmitting) => {
         try {
-            const result = await API.post("/auth/login", values)
-            console.log(result); 
-
-            if (result && result.data && result.data.token) {
-                localStorage.setItem("token", result.data.token);
-                navigate("/"); 
-            }
+            const result = await API.post("/auth/login", values, {withCredentials: true}); 
+            // console.log(result);
+            await checkAuth();
+            // if (result) {
+            navigate("/");
+            // }
 
             alert(result?.data?.message);
         }
@@ -97,7 +98,7 @@ const Login = () => {
                         {isSubmitting ? "Submitting..." : "Submit"}
                     </button>
 
-                    <button onClick={handlePasswordReset}>Forget password</button>
+                    <button type="button" onClick={handlePasswordReset}>Forget password</button>
                 </Form>
             )}
         </Formik>

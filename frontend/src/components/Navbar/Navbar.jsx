@@ -1,57 +1,60 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-
+import axios from "axios";
+import API from "../../api";
 import "./Navbar.css";
+import { useAuth } from "../../context/AuthContext";
 
 function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const { user, setUser, loading } = useAuth();
     const navigate = useNavigate();
-    const [role, setRole] = useState("");
 
-    const token = localStorage.getItem('token');
-    useEffect(() => {
-        if (!token || token == "null" || token == "undefined") return;
-        const decoded = jwtDecode(token);
-        const currentTime = Date.now() / 1000;
-        if (decoded.exp < currentTime) {
-            localStorage.removeItem('token');
-            navigate("/login"); // Redirect to login page
-        } else {
-            // console.log(decoded); 
-            setRole(decoded.role);
-            // console.log("Token is valid");
-        }
-    }, [token]);
-
-    const handleLogout = (event) => {
+    const handleLogout = async (event) => {
         event.preventDefault();
-        localStorage.removeItem('token');
-        // console.log("logout succesefull");
-        // setToken(null);
-        setRole(null);
+
+        try {
+            await API.post("/auth/logout");
+
+            setUser(null);
+            setMenuOpen(false);
+
+            alert("Logout successful");
+            navigate("/login");
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const changeMenu = () => {
         setMenuOpen(!menuOpen);
-        alert("logout succeseful");
-        navigate("/login");
+    };
+
+    // Don't show login/logout buttons while checking authentication
+    if (loading) {
+        return (
+            <nav className="navbar">
+                <h2 className="logo">FWRP</h2>
+            </nav>
+        );
     }
 
-    const changeMenu = () => setMenuOpen(!menuOpen);
-    
     return (
         <nav className="navbar">
+
             <h2 className="logo">FWRP</h2>
-            <div
-                className="hamburger"
-                onClick={changeMenu}
-            >
-                &#9776;
-            </div>
+
+            <div className="hamburger" onClick={changeMenu}> &#9776; </div>
 
             <div className={`nav-links ${menuOpen ? "active" : ""}`}>
+
                 <NavLink className="navlink" to="/" onClick={changeMenu}>Home</NavLink>
-                {token ? (
+
+                {user ? (
                     <>
-                        {role === "restaurant" && (
+                        {/* Restaurant */}
+                        {user.role === "restaurant" && (
                             <>
                                 <NavLink onClick={changeMenu} className="navlink" to="/restaurant/add-donation">
                                     Add Donation
@@ -63,7 +66,8 @@ function Navbar() {
                             </>
                         )}
 
-                        {role === "ngo" && (
+                        {/* NGO */}
+                        {user.role === "ngo" && (
                             <>
                                 <NavLink onClick={changeMenu} className="navlink" to="/ngo/available-donations">
                                     Available Donations
@@ -75,7 +79,8 @@ function Navbar() {
                             </>
                         )}
 
-                        {role === "admin" && (
+                        {/* Admin */}
+                        {user.role === "admin" && (
                             <>
                                 <NavLink onClick={changeMenu} className="navlink" to="/admin/all-donations">
                                     Donations
@@ -91,27 +96,20 @@ function Navbar() {
                             </>
                         )}
 
-                        <NavLink
-                            className="navlink"
-                            onClick={handleLogout}
-                        >
-                            Logout
-                        </NavLink>
+                        <NavLink className="navlink" onClick={handleLogout}> Logout </NavLink>
+
                     </>
                 ) : (
                     <>
-                        <NavLink onClick={changeMenu} className="navlink" to="/login">
-                            Login
-                        </NavLink>
+                        <NavLink onClick={changeMenu} className="navlink" to="/login">Login</NavLink>
 
-                        <NavLink onClick={changeMenu} className="navlink" to="/signup">
-                            Signup
-                        </NavLink>
+                        <NavLink onClick={changeMenu} className="navlink" to="/signup">Signup</NavLink>
                     </>
                 )}
+
             </div>
         </nav>
-    )
+    );
 }
 
 export default Navbar;

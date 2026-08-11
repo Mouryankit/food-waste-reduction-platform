@@ -6,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { useAuth } from "../../context/AuthContext";
 
 // Red marker icon for NGO
 const ngoIcon = new L.Icon({
@@ -81,6 +82,12 @@ const calculateDistance = (
     return R * c;
 };
 
+
+// Inside the component:
+
+
+
+
 export default function () {
     const [donations, setDonation] = useState([]);
     const [isAccept, setIsAccept] = useState("");
@@ -89,6 +96,7 @@ export default function () {
     const [distance, setDistance] = useState("");
     const [ngoLocation, setNgoLocation] = useState(null);
     const [showMapModal, setShowMapModal] = useState(false);
+    const { user } = useAuth();
 
     // Get donations
     useEffect(() => {
@@ -98,19 +106,41 @@ export default function () {
     }, []);
 
     // Get NGO current location
+    // useEffect(() => {
+    //     // const token = localStorage.getItem("token");
+    //     // if (token) {
+    //     //     try {
+    //     //         const decoded = jwtDecode(token);
+    //     //         if (decoded && decoded.location && decoded.location.latitude && decoded.location.longitude) {
+    //     //             setNgoLocation(decoded.location);
+    //     //             console.log("Using NGO profile location from token:", decoded.location);
+    //     //             return;
+    //     //         }
+    //     //     } catch (err) {
+    //     //         console.error("Failed to decode token for location:", err);
+    //     //     }
+    //     // }
+
+    //     if (navigator.geolocation) {
+    //         navigator.geolocation.getCurrentPosition(
+    //             (position) => {
+    //                 setNgoLocation({
+    //                     latitude: position.coords.latitude,
+    //                     longitude: position.coords.longitude
+    //                 });
+    //             },
+    //             (error) => {
+    //                 console.log(error);
+    //             }
+    //         );
+    //     }
+    // }, []);
+
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            try {
-                const decoded = jwtDecode(token);
-                if (decoded && decoded.location && decoded.location.latitude && decoded.location.longitude) {
-                    setNgoLocation(decoded.location);
-                    console.log("Using NGO profile location from token:", decoded.location);
-                    return;
-                }
-            } catch (err) {
-                console.error("Failed to decode token for location:", err);
-            }
+        if (user && user.location && user.location.latitude && user.location.longitude) {
+            setNgoLocation(user.location);
+            console.log("Using NGO profile location from Auth Context:", user.location);
+            return;
         }
 
         if (navigator.geolocation) {
@@ -126,8 +156,9 @@ export default function () {
                 }
             );
         }
-    }, []);
+    }, [user]); // Add user as a dependency
 
+    
     // FILTER DONATIONS
     const filteredDonations = donations.filter((donation) => {
 
