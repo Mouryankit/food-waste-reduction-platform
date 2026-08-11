@@ -75,7 +75,7 @@ export default function () {
     return (
 
         <Formik
-            initialValues={{ foodName: "", quantity: "", unit: "kg", description: "", phone: "", pickupAddress: "", expiryDate: "" }}
+            initialValues={{ foodName: "", quantity: "", unit: "kg", description: "", phone: "", pickupAddress: "", expiryDate: "", notifyNgos: false }}
             validationSchema={donationFormSchema}
             onSubmit={(values, { setSubmitting }) => {
                 // console.log(values);
@@ -187,6 +187,18 @@ export default function () {
                                 </p>
                             </div>
                         )}
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '15px 0' }}>
+                        <Field
+                            type="checkbox"
+                            name="notifyNgos"
+                            id="notifyNgos"
+                            style={{ width: '16px', height: '16px', margin: 0, cursor: 'pointer' }}
+                        />
+                        <label htmlFor="notifyNgos" style={{ margin: 0, cursor: 'pointer', userSelect: 'none', display: 'inline', fontWeight: 'normal', color: '#555' }}>
+                            Notify registered NGOs via Email
+                        </label>
                     </div>
 
                     <button type="submit" disabled={isSubmitting}>

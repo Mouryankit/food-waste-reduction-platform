@@ -1,7 +1,6 @@
-
 const OTP = require("../models/otpSchema.js"); 
 const otpGenerator = require('otp-generator');
-const nodemailer = require('nodemailer');
+const { sendEmail } = require("../utils/emailHelper.js");
 
 const generateToken = require("../utils/generateToken.js");
 
@@ -14,16 +13,7 @@ const generateOtp = async (req, res) => {
     try {
         await OTP.create({ email, otp });
 
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS
-            }
-        });
-
-        await transporter.sendMail({
-            from: process.env.SMTP_USER,
+        await sendEmail({
             to: email,
             subject: 'OTP Verification for food waste reduction platform',
             text: `Your 6 digit OTP for verification is: ${otp}. it is valid for 5 minute`
@@ -38,9 +28,7 @@ const generateOtp = async (req, res) => {
             "error": error
         });
     } 
-}
-
-
+};
 
 const verifyOtp = async (req, res) => {
     const {email, otp} = req.body;
