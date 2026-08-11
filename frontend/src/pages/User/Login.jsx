@@ -59,21 +59,23 @@ const Login = () => {
             }}
         >
             {({ isSubmitting }) => (
-                <Form className="form">
+                <Form className="form auth-form login-form">
+                    <h1>Login</h1>
+                    <p className="auth-subtitle">Welcome back! Please enter your details.</p>
                     <div>
                         <label htmlFor="email">Email</label>
                         <Field
                             type="email"
                             name="email"
                             placeholder="Enter your email"
-                            className="form-control"
+                            className="input login-input"
                         />
-                        <ErrorMessage name="email" component="div" className="error" />
+                        <ErrorMessage name="email" component="div" className="error auth-error" />
                     </div>
 
                     <div>
-                        <label htmlFor="password">Select Role</label>
-                        <Field as="select" name="role" className="form-control">
+                        <label htmlFor="role">Select Role</label>
+                        <Field as="select" name="role" className="input login-input">
                             <option value="restaurant">Restaurant</option>
                             <option value="ngo">NGO</option>
                             <option value="admin">Admin</option>
@@ -82,23 +84,23 @@ const Login = () => {
 
                     <div>
                         <label htmlFor="password">Password</label>
-                        <div className="password">
+                        <div className="auth-password-wrapper">
                             <Field
                                 type={showPassword ? "text" : "password"}
                                 name="password"
                                 placeholder="Enter your password"
-                                className="form-control"
+                                className="input login-input"
                             />
-                            <button onClick={handleShowPassword} className="show-password-btn">{showPassword ? "Hide" : "show"}</button>
+                            <button onClick={handleShowPassword} className="button secondary-button auth-show-password-btn">{showPassword ? "Hide" : "show"}</button>
                         </div>
-                        <ErrorMessage name="password" component="div" className="error" />
+                        <ErrorMessage name="password" component="div" className="error auth-error" />
                     </div>
 
-                    <button type="submit" disabled={isSubmitting}>
+                    <button type="submit" className="button primary-button auth-submit-btn" disabled={isSubmitting}>
                         {isSubmitting ? "Submitting..." : "Submit"}
                     </button>
 
-                    <button type="button" onClick={handlePasswordReset}>Forget password</button>
+                    <button type="button" className="button secondary-button auth-reset-btn" style={{ width: "100%", marginTop: "10px" }} onClick={handlePasswordReset}>Forget password</button>
                 </Form>
             )}
         </Formik>

@@ -1,98 +1,81 @@
-body {
-    background-color: #f5f5f5;
-    font-family: Arial, Helvetica, sans-serif;
+/* Auth Forms Specific Overrides */
+.auth-form {
+    max-width: 440px;
+    margin: 80px auto;
+    border: 1px solid var(--border);
 }
 
-.form {
-    width: 360px;
-    margin: 60px auto;
-    padding: 25px;
-    background: white;
-    border: 1px solid #c8e6c9;
-    border-radius: 8px;
-}
-
-.form h1,
-.form h2 {
-    text-align: center;
-    color: #2E7D32;
-    margin-bottom: 20px;
-}
-
-.form label {
+.auth-form::before {
+    content: '🌱';
     display: block;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.auth-form h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-title);
+    text-align: center;
     margin-bottom: 6px;
-    font-weight: 600;
-    color: #333;
+    letter-spacing: -0.02em;
 }
 
-.form-control {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #bbb;
-    border-radius: 5px;
-    font-size: 15px;
-    box-sizing: border-box;
+.auth-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 28px;
+    font-weight: 500;
 }
 
-.form-control:focus {
-    outline: none;
-    border-color: #4CAF50;
-}
-
-.error {
-    color: red;
-    font-size: 14px;
-    margin-bottom: 12px;
-}
-
-.form button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 5px;
-    background: #2E7D32;
-    color: white;
-    font-size: 15px;
-    cursor: pointer;
-}
-
-.form button:hover {
-    background: #1B5E20;
-}
-
-.password {
+/* Auth Specific Password Field with Show/Hide Toggle */
+.auth-password-wrapper {
     display: flex;
     gap: 10px;
     align-items: center;
+    margin-bottom: 20px;
 }
 
-.password .form-control {
+.auth-password-wrapper .input {
     flex: 1;
     margin-bottom: 0;
 }
 
-.password button {
-    width: 110px;
-    margin-top: 0;
+.auth-show-password-btn {
+    width: 100px !important;
+    margin-top: 0 !important;
+    padding: 12px 10px !important;
+    height: 46px;
+}
+
+.auth-submit-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px !important;
+    height: 48px;
+}
+
+.auth-reset-btn {
+    width: 100%;
+    margin-top: 12px;
+    padding: 12px !important;
+    height: 48px;
 }
 
 @media (max-width: 500px) {
-
-    .form {
-        width: 90%;
-        padding: 20px;
+    .auth-form {
         margin: 40px auto;
+        padding: 24px 20px;
     }
-
-    .password {
+    
+    .auth-password-wrapper {
         flex-direction: column;
+        gap: 8px;
     }
 
-    .password button {
-        width: 100%;
+    .auth-show-password-btn {
+        width: 100% !important;
     }
-
 }

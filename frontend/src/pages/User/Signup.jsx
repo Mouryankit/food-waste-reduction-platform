@@ -60,16 +60,18 @@ const Signup = () => {
             }}
         >
             {({ isSubmitting }) => (
-                <Form className="form">
+                <Form className="form auth-form signup-form">
+                    <h1>Sign Up</h1>
+                    <p className="auth-subtitle">Join us in reducing food waste today.</p>
                     <div>
                         <label htmlFor="username">Username</label>
                         <Field
                             type="text"
                             name="username"
                             placeholder="Username"
-                            className="form-control"
+                            className="input signup-input"
                         />
-                        <ErrorMessage name="username" component="div" className="error" />
+                        <ErrorMessage name="username" component="div" className="error auth-error" />
                     </div>
                     <div>
                         <label htmlFor="email">Email</label>
@@ -77,33 +79,33 @@ const Signup = () => {
                             type="email"
                             name="email"
                             placeholder="Enter your email"
-                            className="form-control"
+                            className="input signup-input"
                         />
-                        <ErrorMessage name="email" component="div" className="error" />
+                        <ErrorMessage name="email" component="div" className="error auth-error" />
                     </div>
 
                     <div>
                         <label htmlFor="role">Role</label>
-                        <Field as="select" name="role" id="role" className="form-control">
+                        <Field as="select" name="role" id="role" className="input signup-input">
                             <option value="restaurant">restaurant</option>
                             <option value="ngo">ngo</option>
                             {/* <option value="admin">admin</option> */}
                         </Field>
-                        <ErrorMessage name="role" component="div" className="error" />
+                        <ErrorMessage name="role" component="div" className="error auth-error" />
                     </div>
 
                     <div>
                         <label htmlFor="password">Password</label>
-                        <div className="password">
+                        <div className="auth-password-wrapper">
                             <Field
                                 type={showPassword ? "text" : "password"}
                                 name="password"
                                 placeholder="Enter your password"
-                                className="form-control"
+                                className="input signup-input"
                             />
-                            <button onClick={handleShowPassword}>{showPassword ? "Hide" : "show"}</button>
+                            <button onClick={handleShowPassword} className="button secondary-button auth-show-password-btn">{showPassword ? "Hide" : "show"}</button>
                         </div>
-                        <ErrorMessage name="password" component="div" className="error" />
+                        <ErrorMessage name="password" component="div" className="error auth-error" />
                     </div>
 
                     <div style={{ marginTop: "15px", marginBottom: "15px" }}>
@@ -121,7 +123,7 @@ const Signup = () => {
                         )}
                     </div>
 
-                    <button type="submit" disabled={isSubmitting}>
+                    <button type="submit" className="button primary-button auth-submit-btn" disabled={isSubmitting}>
                         {isSubmitting ? "Submitting..." : "Submit"}
                     </button>
 

@@ -1,67 +1,38 @@
-.all-donations{
-    padding:30px;
-    background:#f4f6f9;
-    min-height:100vh;
+.admin-donations-page {
+    min-height: 100vh;
 }
 
-.all-donations h1{
-    text-align:center;
-    margin-bottom:30px;
-    color:#222;
+.admin-donations-heading {
+    text-align: center;
+    margin-bottom: 32px;
+    color: var(--text-title);
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
 }
 
-.filter{
-    margin-bottom:20px;
+.admin-donations-filters {
+    margin-bottom: 24px;
 }
 
-.filter select{
-    padding:8px 12px;
-    margin-left:10px;
-    border-radius:6px;
-}
-
-.all-donations table{
-    width:100%;
-    border-collapse:collapse;
-    background:white;
-    border-radius:10px;
-    overflow:hidden;
-    box-shadow:0 8px 18px rgba(0,0,0,.08);
-}
-
-.all-donations thead{
-    background:#2e7d32;
-    color:white;
-}
-
-.all-donations th,
-.all-donations td{
-    padding:14px;
-    text-align:center;
-    border-bottom:1px solid #eee;
-}
-
-.all-donations tbody tr:hover{
-    background:#f8fbff;
-}
-
-.all-donations select{
-    padding:7px;
-    border-radius:6px;
-}
-
-
-
-
-.all-donations button {
-    padding: 7px 15px;
-    border: none;
-    border-radius: 5px;
-    background: #2e7d32;
-    color: white;
+.admin-donations-table select {
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background-color: var(--bg);
+    color: var(--text-title);
+    font-weight: 600;
+    outline: none;
     cursor: pointer;
+    transition: var(--transition);
 }
 
-.all-donations button:hover {
-    background: #256628;
-} 
+.admin-donations-table select:focus {
+    border-color: var(--primary);
+    background-color: var(--card-bg);
+}
+
+.admin-donations-edit-btn {
+    padding: 6px 12px !important;
+    font-size: 0.85rem !important;
+}

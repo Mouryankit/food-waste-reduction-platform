@@ -45,12 +45,12 @@ export default function MyDonation() {
     );
 
     return (
-        <div className="my-donation-page">
+        <div className="container my-donation-page">
             <h1 className="my-donation-heading">
                 My Donation Page
             </h1>
             {/* Status Filter */}
-            <div className="donation-filter">
+            <div className="filter-container my-donation-filter">
                 <label htmlFor="status">
                     Filter by Status:
                 </label>
@@ -66,7 +66,7 @@ export default function MyDonation() {
                 </select>
             </div>
 
-            <div className="donations">
+            <div className="donations-grid my-donations-grid">
                 {filteredDonations.length === 0 ? (
                     <p className="no-donations">
                         No donations found.
@@ -76,41 +76,41 @@ export default function MyDonation() {
                         return (
                             <div
                                 key={donation._id}
-                                className="donation-box"
+                                className="card donation-card my-donation-card"
                             >
-                                <div className="donation-box-heading">
+                                <div className="donation-card-heading my-donation-card-heading">
                                     <h2>{donation.foodName}</h2>
-                                    <span>{donation.deliveryStatus}</span>
+                                    <span className={`badge badge-${donation.deliveryStatus.toLowerCase()}`}>{donation.deliveryStatus}</span>
                                 </div>
 
-                                <div className="donation-box-quantity">
+                                <div className="donation-card-section">
                                     <p>
                                         <strong>Quantity:</strong>{" "}
                                         {donation.quantity} {donation.unit}
                                     </p>
                                 </div>
 
-                                <div className="donation-box-phone">
+                                <div className="donation-card-section">
                                     <p><strong>Mobile No:</strong></p>
                                     <p>{donation.phone}</p>
                                 </div>
 
-                                <div className="donation-box-description">
+                                <div className="donation-card-section">
                                     <p><strong>Description:</strong></p>
                                     <p>{donation.description}</p>
                                 </div>
 
-                                <div className="donation-box-pickup-address">
+                                <div className="donation-card-section">
                                     <p><strong>Pickup Address:</strong></p>
                                     <p>{donation.pickupAddress}</p>
                                 </div>
 
-                                <div className="donation-box-ngo-name">
+                                <div className="donation-card-section">
                                     <p><strong>Accepted By:</strong></p>
                                     <p>{donation.ngoObjectId ? donation.ngoObjectId.name : "Not Accepted"}</p>
                                 </div>
 
-                                <div className="donation-box-time">
+                                <div className="donation-card-section">
                                     <p><strong>Expired at:</strong></p>
 
                                     <p>
@@ -124,7 +124,7 @@ export default function MyDonation() {
                                     </p>
                                 </div>
 
-                                <div className="donation-box-time">
+                                <div className="donation-card-section">
                                     <p><strong>Donated at:</strong></p>
 
                                     <p>
@@ -141,8 +141,9 @@ export default function MyDonation() {
                                     </p>
                                 </div>
 
-                                <div>
+                                <div style={{ borderBottom: "none", paddingBottom: 0, marginBottom: 0 }}>
                                     <button
+                                        className="button primary-button my-donation-edit-btn"
                                         onClick={() => {
                                             navigate(
                                                 `/restaurant/edit-donation/${donation._id}`
@@ -153,6 +154,7 @@ export default function MyDonation() {
                                     </button>
 
                                     <button
+                                        className="button danger-button my-donation-delete-btn"
                                         onClick={() =>
                                             deleteDonation(donation._id)
                                         }

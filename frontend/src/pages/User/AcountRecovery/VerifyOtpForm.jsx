@@ -41,18 +41,20 @@ const VerifyOtpForm = ({email, setVerifyEmail, setToken}) =>  {
             }}
         >
         {({ isSubmitting }) => (
-            <Form className="form">
+            <Form className="form auth-form verify-otp-form">
+                <h1>Verify OTP</h1>
+                <p className="auth-subtitle">Enter the 6-digit code sent to your email.</p>
                 <div>
                     <label htmlFor="otp">Enter OTP</label>
                     <Field
                         type="text"
                         name="otp"
-                        placeholder="Enter otp recieve via email"
-                        className="form-control"
+                        placeholder="Enter OTP received via email"
+                        className="input recovery-input"
                     />
-                    <ErrorMessage name="otp" component="div" className="error" />
+                    <ErrorMessage name="otp" component="div" className="error auth-error" />
                 </div>
-                <button type="submit" disabled={isSubmitting}>
+                <button type="submit" className="button primary-button auth-submit-btn" disabled={isSubmitting}>
                     {isSubmitting ? "Submitting..." : "Submit"}
                 </button>
             </Form>

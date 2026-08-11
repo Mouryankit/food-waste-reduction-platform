@@ -28,39 +28,37 @@ export default function Delivered() {
     }, []);
 
     return (
-        <div className="donation-page">
-            <h1 className="donation-page-heading">Delivered Donations</h1>
-            <div className="donations">
+        <div className="delivered-donations-list">
+            <h1 className="delivered-donations-list-heading" style={{ textAlign: "center", marginBottom: "20px" }}>Delivered Donations</h1>
+            <div className="donations-grid delivered-donations-grid">
                 {donations.map((donation, idx) => {
                     return (
-                        <div key={idx} className="donation-box">
-                            <div className="donation-box-heading">
+                        <div key={idx} className="card donation-card delivered-donation-card">
+                            <div className="donation-card-heading delivered-donation-card-heading">
                                 <h2>{donation.foodName}</h2>
-                                <span>
-                                    {donation.deliveryStatus}
-                                </span>
+                                <span className={`badge badge-${donation.deliveryStatus.toLowerCase()}`}>{donation.deliveryStatus}</span>
                             </div>
 
-                            <div className="donation-box-quantity">
+                            <div className="donation-card-section">
                                 <p><strong>Quantity:</strong> {donation.quantity} {donation.unit}</p>
                             </div>
 
-                            <div className="donation-box-phone">
+                            <div className="donation-card-section">
                                 <p><strong>Mobile No:</strong></p>
                                 <p>{donation.phone}</p>
                             </div>
 
-                            <div className="donation-box-description">
+                            <div className="donation-card-section">
                                 <p><strong>Description:</strong></p>
                                 <p>{donation.description}</p>
                             </div>
 
-                            <div className="donation-box-pickup-address">
+                            <div className="donation-card-section">
                                 <p><strong>Pickup Address:</strong></p>
                                 <p>{donation.pickupAddress}</p>
                             </div>
 
-                            <div className="donation-box-time">
+                            <div className="donation-card-section">
                                 <p><strong>Donated at:</strong></p>
                                 <p>
                                     {new Date(donation.createdAt).toLocaleString('en-US', {

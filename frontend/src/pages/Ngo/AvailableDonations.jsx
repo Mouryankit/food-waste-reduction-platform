@@ -221,17 +221,17 @@ export default function () {
     });
 
     return (
-        <div className="donation-page">
-            <h1 className="donation-page-heading">
+        <div className="container available-donations-page">
+            <h1 className="available-donations-heading">
                 All Available Donations
             </h1>
 
-            <button className="view-map-btn" onClick={() => setShowMapModal(true)}>
+            <button className="button view-map-btn" onClick={() => setShowMapModal(true)}>
                 🗺️ View Nearby Donations on Map
             </button>
 
             {/* FILTERS */}
-            <div className="donation-filters">
+            <div className="filter-container available-donations-filters">
                 <div>
                     <label>Search Food</label>
                     <input
@@ -282,32 +282,32 @@ export default function () {
             </div>
 
             {/* DONATIONS */}
-            <div className="donations">
+            <div className="donations-grid available-donations-grid">
                 {filteredDonations.map(
                     (donation, idx) => {
                         return (
                             <div
                                 key={idx}
-                                className="donation-box"
+                                className="card donation-card available-donation-card"
                             >
-                                <div className="donation-box-heading">
+                                <div className="donation-card-heading available-donation-card-heading">
                                     <h2>{donation.foodName}</h2>
-                                    <span>{donation.deliveryStatus}</span>
+                                    <span className={`badge badge-${donation.deliveryStatus.toLowerCase()}`}>{donation.deliveryStatus}</span>
                                 </div>
-                                <div className="donation-box-quantity">
+                                <div className="donation-card-section">
                                     <p>
                                         <strong>Quantity:</strong>{" "}
                                         {donation.quantity}{" "}
                                         {donation.unit}
                                     </p>
                                 </div>
-                                <div className="donation-box-phone">
+                                <div className="donation-card-section">
                                     <p>
                                         <strong>Mobile No:</strong>
                                     </p>
                                     <p>{donation.phone}</p>
                                 </div>
-                                <div className="donation-box-description">
+                                <div className="donation-card-section">
                                     <p>
                                         <strong>Description:</strong>
                                     </p>
@@ -315,7 +315,7 @@ export default function () {
                                         {donation.description}
                                     </p>
                                 </div>
-                                <div className="donation-box-pickup-address">
+                                <div className="donation-card-section">
                                     <p>
                                         <strong>Pickup Address:</strong>
                                     </p>
@@ -325,7 +325,7 @@ export default function () {
                                 </div>
 
                                 {ngoLocation && donation.pickupLocation && (
-                                    <div className="donation-box-distance" style={{ marginTop: "10px" }}>
+                                    <div className="donation-card-section" style={{ marginTop: "10px" }}>
                                         <p>
                                             <strong>Distance:</strong>
                                         </p>
@@ -340,7 +340,7 @@ export default function () {
                                     </div>
                                 )}
 
-                                <div className="donation-box-time">
+                                <div className="donation-card-section">
 
                                     <p>
                                         <strong>Donated at:</strong>
@@ -364,7 +364,7 @@ export default function () {
                                 </div>
 
                                 <button
-                                    className="donation-box-accept-btn"
+                                    className="button primary-button available-donation-accept-btn"
                                     onClick={() => {
                                         setIsAccept(
                                             donation._id
@@ -388,11 +388,11 @@ export default function () {
             </div>
 
             {showMapModal && (
-                <div className="map-modal-overlay">
-                    <div className="map-modal-content">
+                <div className="modal-overlay map-modal-overlay">
+                    <div className="modal-content map-modal-content">
                         <div className="map-modal-header">
                             <h2>Nearby Donations Map</h2>
-                            <button className="map-modal-close-btn" onClick={() => setShowMapModal(false)}>
+                            <button className="button danger-button map-modal-close-btn" onClick={() => setShowMapModal(false)}>
                                 Close Map
                             </button>
                         </div>

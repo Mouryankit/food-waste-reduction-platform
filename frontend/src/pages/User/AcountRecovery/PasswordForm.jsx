@@ -62,37 +62,39 @@ const PasswordForm = ({token}) => {
             }}
         >
         {({ isSubmitting }) => (
-            <Form className="form">
+            <Form className="form auth-form password-reset-form">
+                <h1>New Password</h1>
+                <p className="auth-subtitle">Create a strong password for your account.</p>
                 <div>
                     <label htmlFor="password">Enter Password</label>
-                    <div className="password">
+                    <div className="auth-password-wrapper">
                         <Field
                             type={showPassword?"text":"password"}
                             name="password"
                             placeholder="Enter your password"
-                            className="form-control"
+                            className="input recovery-input"
                         />
-                        <button onClick={handleShowPassword}>{showPassword ? "hide": "show"}</button>
+                        <button onClick={handleShowPassword} className="button secondary-button auth-show-password-btn">{showPassword ? "Hide": "Show"}</button>
                     </div>
-                    <ErrorMessage name="password" component="div" className="error" />
+                    <ErrorMessage name="password" component="div" className="error auth-error" />
                 </div>
 
                 <div>
                     <label htmlFor="confirmPassword">Confirm Password</label>
-                    <div className="password">
+                    <div className="auth-password-wrapper">
                         <Field
                             type={showConfirmPassword?"text":"password"}
                             name="confirmPassword"
                             placeholder="Enter your password"
-                            className="form-control"
+                            className="input recovery-input"
                         />
-                        <button onClick={handleSetShowPassword}>{showConfirmPassword ? "hide": "show"}</button>
+                        <button onClick={handleSetShowPassword} className="button secondary-button auth-show-password-btn">{showConfirmPassword ? "Hide": "Show"}</button>
                     </div>
                     
-                    <ErrorMessage name="confirmPassword" component="div" className="error" />
+                    <ErrorMessage name="confirmPassword" component="div" className="error auth-error" />
                 </div>
 
-                <button type="submit" disabled={isSubmitting}>
+                <button type="submit" className="button primary-button auth-submit-btn" disabled={isSubmitting}>
                     {isSubmitting ? "Submitting..." : "Submit"}
                 </button>
             </Form>

@@ -1,108 +1,41 @@
-.user-management {
-    padding: 30px;
-    background: #f4f6f9;
+.user-management-page {
     min-height: 100vh;
 }
 
-.user-management h1 {
+.user-management-heading {
     text-align: center;
-    margin-bottom: 30px;
-    color: #222;
-    font-size: 32px;
-    font-weight: 700;
+    margin-bottom: 32px;
+    color: var(--text-title);
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
 }
 
-.user-management table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.08);
-}
-
-.user-management thead {
-    background: #2e7d32;
-    color: white;
-}
-
-.user-management th {
-    padding: 16px;
-    text-align: center;
-    font-size: 16px;
-}
-
-.user-management td {
-    padding: 15px;
-    text-align: center;
-    border-bottom: 1px solid #e8e8e8;
-}
-
-.user-management tbody tr:hover {
-    background: #f8fbff;
-    transition: 0.2s;
-}
-
-.user-management tbody tr:last-child td {
-    border-bottom: none;
-}
-
-/* Common Button */
-
-.user-management button {
-    border: none;
-    padding: 9px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    transition: 0.3s;
-}
-
-/* Edit Button */
-
-.user-management td:last-child button {
-    background: #2e7d32;
-    color: white;
-}
-
-.user-management td:last-child button:hover {
-    background: #7b9e7d;
-}
-
-/* Block Button */
-
-.user-management tbody td:nth-child(5) button {
-    background: #dc3545;
-    color: white;
-}
-
-.user-management tbody td:nth-child(5) button:hover {
-    background: #bb2d3b;
-}
-
-/* Unblock Button */
-
-.user-management tbody td:nth-child(5) button {
+/* Action buttons */
+.user-action-btn {
     min-width: 95px;
+    padding: 6px 12px !important;
+    font-size: 0.85rem !important;
 }
 
-/* Status */
-
-.user-management td:nth-child(4) {
-    font-weight: 600;
+.user-edit-btn {
+    padding: 6px 12px !important;
+    font-size: 0.85rem !important;
 }
 
-/* Responsive */
+/* Status cell */
+.user-status-cell {
+    font-weight: 700;
+    color: var(--primary);
+}
 
-@media (max-width:900px){
-
-    .user-management{
-        overflow-x:auto;
+/* Responsive table wrapper */
+@media (max-width: 900px) {
+    .user-management-page {
+        overflow-x: auto;
     }
 
-    .user-management table{
-        min-width:700px;
+    .user-management-table {
+        min-width: 700px;
     }
-
 }

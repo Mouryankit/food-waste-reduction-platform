@@ -2,9 +2,9 @@ import "./Home.css";
 
 export default function Home() {
     return (
-        <div className="home">
+        <div className="home-page">
 
-            <section className="hero">
+            <section className="home-hero">
 
                 <h1>Food Waste Reduction Platform</h1>
 
@@ -13,14 +13,14 @@ export default function Home() {
                     people in need.
                 </p>
 
-                <div className="hero-buttons">
-                    <button>Donate Food</button>
-                    <button>View Donations</button>
+                <div className="home-hero-buttons">
+                    <button className="button home-hero-btn">Donate Food</button>
+                    <button className="button home-hero-btn">View Donations</button>
                 </div>
 
             </section>
 
-            <section className="about">
+            <section className="home-about">
 
                 <h2>About Us</h2>
 
@@ -33,23 +33,23 @@ export default function Home() {
 
             </section>
 
-            <section className="features">
+            <section className="home-features">
 
                 <h2>Features</h2>
 
-                <div className="feature-container">
+                <div className="home-feature-container">
 
-                    <div className="feature-card">
+                    <div className="card home-feature-card">
                         <h3>Donate Food</h3>
                         <p>Restaurants can donate surplus food.</p>
                     </div>
 
-                    <div className="feature-card">
+                    <div className="card home-feature-card">
                         <h3>NGO Support</h3>
                         <p>NGOs can accept and distribute food.</p>
                     </div>
 
-                    <div className="feature-card">
+                    <div className="card home-feature-card">
                         <h3>Dashboard</h3>
                         <p>Track donations and monitor activities.</p>
                     </div>
@@ -58,7 +58,7 @@ export default function Home() {
 
             </section>
 
-            <footer>
+            <footer className="home-footer">
 
                 <p>
                     © 2026 Food Waste Reduction Platform

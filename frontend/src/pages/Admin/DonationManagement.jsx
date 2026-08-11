@@ -56,15 +56,16 @@ export default function DonationManagement() {
 
     return (
 
-        <div className="all-donations">
+        <div className="container admin-donations-page">
 
-            <h1>Donation Management</h1>
+            <h1 className="admin-donations-heading">Donation Management</h1>
 
-            <div className="filter">
+            <div className="filter-container admin-donations-filters">
 
-                <label>Status : </label>
+                <label htmlFor="status-select">Status : </label>
 
                 <select
+                    id="status-select"
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
                 >
@@ -79,7 +80,7 @@ export default function DonationManagement() {
 
             </div>
 
-            <table>
+            <table className="table admin-donations-table">
 
                 <thead>
 
@@ -179,6 +180,7 @@ export default function DonationManagement() {
                                 </td>
                                 <td>
                                     <button
+                                        className="button primary-button admin-donations-edit-btn"
                                         onClick={() => navigate(`/admin/edit-donation/${donation._id}`)}
                                     >
                                         Edit

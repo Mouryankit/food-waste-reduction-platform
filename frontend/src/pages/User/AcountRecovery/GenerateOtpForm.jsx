@@ -40,19 +40,21 @@ const GenerateOtpForm = ({setEmail, setOtpSent}) => {
             }}
         >
         {({ isSubmitting }) => (
-            <Form className="form">
+            <Form className="form auth-form generate-otp-form">
+                <h1>Reset Password</h1>
+                <p className="auth-subtitle">Enter your email to receive a recovery OTP.</p>
                 <div>
                     <label htmlFor="email">Email</label>
                     <Field
                         type="email"
                         name="email"
                         placeholder="Please Enter a valid existing email"
-                        className="form-control"
+                        className="input recovery-input"
                     />
-                    <ErrorMessage name="email" component="div" className="error" />
+                    <ErrorMessage name="email" component="div" className="error auth-error" />
                 </div>
-                <button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? "Submitting..." : "generate Otp"}
+                <button type="submit" className="button primary-button auth-submit-btn" disabled={isSubmitting}>
+                    {isSubmitting ? "Submitting..." : "Generate OTP"}
                 </button>
             </Form>
         )}

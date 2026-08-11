@@ -35,7 +35,7 @@ function Navbar() {
     if (loading) {
         return (
             <nav className="navbar">
-                <h2 className="logo">FWRP</h2>
+                <h2 className="navbar-logo">FWRP</h2>
             </nav>
         );
     }
@@ -43,24 +43,24 @@ function Navbar() {
     return (
         <nav className="navbar">
 
-            <h2 className="logo">FWRP</h2>
+            <h2 className="navbar-logo">FWRP</h2>
 
-            <div className="hamburger" onClick={changeMenu}> &#9776; </div>
+            <div className="navbar-hamburger" onClick={changeMenu}> &#9776; </div>
 
-            <div className={`nav-links ${menuOpen ? "active" : ""}`}>
+            <div className={`navbar-links ${menuOpen ? "active" : ""}`}>
 
-                <NavLink className="navlink" to="/" onClick={changeMenu}>Home</NavLink>
+                <NavLink className="navbar-link" to="/" onClick={changeMenu}>Home</NavLink>
 
                 {user ? (
                     <>
                         {/* Restaurant */}
                         {user.role === "restaurant" && (
                             <>
-                                <NavLink onClick={changeMenu} className="navlink" to="/restaurant/add-donation">
+                                <NavLink onClick={changeMenu} className="navbar-link" to="/restaurant/add-donation">
                                     Add Donation
                                 </NavLink>
 
-                                <NavLink onClick={changeMenu} className="navlink" to="/restaurant/my-donation">
+                                <NavLink onClick={changeMenu} className="navbar-link" to="/restaurant/my-donation">
                                     My Donations
                                 </NavLink>
                             </>
@@ -69,11 +69,11 @@ function Navbar() {
                         {/* NGO */}
                         {user.role === "ngo" && (
                             <>
-                                <NavLink onClick={changeMenu} className="navlink" to="/ngo/available-donations">
+                                <NavLink onClick={changeMenu} className="navbar-link" to="/ngo/available-donations">
                                     Available Donations
                                 </NavLink>
 
-                                <NavLink onClick={changeMenu} className="navlink" to="/ngo/accepted-donations">
+                                <NavLink onClick={changeMenu} className="navbar-link" to="/ngo/accepted-donations">
                                     Accepted Donations
                                 </NavLink>
                             </>
@@ -82,28 +82,28 @@ function Navbar() {
                         {/* Admin */}
                         {user.role === "admin" && (
                             <>
-                                <NavLink onClick={changeMenu} className="navlink" to="/admin/all-donations">
+                                <NavLink onClick={changeMenu} className="navbar-link" to="/admin/all-donations">
                                     Donations
                                 </NavLink>
 
-                                <NavLink onClick={changeMenu} className="navlink" to="/admin/user-management">
+                                <NavLink onClick={changeMenu} className="navbar-link" to="/admin/user-management">
                                     Users
                                 </NavLink>
 
-                                <NavLink onClick={changeMenu} className="navlink" to="/admin/analytics">
+                                <NavLink onClick={changeMenu} className="navbar-link" to="/admin/analytics">
                                     Analytics
                                 </NavLink>
                             </>
                         )}
 
-                        <NavLink className="navlink" onClick={handleLogout}> Logout </NavLink>
+                        <NavLink className="navbar-link" onClick={handleLogout}> Logout </NavLink>
 
                     </>
                 ) : (
                     <>
-                        <NavLink onClick={changeMenu} className="navlink" to="/login">Login</NavLink>
+                        <NavLink onClick={changeMenu} className="navbar-link" to="/login">Login</NavLink>
 
-                        <NavLink onClick={changeMenu} className="navlink" to="/signup">Signup</NavLink>
+                        <NavLink onClick={changeMenu} className="navbar-link" to="/signup">Signup</NavLink>
                     </>
                 )}
 

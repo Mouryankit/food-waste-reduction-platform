@@ -37,9 +37,9 @@ export default function UserManagement() {
         }
     };
     return (
-        <div className="user-management">
-            <h1>User Management</h1>
-            <table>
+        <div className="container user-management-page">
+            <h1 className="user-management-heading">User Management</h1>
+            <table className="table user-management-table">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -58,23 +58,23 @@ export default function UserManagement() {
                                 <td>{user.email}</td>
                                 <td>{user.role}</td>
                                 <td>
-                                    {
-                                        user.valid
-                                            ? "Active"
-                                            : "Blocked"
-                                    }
+                                    <span className={`badge ${user.valid ? 'badge-accepted' : 'badge-cancelled'}`}>
+                                        {user.valid ? "Active" : "Blocked"}
+                                    </span>
                                 </td>
                                 <td>
                                     {
                                         user.valid
                                             ?
                                             <button
+                                                className="button danger-button user-action-btn"
                                                 onClick={() => blockUser(user._id)}
                                             >
                                                 Block
                                             </button>
                                             :
                                             <button
+                                                className="button secondary-button user-action-btn"
                                                 onClick={() => unblockUser(user._id)}
                                             >
                                                 Unblock
@@ -83,6 +83,7 @@ export default function UserManagement() {
                                 </td>
                                 <td>
                                     <button
+                                        className="button primary-button user-edit-btn"
                                         onClick={() => navigate(`/admin/edit-user/${user._id}`)}
                                     >
                                         Edit

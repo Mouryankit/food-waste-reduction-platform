@@ -12,11 +12,11 @@ export default function(){
         setActiveTab("delivered")
     }
     return (
-        <div className="accepted-donations">
+        <div className="container accepted-donations-page">
             <h1 className="accepted-donations-heading">Donation History</h1>
-            <div className="active-tab">
-                <button className="accepted" onClick={onClickAccepted}>Accepted</button>
-                <button className="delivered" onClick={onClickDelivered}>Delivered</button>
+            <div className="ngo-tabs">
+                <button className={`button ngo-tab-btn ${activeTab === "accepted" ? "active" : ""}`} onClick={onClickAccepted}>Accepted</button>
+                <button className={`button ngo-tab-btn ${activeTab === "delivered" ? "active" : ""}`} onClick={onClickDelivered}>Delivered</button>
             </div>
             <div>
                 {activeTab === "accepted" ? <Accepted/> : <Delivered/>}

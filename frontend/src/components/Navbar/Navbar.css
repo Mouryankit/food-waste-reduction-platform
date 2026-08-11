@@ -1,70 +1,103 @@
-.navbar{
-    background:#2E7D32;
-    color:white;
-    padding:15px 30px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    position:relative;
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.85);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition);
 }
 
-.logo{
-    font-size:24px;
+.navbar-logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
 }
 
-.nav-links{
-    display:flex;
-    gap:20px;
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
 }
 
-.navlink{
-    color:white;
-    text-decoration:none;
+.navbar-link {
+    color: var(--text-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+    position: relative;
+    padding: 6px 0;
 }
 
-.navlink:hover{
-    color:#FFD54F;
+.navbar-link:hover {
+    color: var(--primary);
 }
 
-.hamburger{
-    display:none;
-    font-size:28px;
-    cursor:pointer;
+/* Active Link Underline Indicator */
+.navbar-link.active {
+    color: var(--primary);
+    font-weight: 700;
 }
 
-@media(max-width:768px){
+.navbar-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary);
+    border-radius: 99px;
+}
 
-    .hamburger{
-        display:block;
+.navbar-hamburger {
+    display: none;
+    font-size: 24px;
+    color: var(--text-title);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+@media(max-width: 768px) {
+    .navbar {
+        padding: 16px 24px;
     }
 
-    .nav-links{
-
-        display:none;
-
-        position:absolute;
-
-        top:65px;
-        left:0;
-
-        width:100%;
-
-        background:#2E7D32;
-
-        flex-direction:column;
-
-        text-align:center;
-
-        padding:15px 0;
-
-        gap:15px;
-
+    .navbar-hamburger {
+        display: block;
     }
 
-    .nav-links.active{
-        display:flex;
+    .navbar-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--card-bg);
+        border-bottom: 1.5px solid var(--border);
+        flex-direction: column;
+        text-align: center;
+        padding: 24px 0;
+        gap: 20px;
+        box-shadow: var(--shadow-md);
     }
 
+    .navbar-links.active {
+        display: flex;
+    }
+    
+    .navbar-link.active::after {
+        display: none;
+    }
 }

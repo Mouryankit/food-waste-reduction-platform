@@ -1,6 +1,5 @@
 
 
-import "../User/style.css";
 import "./DonationForm.css";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -84,7 +83,7 @@ export default function () {
         >
             {({ isSubmitting }) => (
 
-                <Form className="form">
+                <Form className="form donation-form">
                     <h1 className="donation-form-heading">Donate Food</h1>
                     <div>
                         <label htmlFor="foodName">Food Name</label>
@@ -92,9 +91,9 @@ export default function () {
                             type="text"
                             name="foodName"
                             placeholder="Food name"
-                            className="form-control"
+                            className="input donation-input"
                         />
-                        <ErrorMessage name="foodName" component="div" className="error" />
+                        <ErrorMessage name="foodName" component="div" className="error donation-error" />
                     </div>
 
                     <div>
@@ -103,14 +102,14 @@ export default function () {
                             type="number"
                             name="quantity"
                             placeholder="Food quantity"
-                            className="form-control"
+                            className="input donation-input"
                         />
-                        <ErrorMessage name="quantity" component="div" className="error" />
+                        <ErrorMessage name="quantity" component="div" className="error donation-error" />
                     </div>
 
                     <div>
                         <label htmlFor="unit">Unit</label>
-                        <Field as="select" name="unit" id="unit" className="form-control">
+                        <Field as="select" name="unit" id="unit" className="input donation-input">
                             <option value="kg">kg</option>
                             <option value="g">g</option>
                             <option value="l">L</option>
@@ -120,7 +119,7 @@ export default function () {
                             <option value="boxes">Boxes</option>
                             <option value="plates">Plates</option>
                         </Field>
-                        <ErrorMessage name="unit" component="div" className="error" />
+                        <ErrorMessage name="unit" component="div" className="error donation-error" />
                     </div>
 
                     <div>
@@ -129,9 +128,9 @@ export default function () {
                             type="text"
                             name="description"
                             placeholder="Enter Description"
-                            className="form-control"
+                            className="input donation-input"
                         />
-                        <ErrorMessage name="description" component="div" className="error" />
+                        <ErrorMessage name="description" component="div" className="error donation-error" />
                     </div>
 
                     <div>
@@ -140,9 +139,9 @@ export default function () {
                             type="text"
                             name="phone"
                             placeholder="Enter your Phone number"
-                            className="form-control"
+                            className="input donation-input"
                         />
-                        <ErrorMessage name="phone" component="div" className="error" />
+                        <ErrorMessage name="phone" component="div" className="error donation-error" />
                     </div>
 
                     <div>
@@ -151,9 +150,9 @@ export default function () {
                             type="text"
                             name="pickupAddress"
                             placeholder="Enter your Address"
-                            className="form-control"
+                            className="input donation-input"
                         />
-                        <ErrorMessage name="pickupAddress" component="div" className="error" />
+                        <ErrorMessage name="pickupAddress" component="div" className="error donation-error" />
                     </div>
 
                     <div>
@@ -162,9 +161,9 @@ export default function () {
                             type="date"
                             name="expiryDate"
                             placeholder="Enter your Address"
-                            className="form-control"
+                            className="input donation-input"
                         />
-                        <ErrorMessage name="expiryDate" component="div" className="error" />
+                        <ErrorMessage name="expiryDate" component="div" className="error donation-error" />
                     </div>
 
                     <div>
@@ -201,7 +200,7 @@ export default function () {
                         </label>
                     </div>
 
-                    <button type="submit" disabled={isSubmitting}>
+                    <button type="submit" className="button primary-button donation-submit-btn" disabled={isSubmitting}>
                         {isSubmitting ? "Submitting..." : "Submit"}
                     </button>
 

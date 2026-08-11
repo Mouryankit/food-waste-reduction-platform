@@ -1,108 +1,27 @@
-.donation-box-heading{
-    display: flex;
-    justify-content: space-between;
-}
-
-.donation-box div{
-    margin-bottom: 10px;
-    border-bottom: 1px solid rgba(88, 85, 85, 0.173);
-    padding: 2px;
-}
-
-.donation-box{
-    padding: 30px;
-    width: 400px;
-    border-radius: 10px;
-}
-
-
- .my-donation-page {
-    width: 90%;
-    margin: 30px auto;
+.my-donation-page {
+    margin-top: 20px;
 }
 
 .my-donation-heading {
     text-align: center;
-    color: green;
-    margin-bottom: 25px;
+    color: var(--text-title);
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 30px;
+    letter-spacing: -0.02em;
 }
 
-.donations {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+.my-donation-filter {
+    justify-content: flex-end;
+    margin-bottom: 30px;
 }
 
-.donation-box {
-    width: 310px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: white;
+.my-donation-edit-btn {
+    margin-right: 8px;
 }
 
-.donation-box-heading {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 15px;
-}
-
-.donation-box-heading h2 {
-    margin: 0 0 10px;
-    color: #333;
-}
-
-.donation-box-heading span {
-    color: green;
-}
-
-.donation-box p {
-    margin: 8px 0;
-}
-
-.donation-box button {
-    padding: 8px 15px;
-    margin-top: 15px;
-    margin-right: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/* Edit button */
-.donation-box button:first-child {
-    background-color: green;
-    color: white;
-}
-
-/* Delete button */
-.donation-box button:last-child {
-    background-color: red;
-    color: white;
-}
-
-.donation-filter {
-    margin: 20px 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.donation-filter label {
-    font-weight: bold;
-}
-
-.donation-filter select {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: white;
-    font-size: 15px;
-}
-
-.no-donations {
-    text-align: center;
-    margin-top: 30px;
-    color: #666;
+.my-donation-card-heading h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-title);
 }

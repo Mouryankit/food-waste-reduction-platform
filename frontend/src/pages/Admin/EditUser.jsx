@@ -69,15 +69,17 @@ export default function EditUser() {
 
     return (
 
-        <div className="edit-user">
+        <div className="container edit-user-page">
 
-            <div className="edit-user-form">
+            <div className="form edit-user-form">
+                <h1 style={{ textAlign: "center", marginBottom: "25px", color: "#333", fontSize: "30px" }}>Edit User</h1>
 
                 <label>Name</label>
 
                 <input
                     type="text"
                     value={user.name}
+                    className="input edit-user-input"
                     onChange={(e) =>
                         setUser({
                             ...user,
@@ -91,6 +93,7 @@ export default function EditUser() {
                 <input
                     type="email"
                     value={user.email}
+                    className="input edit-user-input"
                     onChange={(e) =>
                         setUser({
                             ...user,
@@ -103,6 +106,7 @@ export default function EditUser() {
 
                 <select
                     value={user.role}
+                    className="input edit-user-select"
                     onChange={(e) =>
                         setUser({
                             ...user,
@@ -139,6 +143,7 @@ export default function EditUser() {
                 )}
 
                 <button
+                    className="button primary-button edit-user-submit-btn"
                     onClick={updateUser}
                 >
                     Update User

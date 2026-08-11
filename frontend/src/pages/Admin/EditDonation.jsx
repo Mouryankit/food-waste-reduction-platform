@@ -1,4 +1,4 @@
-import "../Restaurant/DonationForm.css";
+import "./EditDonation.css";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -161,9 +161,9 @@ export default function EditDonation() {
 
             {({ isSubmitting }) => (
 
-                <Form className="form">
+                <Form className="form edit-donation-form">
 
-                    <h1 className="donation-form-heading">
+                    <h1 className="donation-form-heading edit-donation-form-heading" style={{ textAlign: "center", marginBottom: "20px", color: "#2E7D32" }}>
                         Update Donation
                     </h1>
 
@@ -172,13 +172,13 @@ export default function EditDonation() {
 
                     <Field
                         name="foodName"
-                        className="form-control"
+                        className="input edit-donation-input"
                     />
 
                     <ErrorMessage
                         name="foodName"
                         component="div"
-                        className="error"
+                        className="error edit-donation-error"
                     />
 
 
@@ -187,13 +187,13 @@ export default function EditDonation() {
                     <Field
                         type="number"
                         name="quantity"
-                        className="form-control"
+                        className="input edit-donation-input"
                     />
 
                     <ErrorMessage
                         name="quantity"
                         component="div"
-                        className="error"
+                        className="error edit-donation-error"
                     />
 
 
@@ -202,7 +202,7 @@ export default function EditDonation() {
                     <Field
                         as="select"
                         name="unit"
-                        className="form-control"
+                        className="input edit-donation-input"
                     >
 
                         <option value="kg">kg</option>
@@ -221,13 +221,13 @@ export default function EditDonation() {
 
                     <Field
                         name="description"
-                        className="form-control"
+                        className="input edit-donation-input"
                     />
 
                     <ErrorMessage
                         name="description"
                         component="div"
-                        className="error"
+                        className="error edit-donation-error"
                     />
 
 
@@ -235,13 +235,13 @@ export default function EditDonation() {
 
                     <Field
                         name="phone"
-                        className="form-control"
+                        className="input edit-donation-input"
                     />
 
                     <ErrorMessage
                         name="phone"
                         component="div"
-                        className="error"
+                        className="error edit-donation-error"
                     />
 
 
@@ -249,13 +249,13 @@ export default function EditDonation() {
 
                     <Field
                         name="pickupAddress"
-                        className="form-control"
+                        className="input edit-donation-input"
                     />
 
                     <ErrorMessage
                         name="pickupAddress"
                         component="div"
-                        className="error"
+                        className="error edit-donation-error"
                     />
 
 
@@ -264,13 +264,13 @@ export default function EditDonation() {
                     <Field
                         type="date"
                         name="expiryDate"
-                        className="form-control"
+                        className="input edit-donation-input"
                     />
 
                     <ErrorMessage
                         name="expiryDate"
                         component="div"
-                        className="error"
+                        className="error edit-donation-error"
                     />
 
                     {/* DELIVERY STATUS */}
@@ -282,7 +282,7 @@ export default function EditDonation() {
                     <Field
                         as="select"
                         name="deliveryStatus"
-                        className="form-control"
+                        className="input edit-donation-input"
                     >
 
                         <option value="pending">
@@ -306,12 +306,12 @@ export default function EditDonation() {
                     <ErrorMessage
                         name="deliveryStatus"
                         component="div"
-                        className="error"
+                        className="error edit-donation-error"
                     />
 
                     {/* PICKUP LOCATION */}
                     
-                    <div>
+                    <div style={{ marginBottom: "20px" }}>
 
                         <label>
                             Pickup Location
@@ -328,7 +328,7 @@ export default function EditDonation() {
 
                         {pickupLocation && (
 
-                            <div>
+                            <div style={{ marginTop: "10px" }}>
 
                                 <p>
                                     <strong>
@@ -359,6 +359,8 @@ export default function EditDonation() {
 
                     <button
                         type="submit"
+                        className="button primary-button edit-donation-submit-btn"
+                        style={{ width: "100%" }}
                         disabled={isSubmitting}
                     >
 
