@@ -1,27 +1,47 @@
-.navbar {
+/* Sticky Top Navbar */
+.main-navbar {
     position: sticky;
     top: 0;
     z-index: 1000;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: rgba(255, 255, 255, 0.85);
-    border-bottom: 1px solid var(--border);
-    padding: 16px 40px;
+    background-color: #FFFFFF;
+    border-bottom: 1.5px solid var(--border);
+    box-shadow: 0 2px 12px rgba(38, 50, 56, 0.03);
+    padding: 0;
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+}
+
+.navbar-brand {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--primary);
+    cursor: pointer;
+    letter-spacing: -0.02em;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
     transition: var(--transition);
 }
 
-.navbar-logo {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--primary);
-    letter-spacing: -0.02em;
-    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    cursor: pointer;
+.navbar-brand:hover {
+    opacity: 0.9;
+}
+
+.navbar-links-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1;
+    margin-left: 48px;
 }
 
 .navbar-links {
@@ -30,74 +50,180 @@
     gap: 28px;
 }
 
-.navbar-link {
-    color: var(--text-body);
+.nav-link.navbar-link {
+    color: var(--text-title);
+    text-decoration: none;
     font-size: 0.95rem;
     font-weight: 600;
-    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
     transition: var(--transition);
-    position: relative;
-    padding: 6px 0;
+    border-bottom: 2px solid transparent;
 }
 
-.navbar-link:hover {
+.nav-link.navbar-link:hover {
     color: var(--primary);
+    background-color: var(--primary-light);
 }
 
-/* Active Link Underline Indicator */
-.navbar-link.active {
+/* Active Nav Link Styling */
+.nav-link.navbar-link.active {
     color: var(--primary);
+    background-color: var(--primary-light);
+    border-bottom-color: var(--primary);
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+}
+
+/* Auth Buttons block */
+.navbar-auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.navbar-login-link {
+    font-weight: 700 !important;
+}
+
+.navbar-signup-btn {
+    padding: 8px 16px !important;
+    font-size: 0.9rem !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+/* Logged In User Profile Block */
+.navbar-user-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.navbar-user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--bg);
+    padding: 6px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+}
+
+.navbar-user-avatar {
+    font-size: 1.2rem;
+}
+
+.navbar-user-details {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.navbar-user-name {
+    font-size: 0.85rem;
     font-weight: 700;
+    color: var(--text-title);
+    line-height: 1.2;
 }
 
-.navbar-link.active::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: var(--primary);
-    border-radius: 99px;
+.navbar-user-role {
+    font-size: 0.725rem;
+    font-weight: 600;
+    color: var(--primary);
+    text-transform: capitalize;
 }
 
-.navbar-hamburger {
+.navbar-logout-btn {
+    padding: 8px 16px !important;
+    font-size: 0.9rem !important;
+    border-radius: var(--radius-sm) !important;
+    height: auto !important;
+}
+
+/* Toggle Menu Switch for Responsive Screen Sizes */
+.navbar-toggle {
     display: none;
-    font-size: 24px;
+    font-size: 26px;
     color: var(--text-title);
     cursor: pointer;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
     transition: var(--transition);
 }
 
-@media(max-width: 768px) {
-    .navbar {
-        padding: 16px 24px;
-    }
+.navbar-toggle:hover {
+    background-color: var(--bg);
+}
 
-    .navbar-hamburger {
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .navbar-toggle {
         display: block;
     }
 
-    .navbar-links {
+    .navbar-links-wrapper {
         display: none;
+        flex-direction: column;
+        align-items: stretch;
         position: absolute;
         top: 100%;
         left: 0;
         width: 100%;
-        background: var(--card-bg);
-        border-bottom: 1.5px solid var(--border);
-        flex-direction: column;
-        text-align: center;
-        padding: 24px 0;
-        gap: 20px;
+        background-color: #FFFFFF;
+        border-bottom: 2px solid var(--border);
         box-shadow: var(--shadow-md);
+        margin-left: 0;
+        padding: 24px;
+        gap: 24px;
     }
 
-    .navbar-links.active {
+    .navbar-links-wrapper.active {
         display: flex;
     }
-    
-    .navbar-link.active::after {
-        display: none;
+
+    .navbar-links {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .nav-link.navbar-link {
+        text-align: center;
+        padding: 12px;
+    }
+
+    .navbar-actions {
+        width: 100%;
+    }
+
+    .navbar-auth-buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
+
+    .navbar-auth-buttons .nav-link,
+    .navbar-auth-buttons .button {
+        width: 100%;
+        text-align: center;
+    }
+
+    .navbar-user-section {
+        flex-direction: column;
+        width: 100%;
+        gap: 16px;
+    }
+
+    .navbar-user-info {
+        width: 100%;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .navbar-logout-btn {
+        width: 100%;
     }
 }

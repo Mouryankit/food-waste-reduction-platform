@@ -58,7 +58,12 @@ export default function DonationManagement() {
 
         <div className="container admin-donations-page">
 
-            <h1 className="admin-donations-heading">Donation Management</h1>
+            <header className="admin-page-header">
+                <h1 className="admin-donations-heading">Donation Management</h1>
+                <p className="admin-page-subtitle">
+                    Track, verify, and update status of all platform donations.
+                </p>
+            </header>
 
             <div className="filter-container admin-donations-filters">
 

@@ -32,7 +32,12 @@ export default function Analytics(){
 
         <div className="container analytics-page">
 
-            <h1 className="analytics-heading">Analytics Dashboard</h1>
+            <header className="admin-page-header">
+                <h1 className="analytics-heading">Analytics Dashboard</h1>
+                <p className="admin-page-subtitle">
+                    Monitor metrics, growth statistics, and system activity.
+                </p>
+            </header>
 
             <div className="analytics-grid">
 

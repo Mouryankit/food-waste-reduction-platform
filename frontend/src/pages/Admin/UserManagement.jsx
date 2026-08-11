@@ -38,7 +38,12 @@ export default function UserManagement() {
     };
     return (
         <div className="container user-management-page">
-            <h1 className="user-management-heading">User Management</h1>
+            <header className="admin-page-header">
+                <h1 className="user-management-heading">User Management</h1>
+                <p className="admin-page-subtitle">
+                    Manage, block, unblock, and edit registered platform users.
+                </p>
+            </header>
             <table className="table user-management-table">
                 <thead>
                     <tr>

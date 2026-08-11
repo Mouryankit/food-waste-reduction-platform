@@ -2,26 +2,27 @@
 
 :root {
     /* Brand Theme Colors */
-    --primary: hsl(142, 60%, 36%);
-    --primary-hover: hsl(142, 65%, 28%);
-    --primary-light: hsl(142, 50%, 96%);
-    --primary-glow: rgba(34, 139, 69, 0.15);
+    --primary: #2E7D32;
+    --primary-hover: #1B5E20;
+    --primary-light: #E8F5E9;
+    --primary-glow: rgba(46, 125, 50, 0.15);
     
-    --secondary: hsl(142, 15%, 40%);
-    --secondary-hover: hsl(142, 15%, 32%);
-    --secondary-light: hsl(142, 10%, 95%);
+    --secondary: #607D8B;
+    --secondary-hover: #455A64;
+    --secondary-light: #ECEFF1;
     
-    --accent: hsl(38, 92%, 50%);
-    --accent-light: hsl(38, 90%, 96%);
+    --accent: #F59E0B;
+    --accent-hover: #D97706;
+    --accent-light: #FEF3C7;
     
     /* Neutral Palette */
-    --bg: hsl(210, 24%, 98%);
-    --card-bg: #ffffff;
-    --text-title: hsl(220, 30%, 14%);
-    --text-body: hsl(220, 15%, 32%);
-    --text-muted: hsl(220, 10%, 50%);
-    --border: hsl(220, 16%, 92%);
-    --border-hover: hsl(142, 40%, 80%);
+    --bg: #FAFAF7;
+    --card-bg: #FFFFFF;
+    --text-title: #263238;
+    --text-body: #263238;
+    --text-muted: #607D8B;
+    --border: #ECEFF1;
+    --border-hover: rgba(46, 125, 50, 0.3);
     
     /* Alerts & States */
     --success: hsl(142, 60%, 36%);
@@ -427,4 +428,16 @@ h1, h2, h3, h4, h5, h6 {
 .donation-card-section:last-of-type {
     border-bottom: none;
     margin-bottom: auto;
+}
+
+/* Shared Admin Layouts */
+.admin-page-header {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.admin-page-subtitle {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    margin-top: 8px;
 }

@@ -220,71 +220,121 @@ export default function () {
         return true;
     });
 
+    const hasActiveFilters = searchFood !== "" || freshness !== "" || distance !== "";
+
     return (
         <div className="container available-donations-page">
-            <h1 className="available-donations-heading">
-                All Available Donations
-            </h1>
+            
+            {/* 1. PAGE HEADER & 2. MAP BUTTON */}
+            <header className="available-donations-header">
+                <div className="available-donations-header-text">
+                    <h1 className="available-donations-title">Available Food Donations</h1>
+                    <p className="available-donations-subtitle">
+                        Discover surplus food donations near you and help connect them with people in need.
+                    </p>
+                </div>
+                <button 
+                    className="button view-map-btn available-donations-map-btn" 
+                    onClick={() => setShowMapModal(true)}
+                >
+                    🗺️ View on Map
+                </button>
+            </header>
 
-            <button className="button view-map-btn" onClick={() => setShowMapModal(true)}>
-                🗺️ View Nearby Donations on Map
-            </button>
+            {/* 3. FILTER SECTION & 13. CLEAR FILTERS */}
+            <section className="filter-container available-donations-filter-panel">
+                <h3 className="filter-panel-title">🔎 Find Donations</h3>
+                
+                <div className="filter-panel-row">
+                    <div className="filter-panel-field search-field">
+                        <label htmlFor="search-input">Search food</label>
+                        <input
+                            id="search-input"
+                            type="text"
+                            placeholder="🔍 Search food name..."
+                            value={searchFood}
+                            onChange={(e) => setSearchFood(e.target.value)}
+                            className="input available-donations-search-input"
+                        />
+                    </div>
 
-            {/* FILTERS */}
-            <div className="filter-container available-donations-filters">
-                <div>
-                    <label>Search Food</label>
-                    <input
-                        type="text"
-                        placeholder="Enter food name"
-                        value={searchFood}
-                        onChange={(e) =>
-                            setSearchFood(
-                                e.target.value
-                            )
-                        }
-                    />
+                    <div className="filter-panel-field select-field">
+                        <label htmlFor="freshness-select">Freshness</label>
+                        <select
+                            id="freshness-select"
+                            value={freshness}
+                            onChange={(e) => setFreshness(e.target.value)}
+                            className="input available-donations-select"
+                        >
+                            <option value="">Any</option>
+                            <option value="today">Within 1 day</option>
+                            <option value="3days">Within 3 days</option>
+                            <option value="7days">Within 7 days</option>
+                        </select>
+                    </div>
+
+                    <div className="filter-panel-field select-field">
+                        <label htmlFor="distance-select">Distance</label>
+                        <select
+                            id="distance-select"
+                            value={distance}
+                            onChange={(e) => setDistance(e.target.value)}
+                            className="input available-donations-select"
+                        >
+                            <option value="">Any distance</option>
+                            <option value="5">Within 5 km</option>
+                            <option value="10">Within 10 km</option>
+                            <option value="20">Within 20 km</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div>
-                    <label>Freshness</label>
-                    <select
-                        value={freshness}
-                        onChange={(e) =>
-                            setFreshness(
-                                e.target.value
-                            )
-                        }
+                {hasActiveFilters && (
+                    <div className="filter-actions-row">
+                        <button 
+                            className="button secondary-button clear-filters-btn"
+                            onClick={() => {
+                                setSearchFood("");
+                                setFreshness("");
+                                setDistance("");
+                            }}
+                        >
+                            Clear Filters
+                        </button>
+                    </div>
+                )}
+            </section>
+
+            {/* 12. EMPTY STATE & 7. DONATIONS GRID */}
+            {filteredDonations.length === 0 ? (
+                <div className="card available-donations-empty">
+                    <span className="empty-icon">🍱</span>
+                    <h3>No donations found</h3>
+                    <p>We couldn't find donations matching your current filters.</p>
+                    <button 
+                        className="button secondary-button"
+                        onClick={() => {
+                            setSearchFood("");
+                            setFreshness("");
+                            setDistance("");
+                        }}
                     >
-                        <option value="">Any</option>
-                        <option value="today">Within 1 day</option>
-                        <option value="3days">Within 3 days</option>
-                        <option value="7days">Within 7 days</option>
-                    </select>
+                        Clear Filters
+                    </button>
                 </div>
-                <div>
+            ) : (
+                <div className="donations-grid available-donations-grid">
+                    {filteredDonations.map((donation, idx) => {
+                        const hasDistance = ngoLocation && donation.pickupLocation;
+                        const computedDistanceVal = hasDistance
+                            ? calculateDistance(
+                                  ngoLocation.latitude,
+                                  ngoLocation.longitude,
+                                  donation.pickupLocation.latitude,
+                                  donation.pickupLocation.longitude
+                              )
+                            : null;
 
-                    <label>Distance</label>
-                    <select
-                        value={distance}
-                        onChange={(e) =>
-                            setDistance(
-                                e.target.value
-                            )
-                        }
-                    >
-                        <option value="">Any distance</option>
-                        <option value="5">Within 5 km</option>
-                        <option value="10">Within 10 km</option>
-                        <option value="20">Within 20 km</option>
-                    </select>
-                </div>
-            </div>
-
-            {/* DONATIONS */}
-            <div className="donations-grid available-donations-grid">
-                {filteredDonations.map(
-                    (donation, idx) => {
                         return (
                             <div
                                 key={idx}
@@ -292,83 +342,60 @@ export default function () {
                             >
                                 <div className="donation-card-heading available-donation-card-heading">
                                     <h2>{donation.foodName}</h2>
-                                    <span className={`badge badge-${donation.deliveryStatus.toLowerCase()}`}>{donation.deliveryStatus}</span>
-                                </div>
-                                <div className="donation-card-section">
-                                    <p>
-                                        <strong>Quantity:</strong>{" "}
-                                        {donation.quantity}{" "}
-                                        {donation.unit}
-                                    </p>
-                                </div>
-                                <div className="donation-card-section">
-                                    <p>
-                                        <strong>Mobile No:</strong>
-                                    </p>
-                                    <p>{donation.phone}</p>
-                                </div>
-                                <div className="donation-card-section">
-                                    <p>
-                                        <strong>Description:</strong>
-                                    </p>
-                                    <p>
-                                        {donation.description}
-                                    </p>
-                                </div>
-                                <div className="donation-card-section">
-                                    <p>
-                                        <strong>Pickup Address:</strong>
-                                    </p>
-                                    <p>
-                                        {donation.pickupAddress}
-                                    </p>
+                                    <span className={`badge badge-${donation.deliveryStatus.toLowerCase()}`}>
+                                        {donation.deliveryStatus}
+                                    </span>
                                 </div>
 
-                                {ngoLocation && donation.pickupLocation && (
-                                    <div className="donation-card-section" style={{ marginTop: "10px" }}>
-                                        <p>
-                                            <strong>Distance:</strong>
-                                        </p>
-                                        <p>
-                                            {calculateDistance(
-                                                ngoLocation.latitude,
-                                                ngoLocation.longitude,
-                                                donation.pickupLocation.latitude,
-                                                donation.pickupLocation.longitude
-                                            ).toFixed(1)} km away
-                                        </p>
+                                <div className="donation-card-body">
+                                    {/* Prominent Quantity Display */}
+                                    <div className="available-donation-qty">
+                                        <span className="qty-emoji">🍱</span>
+                                        <span className="qty-value">{donation.quantity} {donation.unit}</span>
                                     </div>
-                                )}
 
-                                <div className="donation-card-section">
+                                    {/* Prominent Distance Display */}
+                                    {computedDistanceVal !== null && (
+                                        <div className="available-donation-distance-row">
+                                            <span className="distance-icon">📍</span>
+                                            <span className="distance-value">{computedDistanceVal.toFixed(1)} km away</span>
+                                        </div>
+                                    )}
 
-                                    <p>
-                                        <strong>Donated at:</strong>
-                                    </p>
+                                    <div className="donation-card-section">
+                                        <p><strong>Pickup Location</strong></p>
+                                        <p className="section-text-value">{donation.pickupAddress}</p>
+                                    </div>
 
-                                    <p>
-                                        {new Date(
-                                            donation.createdAt
-                                        ).toLocaleString(
-                                            "en-US",
-                                            {
+                                    {donation.description && (
+                                        <div className="donation-card-section">
+                                            <p><strong>Description</strong></p>
+                                            <p className="section-text-value description-text">{donation.description}</p>
+                                        </div>
+                                    )}
+
+                                    <div className="donation-card-section">
+                                        <p><strong>📞 Contact</strong></p>
+                                        <p className="section-text-value">{donation.phone}</p>
+                                    </div>
+
+                                    <div className="donation-card-section timestamp-section">
+                                        <p><strong>📅 Donated</strong></p>
+                                        <p className="section-text-value">
+                                            {new Date(donation.createdAt).toLocaleString("en-US", {
                                                 month: "short",
                                                 day: "numeric",
-                                                year: "numeric",
-                                                hour: "numeric",
-                                                minute: "2-digit",
-                                                hour12: true
-                                            }
-                                        )}
-                                    </p>
+                                                year: "numeric"
+                                            })}
+                                        </p>
+                                    </div>
                                 </div>
 
                                 <button
                                     className="button primary-button available-donation-accept-btn"
+                                    disabled={isAccept === donation._id}
                                     onClick={() => {
-                                        setIsAccept(
-                                            donation._id
-                                        );
+                                        setIsAccept(donation._id);
                                         handleAcceptDonation(
                                             donation._id,
                                             setIsAccept,
@@ -376,24 +403,29 @@ export default function () {
                                         );
                                     }}
                                 >
-                                    {isAccept === donation._id
-                                        ? "Processing..."
-                                        : "Accept Donation"
-                                    }
+                                    {isAccept === donation._id ? "Processing..." : "Accept Donation"}
                                 </button>
                             </div>
                         );
-                    }
-                )}
-            </div>
+                    })}
+                </div>
+            )}
 
+            {/* 14. MAP MODAL & 15. MAP HEADER & 16. POPUPS */}
             {showMapModal && (
                 <div className="modal-overlay map-modal-overlay">
                     <div className="modal-content map-modal-content">
                         <div className="map-modal-header">
-                            <h2>Nearby Donations Map</h2>
-                            <button className="button danger-button map-modal-close-btn" onClick={() => setShowMapModal(false)}>
-                                Close Map
+                            <div className="map-modal-header-text">
+                                <h2>Nearby Donations</h2>
+                                <p>Find available food donations around your location.</p>
+                            </div>
+                            <button 
+                                className="map-modal-close-icon-btn" 
+                                onClick={() => setShowMapModal(false)}
+                                aria-label="Close Map"
+                            >
+                                ✕
                             </button>
                         </div>
                         <div className="map-container-wrapper">
@@ -411,7 +443,9 @@ export default function () {
                                 {ngoLocation && (
                                     <Marker position={[ngoLocation.latitude, ngoLocation.longitude]} icon={ngoIcon}>
                                         <Popup>
-                                            <strong>Your Location (NGO)</strong>
+                                            <div className="ngo-map-popup">
+                                                <strong>Your Location (NGO)</strong>
+                                            </div>
                                         </Popup>
                                     </Marker>
                                 )}
@@ -426,19 +460,13 @@ export default function () {
                                                 icon={donationIcon}
                                             >
                                                 <Popup>
-                                                    <div style={{ fontSize: "14px" }}>
-                                                        <h3 style={{ margin: "0 0 5px 0" }}>{donation.foodName}</h3>
-                                                        <p style={{ margin: "0 0 5px 0" }}>
-                                                            <strong>Quantity:</strong> {donation.quantity} {donation.unit}
-                                                        </p>
-                                                        <p style={{ margin: "0 0 5px 0" }}>
-                                                            <strong>Phone:</strong> {donation.phone}
-                                                        </p>
-                                                        <p style={{ margin: "0 0 5px 0" }}>
-                                                            <strong>Address:</strong> {donation.pickupAddress}
-                                                        </p>
+                                                    <div className="donation-map-popup">
+                                                        <h3>{donation.foodName}</h3>
+                                                        <p className="popup-qty">🍱 {donation.quantity} {donation.unit}</p>
+                                                        <p className="popup-address">📍 {donation.pickupAddress}</p>
+                                                        <p className="popup-phone">📞 {donation.phone}</p>
                                                         {ngoLocation && (
-                                                            <p style={{ margin: "5px 0 0 0", color: "#4caf50", fontWeight: "bold" }}>
+                                                            <p className="popup-distance">
                                                                 {calculateDistance(
                                                                     ngoLocation.latitude,
                                                                     ngoLocation.longitude,
@@ -455,6 +483,10 @@ export default function () {
                                     return null;
                                 })}
                             </MapContainer>
+                        </div>
+                        <div className="map-modal-legend">
+                            <span className="legend-item"><span className="legend-color green-color">🟢</span> Available Donation</span>
+                            <span className="legend-item"><span className="legend-color red-color">🔴</span> Your Location (NGO)</span>
                         </div>
                     </div>
                 </div>
