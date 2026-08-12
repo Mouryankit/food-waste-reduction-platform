@@ -107,7 +107,7 @@
     align-items: center;
     gap: 10px;
     background-color: var(--bg);
-    padding: 6px 14px;
+    padding: 4px 10px;
     border-radius: var(--radius-md);
     border: 1px solid var(--border);
 }
@@ -118,8 +118,9 @@
 
 .navbar-user-details {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     text-align: left;
+    gap: 5px;
 }
 
 .navbar-user-name {
@@ -196,6 +197,7 @@
     }
 
     .navbar-actions {
+        margin-top: -10px;
         width: 100%;
     }
 
@@ -220,7 +222,7 @@
     .navbar-user-info {
         width: 100%;
         justify-content: center;
-        padding: 10px;
+        padding: 5px;
     }
 
     .navbar-logout-btn {

@@ -14,3 +14,7 @@ yarn-error.log*
 # Operating System files
 .DS_Store
 Thumbs.db
+
+# Build directories
+dist/
+frontend/dist/
