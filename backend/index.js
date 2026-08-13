@@ -66,43 +66,50 @@ const verifyToken = require("./middleware/verifyToken.js");
 const verifyUser = require("./middleware/verifyUser.js");
 app.use(verifyToken);
 app.use(verifyUser); 
+
+const {checkAdmin, checkNgo, checkRestaurant} = require("./middleware/checkUserRoles.js"); 
+
+
 const { AddDonation, myDonation, getDonationDetail, updateDonationDetail, deleteDonation } = require("./controllers/restaurant.js");
-app.post("/restaurant", AddDonation);   //restaurant can create donation for it 
-app.get("/restaurant", myDonation)      // when user click in mydonation
-app.get("/restaurant/donation/:id", getDonationDetail);    //get donation by id
-app.patch("/restaurant/donation/:id", updateDonationDetail); 
-app.delete("/restaurant/:id", deleteDonation);   //delete a donation
+app.post("/restaurant", checkRestaurant, AddDonation);   //restaurant can create donation for it 
+app.get("/restaurant", checkRestaurant, myDonation)      // when user click in mydonation
+app.get("/restaurant/donation/:id", checkRestaurant, getDonationDetail);    //get donation by id
+app.patch("/restaurant/donation/:id", checkRestaurant, updateDonationDetail); 
+app.delete("/restaurant/:id", checkRestaurant, deleteDonation);   //delete a donation
 
 
 // ngo dashboard
 
 const { getAllDonation, getAcceptedDonation, acceptDonation, deliverDonation, getDeliveredDonation } = require("./controllers/ngo.js");
 
-app.get("/ngo", getAllDonation); // get all the donation for ngo
-app.get("/ngo/accepted-donation", getAcceptedDonation)  //get all donation accepted by ngo  
-app.post("/ngo/accept-donation", acceptDonation);  // accept donation
-app.post("/ngo/deliver-donation", deliverDonation);  //ngo confirm delivery donation is succesefully delivered 
-app.get("/ngo/delivered-donation", getDeliveredDonation); //get all the delivered donation for a user 
+app.get("/ngo", checkNgo, getAllDonation); // get all the donation for ngo
+app.get("/ngo/accepted-donation", checkNgo, getAcceptedDonation)  //get all donation accepted by ngo  
+app.post("/ngo/accept-donation", checkNgo, acceptDonation);  // accept donation
+app.post("/ngo/deliver-donation", checkNgo, deliverDonation);  //ngo confirm delivery donation is succesefully delivered 
+app.get("/ngo/delivered-donation", checkNgo, getDeliveredDonation); //get all the delivered donation for a user 
 
 
 
 // admin routes 
 const { getAllUsers, blockUser, unblockUser, getUser, updateUser } = require("./controllers/admin.js");
 
+
+// app.use(checkAdmin); 
+
 // user management
-app.get("/admin/users", getAllUsers);
-app.patch("/admin/block-user/:id", blockUser);
-app.patch("/admin/unblock-user/:id", unblockUser);
-app.get("/admin/user/:id", getUser);
-app.put("/admin/user/:id", updateUser);
+app.get("/admin/users", checkAdmin, getAllUsers);
+app.patch("/admin/block-user/:id", checkAdmin, blockUser);
+app.patch("/admin/unblock-user/:id", checkAdmin, unblockUser);
+app.get("/admin/user/:id", checkAdmin, getUser);
+app.put("/admin/user/:id", checkAdmin, updateUser);
 
 
 const { getAllDonations, updateDonationStatus, getDonation, updateDonation } = require("./controllers/admin.js");
 // donation management
-app.get("/admin/donations", getAllDonations);
-app.patch("/admin/donation-status/:id", updateDonationStatus);
-app.get("/admin/donation/:id", getDonation);
-app.patch("/admin/donation/:id", updateDonation);
+app.get("/admin/donations", checkAdmin, getAllDonations);
+app.patch("/admin/donation-status/:id", checkAdmin, updateDonationStatus);
+app.get("/admin/donation/:id", checkAdmin, getDonation);
+app.patch("/admin/donation/:id", checkAdmin, updateDonation);
 
 const {getAnalytics} = require("./controllers/analytics.js"); 
 app.get("/admin/analytics", getAnalytics);
