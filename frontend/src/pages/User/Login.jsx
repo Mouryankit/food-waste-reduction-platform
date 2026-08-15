@@ -35,7 +35,8 @@ const Login = () => {
         }
         catch (err) {
             console.log("Enter valid Data");
-            alert("Enter valid user, password and role");
+            console.log(err.response.data.message); 
+            alert(err.response.data.message);
         }
         setSubmitting(false);
     }

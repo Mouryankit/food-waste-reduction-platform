@@ -2,6 +2,10 @@ const express = require("express");
 const app = express();
 require('dotenv').config();
 
+// api rate limit
+const apiRateLimit = require("./middleware/apiRateLimit.js"); 
+app.use(apiRateLimit);
+
 const connectDb = require("./config/db.js");
 connectDb();
 
