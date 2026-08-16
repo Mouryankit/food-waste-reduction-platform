@@ -1,9 +1,14 @@
 const express = require("express");
 const app = express();
+app.set("trust proxy", 1);
 require('dotenv').config();
 
 // api rate limit
-const apiRateLimit = require("./middleware/apiRateLimit.js"); 
+// const apiRateLimit = require("./middleware/apiRateLimit.js"); 
+// app.use(apiRateLimit);
+
+const {checkBlockedUser, apiRateLimit} = require("./middleware/rateLimit.js");
+app.use(checkBlockedUser);
 app.use(apiRateLimit);
 
 const connectDb = require("./config/db.js");

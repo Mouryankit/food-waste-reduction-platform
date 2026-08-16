@@ -18,3 +18,12 @@ Thumbs.db
 # Build directories
 dist/
 frontend/dist/
+
+
+tests/
+
+# SonarQube temporary directories
+.scannerwork/
+.sonar/
+sonar-project.properties
+
