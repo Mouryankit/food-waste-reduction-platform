@@ -3,7 +3,8 @@ const app = express();
 require('dotenv').config();
 
 // api rate limit
-const { apiRateLimit } = require("./middleware/rateLimit.js"); 
+const { apiRateLimit, checkBlockedUser } = require("./middleware/rateLimit.js"); 
+app.use(checkBlockedUser);
 app.use(apiRateLimit);
 
 // parsing the data 

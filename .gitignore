@@ -25,3 +25,6 @@ frontend/dist/
 .sonar/
 sonar-project.properties
 
+
+# information of project
+info.txt

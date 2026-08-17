@@ -10,7 +10,7 @@ const BLOCK_DURATION = 3 * 60 *  60 * 1000;
 const checkBlockedUser = (req, res, next) => {
     const ip = req.ip;
     const blockedUntil = blockedUsers.get(ip);
-
+    // console.log(ip); 
     if (!blockedUntil) {
         return next();
     }

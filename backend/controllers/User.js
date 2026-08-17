@@ -50,16 +50,14 @@ const login = async (req, res) => {
         }
 
         // Check if account is currently locked
-        if (
-            user.loginLockedUntil &&
-            new Date() < user.loginLockedUntil
-        ) {
-            const remainingMs =
-                user.loginLockedUntil.getTime() - Date.now();
+        if (user.loginLockedUntil && new Date() < user.loginLockedUntil) {
+            const remainingMs = user.loginLockedUntil.getTime() - Date.now();
 
-            const remainingMinutes = Math.ceil(
-                remainingMs / (60 * 1000)
-            );
+            // console.log(new Date());
+            // console.log(user.loginLockedUntil.getTime());
+            // console.log(Date.now());  
+
+            const remainingMinutes = Math.ceil(remainingMs / (60 * 1000));
 
             return res.status(429).json({
                 message: `Too many failed login attempts. Try again in ${remainingMinutes} minutes.`
@@ -67,21 +65,14 @@ const login = async (req, res) => {
         }
 
         // If the lock has expired
-        if (
-            user.loginLockedUntil &&
-            new Date() >= user.loginLockedUntil
-        ) {
+        if (user.loginLockedUntil && new Date() >= user.loginLockedUntil) {
             user.loginLockedUntil = null;
             user.failedLoginAttempts = 0;
-
             await user.save();
         }
 
         // Check password
-        const isMatch = await bcrypt.compare(
-            password,
-            user.password
-        );
+        const isMatch = await bcrypt.compare(password, user.password);
 
         // Check password AND role
         if (!isMatch || user.role !== role) {
@@ -92,12 +83,9 @@ const login = async (req, res) => {
             if (user.failedLoginAttempts >= 3) {
 
                 // 30 minutes × 2^lockLevel
-                const lockDuration =
-                    30 * 60 * 1000 *
-                    Math.pow(2, user.loginLockLevel);
+                const lockDuration = 30 * 60 * 1000 * Math.pow(2, user.loginLockLevel);
 
-                user.loginLockedUntil =
-                    new Date(Date.now() + lockDuration);
+                user.loginLockedUntil = new Date(Date.now() + lockDuration);
 
                 // Increase level for next lock
                 user.loginLockLevel += 1;
@@ -107,8 +95,7 @@ const login = async (req, res) => {
 
                 await user.save();
 
-                const lockMinutes =
-                    lockDuration / (60 * 1000);
+                const lockMinutes = lockDuration / (60 * 1000);
 
                 return res.status(429).json({
                     message: `Too many failed attempts. Account locked for ${lockMinutes} minutes.`
@@ -138,13 +125,7 @@ const login = async (req, res) => {
             location: user.location
         };
 
-        const token = jwt.sign(
-            payload,
-            secretKey,
-            {
-                expiresIn: "1d"
-            }
-        );
+        const token = jwt.sign( payload, secretKey, { expiresIn: "1d" });
 
         // Set cookie
         res.cookie("token", token, {
