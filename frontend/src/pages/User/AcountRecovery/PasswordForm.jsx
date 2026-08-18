@@ -41,6 +41,7 @@ const PasswordForm = ({token}) => {
                 'Content-Type': 'application/json'
             }}
             const result = await API.post("/auth/reset-password", userData, headersInfo);
+            // console.log(result); 
             
             if(result){
                 alert(result.data.message);
@@ -48,7 +49,7 @@ const PasswordForm = ({token}) => {
             }
         }
         catch(err){
-            console.log("Enter valid Data");
+            // console.log("Enter valid Data");
             alert("Enter valid userId and password"); 
         }
         setSubmitting(false); 

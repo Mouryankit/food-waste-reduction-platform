@@ -16,7 +16,8 @@ const GenerateOtpForm = ({setEmail, setOtpSent}) => {
     const handleSubmit = async (values, setSubmitting) => {
         try{
             const result = await API.post("/auth/generate-otp", values);
-            console.log(result); 
+            // console.log("working jdl");
+            // console.log(result); 
             if(result){
                 alert(result.data.message); 
                 setEmail(values.email); 

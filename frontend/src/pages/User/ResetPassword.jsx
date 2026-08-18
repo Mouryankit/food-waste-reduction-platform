@@ -13,11 +13,12 @@ const ResetPassword = () => {
     const [verifyEmail, setVerifyEmail] = useState(false); 
     const [email, setEmail] = useState(""); 
     const [token, setToken] = useState(""); 
+
     if(otpSent && verifyEmail){
-        return <PasswordForm token={token}/>
+        return <PasswordForm token={token} />
     }
     else if(otpSent){
-        return <VerifyOtpForm email={email} setVerifyEmail={setVerifyEmail} setToken={setToken}/>
+        return <VerifyOtpForm email={email} setVerifyEmail={setVerifyEmail} setToken={setToken} />
     }
     else {
         return <GenerateOtpForm setEmail={setEmail} setOtpSent={setOtpSent}/>

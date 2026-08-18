@@ -1,24 +1,27 @@
-const { verify } = require("jsonwebtoken");
 const jwt = require("jsonwebtoken"); 
-const verifyPasswordResetToken = (req, res, next) => {
 
-    // const authHeader = req.headers['authorization'];
-    // const token = authHeader && authHeader.split(' ')[1]; // Extract token
-    const token = req.cookies.token;
-    if (!token) return res.status(401).json({ message: 'Token missing.' })
+const verifyPasswordResetToken = async (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const bearerToken = authHeader && authHeader.split(' ')[1]; // Extract token from Bearer <token>
+    const token = bearerToken || req.cookies.token || req.headers['x-access-token'];
+
+    if (!token) {
+        return res.status(401).json({ message: 'Token missing.' });
+    }
+
     const secretKey = process.env.JWT_SECRET; 
 
-    jwt.verify(token, secretKey, function(err, decoded) {
-        if (err) {
-            return res.json({
-                "message": err.message,
-                "name": err.name
-            })
-        }
-        // console.log(decoded);
+    try {
+        const decoded = await jwt.verify(token, secretKey);
         req.body.email = decoded.email;
-    });
-    next(); 
+    } catch (err) {
+        return res.status(401).json({
+            message: err.message,
+            name: err.name
+        });
+    }
+    next();
 }
 
-module.exports = verifyPasswordResetToken; 
+module.exports = verifyPasswordResetToken;
+ 
