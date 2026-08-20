@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import L from "leaflet";
 import {
     MapContainer,
     TileLayer,
@@ -10,6 +10,14 @@ import {
 
 import "leaflet/dist/leaflet.css";
 
+const defaultIcon = new L.Icon({
+    iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+    shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
 
 function LocationMarker({ location, setLocation }) {
 
@@ -54,9 +62,8 @@ function LocationMarker({ location, setLocation }) {
 
     });
 
-
     return position ? (
-        <Marker position={position} />
+        <Marker position={position} icon={defaultIcon} />
     ) : null;
 }
 
