@@ -27,11 +27,12 @@ const Login = () => {
             const result = await API.post("/auth/login", values, {withCredentials: true}); 
             // console.log(result);
             await checkAuth();
+            alert(result?.data?.message);
             // if (result) {
             navigate("/");
             // }
 
-            alert(result?.data?.message);
+            
         }
         catch (err) {
             console.log("Enter valid Data");

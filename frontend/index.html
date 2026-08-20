@@ -8,10 +8,10 @@
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self';
         script-src 'self';
-        style-src 'self' 'unsafe-inline';
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
         img-src 'self' data: https:;
         connect-src 'self' %VITE_API_URL%;
-        font-src 'self' data:;
+        font-src 'self' https://fonts.gstatic.com data:;
       " />
     <title>Food Waste Reduction Platform</title>
 </head>

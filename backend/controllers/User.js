@@ -125,13 +125,15 @@ const login = async (req, res) => {
             location: user.location
         };
 
-        const token = jwt.sign( payload, secretKey, { expiresIn: "1d" });
+        const token = jwt.sign(payload, secretKey, { expiresIn: "1d" });
+
+        const isProduction = process.env.NODE_ENV === "production";
 
         // Set cookie
         res.cookie("token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax",
             maxAge: 24 * 60 * 60 * 1000
         });
 
@@ -150,10 +152,12 @@ const login = async (req, res) => {
 
 const logout = (req, res) => {
 
+    const isProduction = process.env.NODE_ENV === "production";
+
     res.clearCookie("token", {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax"
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax"
     });
 
     res.status(200).json({
