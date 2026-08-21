@@ -1,13 +1,12 @@
 
 
 import "./DonationForm.css";
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import API from "../../api";
-import Map from "../Map/Map.jsx";
+import MapComponent from "../Map/Map.jsx";
 
 const donationFormSchema = Yup.object().shape({
     foodName: Yup.string()
@@ -26,7 +25,7 @@ const donationFormSchema = Yup.object().shape({
         .required("Description is required"),
 
     phone: Yup.string()
-        .matches(/^[1-9]{1}[0-9]{9}$/, "Enter a valid 10-digit phone number")
+        .matches(/^[1-9]\d{9}$/, "Enter a valid 10-digit phone number")
         .required("Phone number is required"),
 
     pickupAddress: Yup.string()
@@ -40,7 +39,7 @@ const donationFormSchema = Yup.object().shape({
 });
 
 
-export default function () {
+export default function DonationForm() {
     const navigate = useNavigate();
     const [pickupLocation, setPickupLocation] = useState(null);
 
@@ -167,9 +166,9 @@ export default function () {
                     </div>
 
                     <div>
-                        <label>Pickup Location</label>
+                        <span style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--text-title)", textAlign: "left" }}>Pickup Location</span>
 
-                        <Map
+                        <MapComponent
                             height="300px"
                             width="100%"
                             setLocation={setPickupLocation}

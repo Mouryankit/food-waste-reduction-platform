@@ -1,7 +1,4 @@
 import "../style.css";
-import React from "react";
-import { useNavigate } from 'react-router-dom';
-import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import API from "../../../api";
@@ -47,6 +44,7 @@ const VerifyOtpForm = ({email, setVerifyEmail, setToken}) =>  {
                 <div>
                     <label htmlFor="otp">Enter OTP</label>
                     <Field
+                        id="otp"
                         type="text"
                         name="otp"
                         placeholder="Enter OTP received via email"

@@ -9,7 +9,7 @@ let transporter = null;
 const getTransporter = () => {
     if (!transporter) {
         const host = process.env.SMTP_HOST || "smtp.gmail.com";
-        const port = parseInt(process.env.SMTP_PORT || "465");
+        const port = Number.parseInt(process.env.SMTP_PORT || "465");
         const secure = process.env.SMTP_PORT ? process.env.SMTP_PORT === "465" : true;
 
         transporter = nodemailer.createTransport({

@@ -17,23 +17,21 @@ const generateOtp = async (req, res) => {
         specialChars: false 
     }); 
     try {
-        const result1 = await OTP.create({ email, otp });
-        // console.log(result1); 
+        await OTP.create({ email, otp });
 
-        const result2 = await sendEmail({
+        await sendEmail({
             to: email,
             subject: 'OTP Verification for food waste reduction platform',
             text: `Your 6 digit OTP for verification is: ${otp}. it is valid for 5 minute`
         });
-        // console.log(result2); 
         res.status(200).json({
             "message":"OTP sent successfully",
         });
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         res.status(500).json({
             "message":"Error sending OTP",
-            "error": error
+            "error": error.message || error
         });
     } 
 };
@@ -88,7 +86,7 @@ const resetPassword = async (req, res) => {
     }
     try{    
         const newPassword = await plainToHashPassword(password); 
-        const result = await User.updateOne({ email: email}, { $set: { password: newPassword } });
+        await User.updateOne({ email: email}, { $set: { password: newPassword } });
     }
     catch(err){
         return res.json({

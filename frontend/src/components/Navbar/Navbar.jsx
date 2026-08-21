@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import API from "../../api";
 import "./Navbar.css";
 import { useAuth } from "../../context/AuthContext";
@@ -46,20 +45,18 @@ function Navbar() {
         <nav className="navbar main-navbar">
             <div className="navbar-container">
 
-                <h2 className="navbar-brand" onClick={() => navigate("/")}>
+                <Link to="/" className="navbar-brand">
                     🌱 FWRP
-                </h2>
+                </Link>
 
-                <div 
+                <button 
+                    type="button"
                     className="navbar-toggle" 
                     onClick={changeMenu} 
                     aria-label="Toggle navigation menu"
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => { if (e.key === 'Enter') changeMenu(); }}
                 > 
                     {menuOpen ? "✕" : "☰"} 
-                </div>
+                </button>
 
                 <div className={`navbar-links-wrapper ${menuOpen ? "active" : ""}`}>
                     
@@ -131,6 +128,7 @@ function Navbar() {
                                     </div>
                                 </div>
                                 <button 
+                                    type="button"
                                     className="button secondary-button navbar-logout-btn" 
                                     onClick={handleLogout}
                                 > 
@@ -148,6 +146,7 @@ function Navbar() {
                                 </NavLink>
 
                                 <button 
+                                    type="button"
                                     onClick={() => { changeMenu(); navigate("/signup"); }} 
                                     className="button primary-button navbar-signup-btn"
                                 >

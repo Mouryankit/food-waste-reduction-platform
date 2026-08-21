@@ -22,7 +22,7 @@ const signup = async (req, res) => {
             location: location
         });
 
-        const savedUser = await validUser.save();
+        await validUser.save();
 
         return res.status(201).json({ "message": "Signup sucessfull" });
     }

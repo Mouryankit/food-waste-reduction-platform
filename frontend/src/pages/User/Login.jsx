@@ -1,5 +1,4 @@
 import "./style.css";
-import React from "react";
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -93,7 +92,7 @@ const Login = () => {
                                 placeholder="Enter your password"
                                 className="input login-input"
                             />
-                            <button onClick={handleShowPassword} className="button secondary-button auth-show-password-btn">{showPassword ? "Hide" : "show"}</button>
+                            <button type="button" onClick={handleShowPassword} className="button secondary-button auth-show-password-btn">{showPassword ? "Hide" : "show"}</button>
                         </div>
                         <ErrorMessage name="password" component="div" className="error auth-error" />
                     </div>

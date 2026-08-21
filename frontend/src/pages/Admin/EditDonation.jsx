@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import API from "../../api.js"; 
-import Map from "../Map/Map.jsx";
+import MapComponent from "../Map/Map.jsx";
 
 
 const donationSchema = Yup.object().shape({
@@ -26,7 +25,7 @@ const donationSchema = Yup.object().shape({
         .required("Description is required"),
 
     phone: Yup.string()
-        .matches(/^[1-9][0-9]{9}$/, "Enter a valid phone number")
+        .matches(/^[1-9]\d{9}$/, "Enter a valid phone number")
         .required("Phone number is required"),
 
     pickupAddress: Yup.string()
@@ -168,9 +167,10 @@ export default function EditDonation() {
                     </h1>
 
 
-                    <label>Food Name</label>
+                    <label htmlFor="foodName">Food Name</label>
 
                     <Field
+                        id="foodName"
                         name="foodName"
                         className="input edit-donation-input"
                     />
@@ -182,9 +182,10 @@ export default function EditDonation() {
                     />
 
 
-                    <label>Quantity</label>
+                    <label htmlFor="quantity">Quantity</label>
 
                     <Field
+                        id="quantity"
                         type="number"
                         name="quantity"
                         className="input edit-donation-input"
@@ -197,9 +198,10 @@ export default function EditDonation() {
                     />
 
 
-                    <label>Unit</label>
+                    <label htmlFor="unit">Unit</label>
 
                     <Field
+                        id="unit"
                         as="select"
                         name="unit"
                         className="input edit-donation-input"
@@ -217,9 +219,10 @@ export default function EditDonation() {
                     </Field>
 
 
-                    <label>Description</label>
+                    <label htmlFor="description">Description</label>
 
                     <Field
+                        id="description"
                         name="description"
                         className="input edit-donation-input"
                     />
@@ -231,9 +234,10 @@ export default function EditDonation() {
                     />
 
 
-                    <label>Phone</label>
+                    <label htmlFor="phone">Phone</label>
 
                     <Field
+                        id="phone"
                         name="phone"
                         className="input edit-donation-input"
                     />
@@ -245,9 +249,10 @@ export default function EditDonation() {
                     />
 
 
-                    <label>Pickup Address</label>
+                    <label htmlFor="pickupAddress">Pickup Address</label>
 
                     <Field
+                        id="pickupAddress"
                         name="pickupAddress"
                         className="input edit-donation-input"
                     />
@@ -259,9 +264,10 @@ export default function EditDonation() {
                     />
 
 
-                    <label>Expiry Date</label>
+                    <label htmlFor="expiryDate">Expiry Date</label>
 
                     <Field
+                        id="expiryDate"
                         type="date"
                         name="expiryDate"
                         className="input edit-donation-input"
@@ -275,11 +281,12 @@ export default function EditDonation() {
 
                     {/* DELIVERY STATUS */}
 
-                    <label>
+                    <label htmlFor="deliveryStatus">
                         Delivery Status
                     </label>
 
                     <Field
+                        id="deliveryStatus"
                         as="select"
                         name="deliveryStatus"
                         className="input edit-donation-input"
@@ -313,12 +320,12 @@ export default function EditDonation() {
                     
                     <div style={{ marginBottom: "20px" }}>
 
-                        <label>
+                        <span style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--text-title)", textAlign: "left" }}>
                             Pickup Location
-                        </label>
+                        </span>
 
 
-                        <Map
+                        <MapComponent
                             height="300px"
                             width="100%"
                             location={pickupLocation}

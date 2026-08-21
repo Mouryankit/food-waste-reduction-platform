@@ -1,7 +1,4 @@
 import "../style.css";
-import React from "react";
-import { useNavigate } from 'react-router-dom';
-import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import API from "../../../api";
@@ -47,6 +44,7 @@ const GenerateOtpForm = ({setEmail, setOtpSent}) => {
                 <div>
                     <label htmlFor="email">Email</label>
                     <Field
+                        id="email"
                         type="email"
                         name="email"
                         placeholder="Please Enter a valid existing email"

@@ -1,8 +1,6 @@
 import "./AvailableDonations.css";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import API from "../../api";
-import { jwtDecode } from "jwt-decode";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -29,13 +27,14 @@ const donationIcon = new L.Icon({
 });
 
 
-const getAllDonations = async function ({ setDonation }) {
+const getAllDonations = async function ({ setDonations }) {
     try {
         const res = await API.get(`/ngo`);
         if (res?.data?.result) {
-            setDonation(res.data.result);
+            setDonations(res.data.result);
         }
     } catch (err) {
+        console.error("Failed to fetch available donations:", err.message || err);
         alert("some error occured");
     }
 };
@@ -43,7 +42,7 @@ const getAllDonations = async function ({ setDonation }) {
 const handleAcceptDonation = async (
     donationId,
     setIsAccept,
-    setDonation
+    setDonations
 ) => {
 
     try {
@@ -55,7 +54,7 @@ const handleAcceptDonation = async (
         if (res?.data?.message) {
             alert(res.data.message);
             await getAllDonations({
-                setDonation
+                setDonations
             });
         }
     } catch (err) {
@@ -82,14 +81,47 @@ const calculateDistance = (
     return R * c;
 };
 
+const matchesFoodSearch = (foodName, searchFood) => {
+    if (searchFood === "") return true;
+    return foodName.toLowerCase().includes(searchFood.toLowerCase());
+};
+
+const matchesFreshness = (expiryDate, freshness) => {
+    const today = new Date();
+    const expiry = new Date(expiryDate);
+    const difference = expiry.getTime() - today.getTime();
+    const daysLeft = difference / (1000 * 60 * 60 * 24);
+
+    // Always hide already expired donations
+    if (daysLeft <= 0) return false;
+
+    if (freshness === "") return true;
+    if (freshness === "today" && daysLeft > 1) return false;
+    if (freshness === "3days" && daysLeft > 3) return false;
+    if (freshness === "7days" && daysLeft > 7) return false;
+    return true;
+};
+
+const matchesDistance = (pickupLocation, distance, ngoLocation) => {
+    if (distance === "" || !ngoLocation || !pickupLocation) return true;
+
+    const donationDistance = calculateDistance(
+        ngoLocation.latitude,
+        ngoLocation.longitude,
+        pickupLocation.latitude,
+        pickupLocation.longitude
+    );
+    return donationDistance <= Number(distance);
+};
+
 
 // Inside the component:
 
 
 
 
-export default function () {
-    const [donations, setDonation] = useState([]);
+export default function AvailableDonations() {
+    const [donations, setDonations] = useState([]);
     const [isAccept, setIsAccept] = useState("");
     const [searchFood, setSearchFood] = useState("");
     const [freshness, setFreshness] = useState("");
@@ -101,43 +133,12 @@ export default function () {
     // Get donations
     useEffect(() => {
         getAllDonations({
-            setDonation
+            setDonations
         });
     }, []);
 
-    // Get NGO current location
-    // useEffect(() => {
-    //     // const token = localStorage.getItem("token");
-    //     // if (token) {
-    //     //     try {
-    //     //         const decoded = jwtDecode(token);
-    //     //         if (decoded && decoded.location && decoded.location.latitude && decoded.location.longitude) {
-    //     //             setNgoLocation(decoded.location);
-    //     //             console.log("Using NGO profile location from token:", decoded.location);
-    //     //             return;
-    //     //         }
-    //     //     } catch (err) {
-    //     //         console.error("Failed to decode token for location:", err);
-    //     //     }
-    //     // }
-
-    //     if (navigator.geolocation) {
-    //         navigator.geolocation.getCurrentPosition(
-    //             (position) => {
-    //                 setNgoLocation({
-    //                     latitude: position.coords.latitude,
-    //                     longitude: position.coords.longitude
-    //                 });
-    //             },
-    //             (error) => {
-    //                 console.log(error);
-    //             }
-    //         );
-    //     }
-    // }, []);
-
     useEffect(() => {
-        if (user && user.location && user.location.latitude && user.location.longitude) {
+        if (user?.location?.latitude && user?.location?.longitude) {
             setNgoLocation(user.location);
             console.log("Using NGO profile location from Auth Context:", user.location);
             return;
@@ -150,9 +151,10 @@ export default function () {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude
                     });
+                    console.log("Using browser geolocated coordinates:", position.coords);
                 },
                 (error) => {
-                    console.log(error);
+                    console.log("Geolocation error:", error.message);
                 }
             );
         }
@@ -161,62 +163,9 @@ export default function () {
     
     // FILTER DONATIONS
     const filteredDonations = donations.filter((donation) => {
-
-        // FOOD NAME SEARCH
-
-        if (
-            searchFood !== "" && !donation.foodName
-                .toLowerCase()
-                .includes(searchFood.toLowerCase())
-        ) {
-            return false;
-        }
-
-        // FRESHNESS FILTER
-        const today = new Date();
-        const expiry = new Date(donation.expiryDate);
-        const difference = expiry.getTime() - today.getTime();
-        const daysLeft = difference / (1000 * 60 * 60 * 24);
-
-        // Always hide already expired donations
-        if (daysLeft <= 0) {
-            return false;
-        }
-
-        // Apply selected freshness constraints
-        if (freshness !== "") {
-            if (freshness === "today" && daysLeft > 1) {
-                return false;
-            }
-            if (freshness === "3days" && daysLeft > 3) {
-                return false;
-            }
-            if (freshness === "7days" && daysLeft > 7) {
-                return false;
-            }
-        }
-
-        // DISTANCE FILTER
-        if (
-            distance !== "" &&
-            ngoLocation &&
-            donation.pickupLocation
-        ) {
-            const donationDistance =
-                calculateDistance(
-                    ngoLocation.latitude,
-                    ngoLocation.longitude,
-                    donation.pickupLocation.latitude,
-                    donation.pickupLocation.longitude
-                );
-            if (
-                donationDistance >
-                Number(distance)
-            ) {
-                return false;
-            }
-        }
-
+        if (!matchesFoodSearch(donation.foodName, searchFood)) return false;
+        if (!matchesFreshness(donation.expiryDate, freshness)) return false;
+        if (!matchesDistance(donation.pickupLocation, distance, ngoLocation)) return false;
         return true;
     });
 
@@ -234,6 +183,7 @@ export default function () {
                     </p>
                 </div>
                 <button 
+                    type="button"
                     className="button view-map-btn available-donations-map-btn" 
                     onClick={() => setShowMapModal(true)}
                 >
@@ -292,6 +242,7 @@ export default function () {
                 {hasActiveFilters && (
                     <div className="filter-actions-row">
                         <button 
+                            type="button"
                             className="button secondary-button clear-filters-btn"
                             onClick={() => {
                                 setSearchFood("");
@@ -312,6 +263,7 @@ export default function () {
                     <h3>No donations found</h3>
                     <p>We couldn't find donations matching your current filters.</p>
                     <button 
+                        type="button"
                         className="button secondary-button"
                         onClick={() => {
                             setSearchFood("");
@@ -337,7 +289,7 @@ export default function () {
 
                         return (
                             <div
-                                key={idx}
+                                key={donation._id}
                                 className="card donation-card available-donation-card"
                             >
                                 <div className="donation-card-heading available-donation-card-heading">
@@ -392,6 +344,7 @@ export default function () {
                                 </div>
 
                                 <button
+                                    type="button"
                                     className="button primary-button available-donation-accept-btn"
                                     disabled={isAccept === donation._id}
                                     onClick={() => {
@@ -399,7 +352,7 @@ export default function () {
                                         handleAcceptDonation(
                                             donation._id,
                                             setIsAccept,
-                                            setDonation
+                                            setDonations
                                         );
                                     }}
                                 >
@@ -421,6 +374,7 @@ export default function () {
                                 <p>Find available food donations around your location.</p>
                             </div>
                             <button 
+                                type="button"
                                 className="map-modal-close-icon-btn" 
                                 onClick={() => setShowMapModal(false)}
                                 aria-label="Close Map"
@@ -452,7 +406,7 @@ export default function () {
 
                                 {/* Donation Markers */}
                                 {filteredDonations.map((donation) => {
-                                    if (donation.pickupLocation && donation.pickupLocation.latitude && donation.pickupLocation.longitude) {
+                                    if (donation.pickupLocation?.latitude && donation.pickupLocation?.longitude) {
                                         return (
                                             <Marker
                                                 key={donation._id}

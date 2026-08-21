@@ -68,7 +68,7 @@ function LocationMarker({ location, setLocation }) {
 }
 
 
-export default function Map({
+export default function MapComponent({
     height = "400px",
     width = "100%",
     location,

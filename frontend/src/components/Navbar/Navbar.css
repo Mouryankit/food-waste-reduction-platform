@@ -30,6 +30,7 @@
     align-items: center;
     gap: 6px;
     transition: var(--transition);
+    text-decoration: none;
 }
 
 .navbar-brand:hover {
@@ -153,6 +154,9 @@
     padding: 4px 8px;
     border-radius: var(--radius-sm);
     transition: var(--transition);
+    background: none;
+    border: none;
+    font-family: inherit;
 }
 
 .navbar-toggle:hover {

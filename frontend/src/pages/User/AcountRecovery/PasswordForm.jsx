@@ -1,5 +1,4 @@
 import "../style.css";
-import React from "react";
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -49,7 +48,7 @@ const PasswordForm = ({token}) => {
             }
         }
         catch(err){
-            // console.log("Enter valid Data");
+            console.error("Failed to reset password:", err.message || err);
             alert("Enter valid userId and password"); 
         }
         setSubmitting(false); 
@@ -75,7 +74,7 @@ const PasswordForm = ({token}) => {
                             placeholder="Enter your password"
                             className="input recovery-input"
                         />
-                        <button onClick={handleShowPassword} className="button secondary-button auth-show-password-btn">{showPassword ? "Hide": "Show"}</button>
+                        <button type="button" onClick={handleShowPassword} className="button secondary-button auth-show-password-btn">{showPassword ? "Hide": "Show"}</button>
                     </div>
                     <ErrorMessage name="password" component="div" className="error auth-error" />
                 </div>
@@ -89,7 +88,7 @@ const PasswordForm = ({token}) => {
                             placeholder="Enter your password"
                             className="input recovery-input"
                         />
-                        <button onClick={handleSetShowPassword} className="button secondary-button auth-show-password-btn">{showConfirmPassword ? "Hide": "Show"}</button>
+                        <button type="button" onClick={handleSetShowPassword} className="button secondary-button auth-show-password-btn">{showConfirmPassword ? "Hide": "Show"}</button>
                     </div>
                     
                     <ErrorMessage name="confirmPassword" component="div" className="error auth-error" />

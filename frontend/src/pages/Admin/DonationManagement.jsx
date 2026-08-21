@@ -1,8 +1,6 @@
-
 import "./DonationManagement.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import API from "../../api";
 
 export default function DonationManagement() {
@@ -185,6 +183,7 @@ export default function DonationManagement() {
                                 </td>
                                 <td>
                                     <button
+                                        type="button"
                                         className="button primary-button admin-donations-edit-btn"
                                         onClick={() => navigate(`/admin/edit-donation/${donation._id}`)}
                                     >

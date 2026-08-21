@@ -6,14 +6,15 @@ import "./Delivered.css";
 import { useState, useEffect } from "react";
 import API from "../../../api";
 
-const getDeliveredDonations = async function ({ setDonation }) {
+const getDeliveredDonations = async function ({ setDonations }) {
     try {
         const res = await API.get('/ngo/delivered-donation');
         if (res?.data?.result) {
-            setDonation(res.data.result);
+            setDonations(res.data.result);
         }
     }
     catch (err) {
+        console.error("Failed to fetch delivered donations:", err.message || err);
         alert("some error occured");
     }
     console.log("working");
@@ -21,10 +22,10 @@ const getDeliveredDonations = async function ({ setDonation }) {
 
 
 export default function Delivered() {
-    const [donations, setDonation] = useState([]);
+    const [donations, setDonations] = useState([]);
 
     useEffect(() => {
-        getDeliveredDonations({ setDonation });
+        getDeliveredDonations({ setDonations });
     }, []);
 
     return (
@@ -37,9 +38,9 @@ export default function Delivered() {
                 </div>
             ) : (
                 <div className="donations-grid delivered-donations-grid">
-                    {donations.map((donation, idx) => {
+                    {donations.map((donation) => {
                         return (
-                            <div key={idx} className="card donation-card delivered-donation-card">
+                            <div key={donation._id} className="card donation-card delivered-donation-card">
                                 <div className="donation-card-heading delivered-donation-card-heading">
                                     <h2>{donation.foodName}</h2>
                                     <span className={`badge badge-${donation.deliveryStatus.toLowerCase()}`}>{donation.deliveryStatus}</span>

@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 const verifyPasswordResetToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
-    const bearerToken = authHeader && authHeader.split(' ')[1]; // Extract token from Bearer <token>
+    const bearerToken = authHeader?.split(' ')[1]; // Extract token from Bearer <token>
     const token = bearerToken || req.headers['x-access-token'];
 
     if (!token) {

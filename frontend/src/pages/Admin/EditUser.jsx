@@ -1,10 +1,8 @@
 
-
 import "./EditUser.css";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import Map from "../Map/Map.jsx";
+import MapComponent from "../Map/Map.jsx";
 import API from "../../api.js"; 
 
 export default function EditUser() {
@@ -74,9 +72,10 @@ export default function EditUser() {
             <div className="form edit-user-form">
                 <h1 style={{ textAlign: "center", marginBottom: "25px", color: "#333", fontSize: "30px" }}>Edit User</h1>
 
-                <label>Name</label>
+                <label htmlFor="userName">Name</label>
 
                 <input
+                    id="userName"
                     type="text"
                     value={user.name}
                     className="input edit-user-input"
@@ -88,9 +87,10 @@ export default function EditUser() {
                     }
                 />
 
-                <label>Email</label>
+                <label htmlFor="userEmail">Email</label>
 
                 <input
+                    id="userEmail"
                     type="email"
                     value={user.email}
                     className="input edit-user-input"
@@ -102,9 +102,10 @@ export default function EditUser() {
                     }
                 />
 
-                <label>Role</label>
+                <label htmlFor="userRole">Role</label>
 
                 <select
+                    id="userRole"
                     value={user.role}
                     className="input edit-user-select"
                     onChange={(e) =>
@@ -128,8 +129,8 @@ export default function EditUser() {
 
                 </select>
 
-                <label style={{ marginTop: "15px" }}>Location Coordinates</label>
-                <Map
+                <span style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--text-title)", textAlign: "left", marginTop: "15px" }}>Location Coordinates</span>
+                <MapComponent
                     height="300px"
                     width="100%"
                     location={location}
@@ -143,6 +144,7 @@ export default function EditUser() {
                 )}
 
                 <button
+                    type="button"
                     className="button primary-button edit-user-submit-btn"
                     onClick={updateUser}
                 >

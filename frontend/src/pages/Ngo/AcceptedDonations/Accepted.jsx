@@ -4,24 +4,25 @@ import { useState, useEffect } from "react";
 import API from "../../../api"; 
 
 
-const getAcceptedDonations = async function ({ setDonation }) {
+const getAcceptedDonations = async function ({ setDonations }) {
     try {
         const res = await API.get('/ngo/accepted-donation');
         if (res?.data?.result) {
-            setDonation(res.data.result);
+            setDonations(res.data.result);
         }
     }
     catch(err){
+        console.error("Failed to fetch accepted donations:", err.message || err);
         alert("some error occured");
     }
 };
 
-const handleDelivered = async ( donationId, setIsAccept, setDonation ) => {
+const handleDelivered = async ( donationId, setIsAccept, setDonations ) => {
     try{
         const res = await API.post('/ngo/deliver-donation', {"donationId": donationId});
         if(res?.data?.message){
             alert(res.data.message);  
-            await getAcceptedDonations({setDonation}); 
+            await getAcceptedDonations({setDonations}); 
         }
     }
     catch(err){
@@ -33,11 +34,11 @@ const handleDelivered = async ( donationId, setIsAccept, setDonation ) => {
 
 
 export default function Accepted() {
-    const [donations, setDonation] = useState([]);
+    const [donations, setDonations] = useState([]);
     const [isDeliver, setIsDeliver] = useState(""); 
 
     useEffect(() => {
-        getAcceptedDonations({ setDonation });
+        getAcceptedDonations({ setDonations });
     }, []);
 
     return (
@@ -50,9 +51,9 @@ export default function Accepted() {
                 </div>
             ) : (
                 <div className="donations-grid accepted-donations-grid">
-                    {donations.map((donation, idx) => {
+                    {donations.map((donation) => {
                         return (
-                            <div key={idx} className="card donation-card accepted-donation-card">
+                            <div key={donation._id} className="card donation-card accepted-donation-card">
                                 <div className="donation-card-heading accepted-donation-card-heading">
                                     <h2>{donation.foodName}</h2>
                                     <span className={`badge badge-${donation.deliveryStatus.toLowerCase()}`}>{donation.deliveryStatus}</span>
@@ -95,11 +96,12 @@ export default function Accepted() {
                                 </div>
                                 
                                 <button 
+                                    type="button"
                                     className="button primary-button accepted-donation-deliver-btn" 
                                     disabled={isDeliver === donation._id}
                                     onClick={() => {
                                         setIsDeliver(donation._id); 
-                                        handleDelivered(donation._id, setIsDeliver, setDonation);
+                                        handleDelivered(donation._id, setIsDeliver, setDonations);
                                     }}
                                 >
                                     {isDeliver === donation._id ? "Processing..." : "Mark Delivered"}

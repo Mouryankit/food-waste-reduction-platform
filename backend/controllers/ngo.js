@@ -1,6 +1,5 @@
 const Donation = require("../models/donationSchema.js");
 
-
 const getAllDonation = async (req, res) => {
     try {
         const data = await Donation.find({ deliveryStatus: "pending" });
@@ -35,9 +34,6 @@ const getAcceptedDonation = async (req, res) => { //need working
             "error": err
         })
     }
-    return res.json({
-        "message": "working"
-    })
 }
 
 const acceptDonation = async (req, res) => {
@@ -68,9 +64,6 @@ const acceptDonation = async (req, res) => {
             "error": err
         })
     }
-    return res.status(200).json({
-        "message": "working"
-    })
 };
 
 const deliverDonation = async (req, res) => {
@@ -97,12 +90,9 @@ const deliverDonation = async (req, res) => {
             "error": err
         })
     }
-    return res.json({
-        "message": "working"
-    })
 };
 
-getDeliveredDonation = async (req, res) => {
+const getDeliveredDonation = async (req, res) => {
     // console.log("working"); 
     const id = req.user.id;
     // // console.log(id); 
@@ -125,9 +115,6 @@ getDeliveredDonation = async (req, res) => {
             "error": err
         })
     }
-    return res.json({
-        "message": "working"
-    })
 };
 
 module.exports = { acceptDonation, getAllDonation, getAcceptedDonation, deliverDonation, getDeliveredDonation };

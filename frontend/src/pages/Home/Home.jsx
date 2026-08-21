@@ -46,12 +46,14 @@ export default function Home() {
                         </p>
                         <div className="hero-buttons">
                             <button 
+                                type="button"
                                 className="button primary-button hero-cta-primary"
                                 onClick={() => navigate("/restaurant/add-donation")}
                             >
                                 Donate Food
                             </button>
                             <button 
+                                type="button"
                                 className="button secondary-button hero-cta-secondary"
                                 onClick={() => navigate("/ngo/available-donations")}
                             >
@@ -173,6 +175,7 @@ export default function Home() {
                             Instead of throwing away perfectly usable food, donate it to local verified organizations that can distribute it to people in need. Minimize waste and help your community today.
                         </p>
                         <button 
+                            type="button"
                             className="button primary-button donor-cta-btn"
                             onClick={() => navigate("/restaurant/add-donation")}
                         >
@@ -194,6 +197,7 @@ export default function Home() {
                             Discover fresh, edible available food donations from nearby restaurants and food retail donors. Claim donations instantly and organize logistics to get food to communities who need it.
                         </p>
                         <button 
+                            type="button"
                             className="button accent-button ngo-cta-btn"
                             onClick={() => navigate("/ngo/available-donations")}
                         >
@@ -243,12 +247,14 @@ export default function Home() {
                     <p className="cta-description">Every single donation can make a difference in someone's life.</p>
                     <div className="cta-buttons">
                         <button 
+                            type="button"
                             className="button primary-button cta-btn-primary"
                             onClick={() => navigate("/restaurant/add-donation")}
                         >
                             Donate Food
                         </button>
                         <button 
+                            type="button"
                             className="button secondary-button cta-btn-secondary"
                             onClick={() => navigate("/signup")}
                         >

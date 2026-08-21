@@ -3,7 +3,6 @@
 import "./UserManagement.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import API from "../../api"; 
 
 export default function UserManagement() {
@@ -72,6 +71,7 @@ export default function UserManagement() {
                                         user.valid
                                             ?
                                             <button
+                                                type="button"
                                                 className="button danger-button user-action-btn"
                                                 onClick={() => blockUser(user._id)}
                                             >
@@ -79,6 +79,7 @@ export default function UserManagement() {
                                             </button>
                                             :
                                             <button
+                                                type="button"
                                                 className="button secondary-button user-action-btn"
                                                 onClick={() => unblockUser(user._id)}
                                             >
@@ -88,6 +89,7 @@ export default function UserManagement() {
                                 </td>
                                 <td>
                                     <button
+                                        type="button"
                                         className="button primary-button user-edit-btn"
                                         onClick={() => navigate(`/admin/edit-user/${user._id}`)}
                                     >

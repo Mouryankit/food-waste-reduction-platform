@@ -25,6 +25,8 @@ frontend/dist/
 .sonar/
 sonar-project.properties
 
+# coverage files
+coverage/
 
 # information of project
 info.txt

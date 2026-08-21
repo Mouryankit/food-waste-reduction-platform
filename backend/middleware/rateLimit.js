@@ -21,7 +21,7 @@ const checkBlockedUser = (req, res, next) => {
         return next();
     }
 
-    const remainingTime = Math.ceil((blockedUntil - Date.now()) / 1000);
+    const remainingTime = Math.ceil((blockedUntil - Date.now()) / 1000); //in seconds
 
     return res.status(429).json({
         success: false,

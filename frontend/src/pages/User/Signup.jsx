@@ -1,5 +1,4 @@
 import "./style.css";
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -18,7 +17,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 import API from "../../api";
-import Map from "../Map/Map.jsx";
+import MapComponent from "../Map/Map.jsx";
 
 
 const Signup = () => {
@@ -66,6 +65,7 @@ const Signup = () => {
                     <div>
                         <label htmlFor="username">Username</label>
                         <Field
+                            id="username"
                             type="text"
                             name="username"
                             placeholder="Username"
@@ -76,6 +76,7 @@ const Signup = () => {
                     <div>
                         <label htmlFor="email">Email</label>
                         <Field
+                            id="email"
                             type="email"
                             name="email"
                             placeholder="Enter your email"
@@ -98,19 +99,20 @@ const Signup = () => {
                         <label htmlFor="password">Password</label>
                         <div className="auth-password-wrapper">
                             <Field
+                                id="password"
                                 type={showPassword ? "text" : "password"}
                                 name="password"
                                 placeholder="Enter your password"
                                 className="input signup-input"
                             />
-                            <button onClick={handleShowPassword} className="button secondary-button auth-show-password-btn">{showPassword ? "Hide" : "show"}</button>
+                            <button type="button" onClick={handleShowPassword} className="button secondary-button auth-show-password-btn">{showPassword ? "Hide" : "show"}</button>
                         </div>
                         <ErrorMessage name="password" component="div" className="error auth-error" />
                     </div>
 
                     <div style={{ marginTop: "15px", marginBottom: "15px" }}>
-                        <label>Location Coordinates</label>
-                        <Map
+                        <span style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: "var(--text-title)", textAlign: "left" }}>Location Coordinates</span>
+                        <MapComponent
                             height="300px"
                             width="100%"
                             setLocation={setLocation}

@@ -100,7 +100,7 @@ const updateDonationDetail = async (req, res) => {
         
         // console.log(data); 
         try {
-            const updatedDonation = await Donation.findOneAndUpdate(
+            await Donation.findOneAndUpdate(
                 {
                     _id: donationId
                 },
@@ -109,8 +109,7 @@ const updateDonationDetail = async (req, res) => {
                     new: true,
                     runValidators: true
                 }
-            );
-            // console.log(updatedDonation); 
+            ); 
         }
         catch (err) {
             return res.status(401).json({
