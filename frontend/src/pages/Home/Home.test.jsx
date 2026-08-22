@@ -57,6 +57,19 @@ describe('Home Page Component', () => {
 
         fireEvent.click(findBtn);
         expect(mockNavigate).toHaveBeenCalledWith('/ngo/available-donations');
+
+        // Click other navigation CTA buttons to cover lines
+        const startDonatingBtn = screen.getByRole('button', { name: /Start Donating/i });
+        fireEvent.click(startDonatingBtn);
+        expect(mockNavigate).toHaveBeenCalledWith('/restaurant/add-donation');
+
+        const findDonationsBtn = screen.getByRole('button', { name: /Find Donations/i });
+        fireEvent.click(findDonationsBtn);
+        expect(mockNavigate).toHaveBeenCalledWith('/ngo/available-donations');
+
+        const joinNgoBtn = screen.getByRole('button', { name: /Join as NGO/i });
+        fireEvent.click(joinNgoBtn);
+        expect(mockNavigate).toHaveBeenCalledWith('/signup');
     });
 
     it('fetches analytics stats and displays them', async () => {

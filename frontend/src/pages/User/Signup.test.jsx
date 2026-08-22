@@ -82,4 +82,55 @@ describe('Signup Page Component', () => {
             expect(mockNavigate).toHaveBeenCalledWith('/');
         });
     });
+
+    it('toggles password visibility when the show/hide button is clicked', () => {
+        render(
+            <BrowserRouter>
+                <Signup />
+            </BrowserRouter>
+        );
+
+        const passwordInput = screen.getByPlaceholderText(/Enter your password/i);
+        const toggleBtn = screen.getByRole('button', { name: /show/i });
+
+        expect(passwordInput.type).toBe('password');
+
+        // Click to show password
+        fireEvent.click(toggleBtn);
+        expect(passwordInput.type).toBe('text');
+        expect(toggleBtn.textContent).toBe('Hide');
+
+        // Click to hide password
+        fireEvent.click(toggleBtn);
+        expect(passwordInput.type).toBe('password');
+        expect(toggleBtn.textContent).toBe('show');
+    });
+
+    it('displays error alert when registration API fails', async () => {
+        const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+        API.post.mockRejectedValue(new Error('Signup failed'));
+
+        render(
+            <BrowserRouter>
+                <Signup />
+            </BrowserRouter>
+        );
+
+        const usernameInput = screen.getByPlaceholderText(/^Username$/i);
+        const emailInput = screen.getByPlaceholderText(/Enter your email/i);
+        const passwordInput = screen.getByPlaceholderText(/Enter your password/i);
+        const submitBtn = screen.getByRole('button', { name: /Submit/i });
+
+        fireEvent.change(usernameInput, { target: { value: 'cooluser1' } });
+        fireEvent.change(emailInput, { target: { value: 'cooluser@example.com' } });
+        fireEvent.change(passwordInput, { target: { value: 'secretpwd123' } });
+        fireEvent.click(submitBtn);
+
+        await waitFor(() => {
+            expect(window.alert).toHaveBeenCalledWith('Enter valid login Id and password');
+            expect(consoleLogSpy).toHaveBeenCalled();
+        });
+
+        consoleLogSpy.mockRestore();
+    });
 });

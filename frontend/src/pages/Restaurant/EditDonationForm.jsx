@@ -107,6 +107,7 @@ export default function EditDonationForm() {
                     <div>
                         <label htmlFor="foodName">Food Name</label>
                         <Field
+                            id="foodName"
                             type="text"
                             name="foodName"
                             placeholder="Food name"
@@ -118,6 +119,7 @@ export default function EditDonationForm() {
                     <div>
                         <label htmlFor="quantity">Quantity</label>
                         <Field
+                            id="quantity"
                             type="number"
                             name="quantity"
                             placeholder="Food quantity"
@@ -144,6 +146,7 @@ export default function EditDonationForm() {
                     <div>
                         <label htmlFor="description">Description</label>
                         <Field
+                            id="description"
                             type="text"
                             name="description"
                             placeholder="Enter Description"
@@ -155,6 +158,7 @@ export default function EditDonationForm() {
                     <div>
                         <label htmlFor="phone">Phone</label>
                         <Field
+                            id="phone"
                             type="text"
                             name="phone"
                             placeholder="Enter your Phone number"
@@ -166,6 +170,7 @@ export default function EditDonationForm() {
                     <div>
                         <label htmlFor="pickupAddress">Pickup Address</label>
                         <Field
+                            id="pickupAddress"
                             type="text"
                             name="pickupAddress"
                             placeholder="Enter your Address"
@@ -177,6 +182,7 @@ export default function EditDonationForm() {
                     <div>
                         <label htmlFor="expiryDate">Expiry date</label>
                         <Field
+                            id="expiryDate"
                             type="date"
                             name="expiryDate"
                             placeholder="Enter your Address"

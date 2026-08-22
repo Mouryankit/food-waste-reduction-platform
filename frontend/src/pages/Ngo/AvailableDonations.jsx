@@ -39,6 +39,7 @@ const getAllDonations = async function ({ setDonations }) {
     }
 };
 
+
 const handleAcceptDonation = async (
     donationId,
     setIsAccept,

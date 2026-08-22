@@ -69,6 +69,7 @@ const PasswordForm = ({token}) => {
                     <label htmlFor="password">Enter Password</label>
                     <div className="auth-password-wrapper">
                         <Field
+                            id="password"
                             type={showPassword?"text":"password"}
                             name="password"
                             placeholder="Enter your password"
@@ -83,6 +84,7 @@ const PasswordForm = ({token}) => {
                     <label htmlFor="confirmPassword">Confirm Password</label>
                     <div className="auth-password-wrapper">
                         <Field
+                            id="confirmPassword"
                             type={showConfirmPassword?"text":"password"}
                             name="confirmPassword"
                             placeholder="Enter your password"

@@ -121,4 +121,48 @@ describe('Login Page Component', () => {
             expect(mockNavigate).toHaveBeenCalledWith('/');
         });
     });
+
+    it('navigates to reset password page when forget password button is clicked', () => {
+        render(
+            <BrowserRouter>
+                <Login />
+            </BrowserRouter>
+        );
+
+        const forgetBtn = screen.getByRole('button', { name: /Forget password/i });
+        fireEvent.click(forgetBtn);
+        expect(mockNavigate).toHaveBeenCalledWith('/reset-password');
+    });
+
+    it('displays error alert when login API fails', async () => {
+        const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+        API.post.mockRejectedValue({
+            response: {
+                data: {
+                    message: 'Invalid credentials'
+                }
+            }
+        });
+
+        render(
+            <BrowserRouter>
+                <Login />
+            </BrowserRouter>
+        );
+
+        const emailInput = screen.getByPlaceholderText(/Enter your email/i);
+        const passwordInput = screen.getByPlaceholderText(/Enter your password/i);
+        const submitBtn = screen.getByRole('button', { name: /Submit/i });
+
+        fireEvent.change(emailInput, { target: { value: 'wrong@example.com' } });
+        fireEvent.change(passwordInput, { target: { value: 'wrongpass' } });
+        fireEvent.click(submitBtn);
+
+        await waitFor(() => {
+            expect(window.alert).toHaveBeenCalledWith('Invalid credentials');
+            expect(consoleLogSpy).toHaveBeenCalled();
+        });
+
+        consoleLogSpy.mockRestore();
+    });
 });
