@@ -22,9 +22,8 @@ app.use((req, res, next) => {
 });
 
 // api rate limit
-const { apiRateLimit, checkBlockedUser } = require("./middleware/rateLimit.js"); 
-app.use(checkBlockedUser);
-app.use(apiRateLimit);
+const { limiter } = require("./middleware/rateLimit.js"); 
+app.use(limiter);
 
 // parsing the data 
 app.use(express.json());
