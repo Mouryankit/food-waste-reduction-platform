@@ -3,6 +3,24 @@ const app = express();
 app.disable("x-powered-by");
 require('dotenv').config();
 
+const logger = require("./utils/logger");
+
+// Request logging middleware to measure response times
+app.use((req, res, next) => {
+    const start = Date.now();
+    res.on("finish", () => {
+        const duration = Date.now() - start;
+        const logData = {
+            method: req.method,
+            path: req.originalUrl,
+            status: res.statusCode,
+            responseTimeMs: duration
+        };
+        logger.info(JSON.stringify(logData));
+    });
+    next();
+});
+
 // api rate limit
 const { apiRateLimit, checkBlockedUser } = require("./middleware/rateLimit.js"); 
 app.use(checkBlockedUser);

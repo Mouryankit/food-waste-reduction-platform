@@ -30,3 +30,9 @@ coverage/
 
 # information of project
 info.txt
+
+
+# graphana loki commands
+/bat.bet.txt
+/start-monitoring.bat
+/start-monitoring.bat.txt
