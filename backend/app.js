@@ -133,20 +133,32 @@ app.post("/test", async (req, res) => {
     return res.json({ "message": "data recieved" });
 });
 
+app.use((req, res, next) => {
+    const error = new Error("Page not found");
+    error.statusCode = 404;
+    next(error); // Pass 404 error to the global handler below
+});
 
 app.use((err, req, res, next) => {
-    return res.json({
-        "message": "some error occure",
-        "error": err
-    });
-})
+    // Determine status code (default to 500 Internal Server Error)
+    const statusCode = err.statusCode || err.status || 500;
+    
+    // Define user-friendly error message
+    const message = err.message || "An unexpected error occurred on the server.";
 
+    // Log the error internally with its full stack trace
+    logger.error(err);
 
-app.use((req, res) => {
-    return res.status(404)
-        .json({
-            message: "page not found"
+    // Send structured JSON to client
+    return res.status(statusCode).json({
+        success: false,
+        message: message,
+        // Optional: Include stack trace ONLY in development mode for security
+        ...(process.env.NODE_ENV === "development" && { 
+            stack: err.stack,
+            details: err 
         })
-})
+    });
+});
 
 module.exports = app;

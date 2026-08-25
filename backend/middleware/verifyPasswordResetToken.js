@@ -1,4 +1,5 @@
-const jwt = require("jsonwebtoken"); 
+const jwt = require("jsonwebtoken");
+const logger = require("../utils/logger.js");
 
 const verifyPasswordResetToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
@@ -9,19 +10,24 @@ const verifyPasswordResetToken = (req, res, next) => {
         return res.status(401).json({ message: 'Token missing.' });
     }
 
-    const secretKey = process.env.JWT_SECRET; 
+    const secretKey = process.env.JWT_SECRET;
 
     try {
-        const decoded =  jwt.verify(token, secretKey);
+        const decoded = jwt.verify(token, secretKey);
         req.body.email = decoded.email;
-    } catch (err) {
-        return res.status(401).json({
-            message: err.message,
-            name: err.name
-        });
+        next();
     }
-    next();
+    catch (err) {
+        logger.error(`Password reset token verification failed: ${err.message}`);
+
+        if (err.name === "JsonWebTokenError" || err.name === "TokenExpiredError") {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid or expired reset token"
+            });
+        }
+        next(err);
+    }
 }
 
 module.exports = verifyPasswordResetToken;
- 
