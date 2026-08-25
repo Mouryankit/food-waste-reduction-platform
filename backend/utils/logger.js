@@ -109,7 +109,7 @@ const writeLog = async (level, message) => {
     }
 
     // 3. Send to Grafana Cloud asynchronously
-    sendToGrafana(level, message);
+    sendToGrafana(level, logMessage);
 };
 
 const logger = {

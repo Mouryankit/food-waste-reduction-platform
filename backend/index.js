@@ -12,7 +12,9 @@ logger.info("Testing Grafana Loki connection");
 connectDb();
 
 logger.info("Backend started");
-logger.error("This is a test error");
+// logger.error("This is a test error");
+// logger.error("This is a test error1");
+// logger.error("This is a test error2");
 // *****************
 
 const port = process.env.PORT || 4000;
